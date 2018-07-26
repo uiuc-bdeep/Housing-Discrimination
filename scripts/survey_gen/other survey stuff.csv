@@ -1,0 +1,31 @@
+list name,name,label
+code_option,voicemail,Voicemail
+code_option,text,Text
+code_option,email,Email
+yes_or_no,yes,Yes
+yes_or_no,no,No
+coder,Evelyn,Evelyn
+coder,Michael,Michael
+coder,Kevin,Kevin
+coder,Danny,Danny
+coder,Tom,Tom
+coder,Christian,Christian
+time_zone,EST,EST
+time_zone,CST,CST
+time_zone,PST,PST
+scale,Very discouraging,Very discouraging
+scale,Discouraging,Discouraging
+scale,Neutral,Neutral
+scale,Encouraging,Encouraging
+scale,Very Encouraging,Very Encouraging
+screening,"Income,",Income
+screening,"References,",References (from landlord or others)
+screening,"Credit,",Credit (could be credit score or history)
+screening,"Employment/Job,",Employment/Job
+screening,"Co-renters/Roommates,",Co-renters/Roommates
+screening,"Family,",Family
+screening,"Smoking,",Smoking
+screening,Pets,Pets
+screening,None,None of These
+person_or_comp,Person,Person
+person_or_comp,Computer,Computer
