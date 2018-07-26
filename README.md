@@ -1,3 +1,8 @@
 # Housing Discrimination
-## Description
+### Description:
 (Description Here)
+
+(PNG Here)
+
+### File Hierarchy:
+(File Hierarchy Here)
