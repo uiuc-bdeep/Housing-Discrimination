@@ -2,7 +2,7 @@
 (Description Here)
 
 ## Workflow Diagram:
-[![](workflow_trulia_project.png)](workflow_trulia_project.png)
+![camo](workflow_trulia_project.png)
 
 ## File Hierarchy:
 ```
