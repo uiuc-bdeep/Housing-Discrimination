@@ -1,8 +1,9 @@
 # Housing Discrimination
-### Description:
+### __Description__:
 (Description Here)
 
+### Workflow Diagram:
 ![alt text](https://github.com/uiuc-bdeep/Housing-Discrimination/blob/master/workflow_trulia_project.png)
 
-### File Hierarchy:
+### __File Hierarchy__:
 (File Hierarchy Here)
