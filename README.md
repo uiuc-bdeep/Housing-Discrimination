@@ -2,7 +2,7 @@
 (Description Here)
 
 ## Workflow Diagram:
-![camo](workflow_trulia_project.png)
+![camo](https://github.com/uiuc-bdeep/Housing-Discrimination/blob/master/workflow_trulia_project.png)
 
 ## File Hierarchy:
 ```
