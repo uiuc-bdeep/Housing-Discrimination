@@ -25,7 +25,6 @@ Housing-Discrimination
 |  |  +--trulia_rental_address_allocator_data.txt
 |  |  +--zip_url_finder.py
 |  +--survey_gen
-|  |  +--other survey stuff.csv
 |  |  +--survey.py
 |  |  +--test_template.xls
 +--stores
