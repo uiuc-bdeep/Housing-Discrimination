@@ -2,7 +2,7 @@
 (Description Here)
 
 ## Workflow Diagram:
-![Imgur](https://i.imgur.com/7IjrDye.png)
+![Imgur](https://i.imgur.com/IM0JEaO.jpg)
 
 ## File Hierarchy:
 ```
