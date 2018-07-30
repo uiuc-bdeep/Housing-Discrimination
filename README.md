@@ -1,5 +1,10 @@
 # Housing Discrimination
-(Description Here)
+This project aims to increase our understanding of the extent to which racial discrimination in the housing market affects pollution exposures across the United States. Using a randomized experiment, we will establish the causal effect of discriminatory behavior on housing search and ultimately on pollution.
+
+It is well established that minority groups in the United States face disproportionately high rates of exposure to a number of criterion and toxic pollutants. However, it has been difficult for researchers to disentangle the role of direct discrimination in the housing market that might result in exposures from other social and income inequities that also determine housing choices.  Consequently, environmental and energy policy is often not able to target the specific mechanisms at play.  Our experimental design will allow us to determine:
+
+The effect of discriminatory behavior on the housing search process
+The effect of discriminatory behavior on the pollution exposures given constraints placed on housing search
 
 ## Workflow Diagram:
 ![Imgur](https://i.imgur.com/IM0JEaO.jpg)
