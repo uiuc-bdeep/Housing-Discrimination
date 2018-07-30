@@ -15,6 +15,7 @@ Housing-Discrimination
 +--README.md
 +--workflow_trulia_project.png
 +--.gitignore
++--Guide.txt
 +--scripts
 |  +--listings_crawler
 |  |  +--rhgeo_vm.py
