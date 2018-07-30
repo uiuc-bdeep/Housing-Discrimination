@@ -54,7 +54,7 @@ def wait_and_get(browser, cond, maxtime):
 				browser.switch_to_window(browser.window_handles[0])
 				flag = True
 
-root = '/Users/Chris/Research/trulia_project/test_folder/'
+root = '~/Racial Discrimination Project/stores'
 
 
 ZIP_URL_PRE = 'https://www.trulia.com/for_rent/'
@@ -65,6 +65,7 @@ if len(sys.argv) !=5:
 	print('-------------------------------------------------')
 	print('REQUIRED ARGUMENTS:')
 	print('python zip_url_finder.py <csv file> <round_num> <city path> <state>')
+	print('example: python zip_url_finder.py ~/project_files/houston/houston_zips 10 houston tx')
 	print('-------------------------------------------------')
 	exit()
 
@@ -72,7 +73,6 @@ zip_csv     = sys.argv[1]
 round_num   = sys.argv[2]
 round_city  = sys.argv[3]
 round_state = sys.argv[4]
-print('/Users/Chris/Research/trulia_project/test_folder/' + round_city + '_data/' + 'round_' + round_num + '/' + round_city + '_' + 'round_' + round_num + '_' + 'rental_urls.csv')
 
 df_zip    = pd.read_csv(zip_csv) 
 zip_list =  df_zip['zip_codes'].values
@@ -117,7 +117,7 @@ listings_all  = pd.Series(listings_all)
 df_listings   = pd.DataFrame()
 df_listings['urls'] = listings_all
 print(df_listings)
-dest = '/Users/Chris/Research/trulia_project/test_folder/' + round_city + '_data/' + 'round_' + round_num + '/' + round_city + '_' + round_state + '_' +'round_' + round_num + '_' + 'rental_urls.csv'
+dest = root + round_city + '_data/' + 'round_' + round_num + '/' + round_city + '_' + round_state + '_' +'round_' + round_num + '_' + 'rental_urls.csv'
 if os.path.isfile(dest) == False:
 	open(dest, 'a').close()  
 df_listings.to_csv(dest,'w' ,index = False)
