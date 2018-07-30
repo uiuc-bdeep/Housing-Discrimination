@@ -1,0 +1,30 @@
+This guide will help set up your environment to run the code in the Housing-Discrimination repository
+
+1) Install the following modules/packages: 
+	- python 
+	- re
+	- os
+	- sys 
+	- datetime
+	- numpy 
+	- pandas 
+	- selenium 
+	- geckodriver
+	- linecache
+
+2) Create a folder in the "stores" directory named after the city that you would like to test (i.e. houston)
+
+3) Create a folder in the folder that you created in step 2. Name it by your current round in that city (i.e. round_1)
+
+4) Place a csv file of the zip codes that you would like to run in the file you created in step 3. Make sure line 1 of this 
+   file only contains "zip_codes" and the zip codes that you would like to test are following this line. 
+
+5) In terminal, run zip_url_finder.py. 
+	Req: python zip_url_finder.py <csv file> <round number> <city path> <state>
+	Ex:  python zip_url_finder.py ~/Housing Discrimination Project/stores/houston/round_1 1 houston tx
+
+6) In terminal, run rhgeo.py. rhgeo.py scrapes information from each of the lisitng urls that were crawled from the step 5. 
+	Req: python rhgeo.py <rental/selling> <start> <end> <docker id> <input file> 
+	Ex:  python rhgeo.py rental            0       400   1           houston_tx_round_1
+
+7) After step 6 is complete, 
