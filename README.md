@@ -34,6 +34,7 @@ Housing-Discrimination
 |  |  +--survey.py
 |  |  +--test_template.xls
 +--stores
+|  +--variable_definitions.csv
 |  +--atlanta_ga
 |  |  +--atlanta_ga_final.csv
 |  +--houston_tx
