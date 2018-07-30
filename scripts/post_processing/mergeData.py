@@ -288,7 +288,7 @@ if __name__ == '__main__':
 
 	# reorder columns
 	cols = df_final.columns.tolist()
-	cols = cols[0:83] + [cols[88], cols[97], cols[114], cols[94], cols[84], cols[95]] + cols[115:117] + cols[118:120] + [cols[117]] + cols[120:122] + [cols[135], cols[134]] + cols[122:134]
+	cols = cols[0:42] + cols[43:83] + [cols[88], cols[97], cols[114], cols[94], cols[84], cols[95]] + cols[115:117] + cols[118:120] + [cols[117]] + cols[120:122] + [cols[135], cols[134]] + cols[122:134]
 	df_final = df_final[cols]
 
 	# rename certain columns
