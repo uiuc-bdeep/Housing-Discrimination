@@ -1,10 +1,11 @@
 import pandas as pd
 import os
 import datetime, pytz
+from tqdm import tqdm
 
-TRULIA_ADDRESSES_FILE = 'atlanta_ga_7_10_18_round_2_6_census.csv'
-TIMESTAMP_FILE = 'atlanta_ga_metro_7_2_18_round_6_timestamp_fin.csv'
-OUTPUT_FILE = 'atlanta_ga_final.csv'
+TRULIA_ADDRESSES_FILE = 'houston_tx_7_31_18_round_7_11_census.csv'
+TIMESTAMP_FILE = 'houston_tx_7_31_18_round_7-11_timestamp.csv'
+OUTPUT_FILE = 'houston_tx_final.csv'
 
 def inquiryParse(d):
 	tmp = d.split('/')
@@ -79,7 +80,7 @@ def getWeekday(date):
 
 if __name__ == '__main__':
 
-	print("")
+	print()
 
 	# delete old output data if necessary
 	if OUTPUT_FILE in os.listdir('output'):
@@ -101,7 +102,7 @@ if __name__ == '__main__':
 	df_timestamp = pd.read_csv(os.getcwd() + '/input/' + TIMESTAMP_FILE)
 	num_inquiries = int(df_timestamp.columns.tolist()[-1].split(" ")[-1])
 	df_timestamp['person_name'] = df_timestamp['first name'] + ' ' + df_timestamp['last name']
-	for i in range(1, num_inquiries + 1):
+	for i in tqdm(range(1, num_inquiries + 1), desc="Writing Timestamp Dataframes", bar_format="{l_bar}{bar}|  {n_fmt}/{total_fmt}   "):
 		cols = ['person id', 'person_name', 'gender', 'racial category',
 			'education level', 'address ' + str(i), 'timestamp ' + str(i), 'inquiry order ' + str(i)]
 		tempDF = df_timestamp[cols]
@@ -118,48 +119,44 @@ if __name__ == '__main__':
 			tempDF = tempDF[old_columns]
 			tempDF = tempDF.rename(index=str, columns={ old_columns[k]: new_columns[k] for k in range(len(new_columns))})
 			individual_timestamp_dfs.append(tempDF)
-			print("timestamp" + str(i) + " has been acquired.")
 
-	print("")
+	print()
 
 	individual_timestamp_dfs_merge_trulia = []
 
 	# join trulia addresses file with each individual timestamp dataframe
-	for individual_timestamp_df, i in zip(individual_timestamp_dfs, range(len(individual_timestamp_dfs))):
-		#individual_timestamp_df = individual_timestamp_dfs[i]
+	for individual_timestamp_df in tqdm(individual_timestamp_dfs, desc="Merging Timestamp Dataframes with Trulia Addresses", bar_format="{l_bar}{bar}|  {n_fmt}/{total_fmt}   "):
 		individual_timestamp_df_merge_trulia = pd.merge(df_trulia, individual_timestamp_df,
 			left_on=['Address'],
 			right_on=['inquiry_address'],
 			how='right')
 		individual_timestamp_df_merge_trulia = individual_timestamp_df_merge_trulia.sort_values('person id')
 		individual_timestamp_dfs_merge_trulia.append(individual_timestamp_df_merge_trulia)
-		print("Trulia_MERGED_Timestamp_" + str(i+1) + " has been acquired.")
 
-	print("")
+	print()
 
 	# combine above dataframes
 	df_final = None
 	flag = True
-	for individual_timestamp_df_merge_trulia in individual_timestamp_dfs_merge_trulia:
+	for individual_timestamp_df_merge_trulia in tqdm(individual_timestamp_dfs_merge_trulia, desc="Combining Merged Timestamp Dataframes", bar_format="{l_bar}{bar}|  {n_fmt}/{total_fmt}   "):
 		if flag:
 			df_final = individual_timestamp_df_merge_trulia
 			flag = False
 		else:
 			df_final = df_final.append(individual_timestamp_df_merge_trulia, ignore_index=True)
 	
-	print("Trulia addresses merged with all timestamp dataframes. \n")
+	print()
 
 	# merge file with combined responses
 	df_final = pd.merge(df_final, pd.read_csv(os.getcwd() + '/input/responses_concatenated.csv'),
 			left_on=['person_name', 'inquiry_address'],
 			right_on=['people_name_selection/person_name', 'address_selection/property'],
 			how='left')
-	print("Trulia addresses merged with all timestamp dataframes merged with all responses. \n")
 
 	# create new column for "timeDiff" and "response"
 	diffs = []
 	resp = []
-	for i in range(len(df_final)):
+	for i in tqdm(range(len(df_final)), desc="Creating 'timeDiff' and 'response' Columns", bar_format="{l_bar}{bar}|   "):
 		# dateTime_selection/timestamp := timestamp of response received
 		# timestamp inquiry sent out := timestamp of inquiry sent out
 		if len(str(df_final['timestamp inquiry sent out'][i])) > 5 and len(str(df_final['dateTime_selection/timestamp'][i])) > 5:
@@ -172,10 +169,11 @@ if __name__ == '__main__':
 		else:
 			diffs.append("n/a")
 			resp.append(0)
+
 	df_final['timeDiff'] = pd.Series(diffs) # timeDiff is in minutes
 	df_final['response'] = pd.Series(resp)
 	
-	print("'timeDiff' and 'response' columns have been made. \n")
+	print()
 
 	D = {}
 	for i in range(len(df_final)):
@@ -208,7 +206,7 @@ if __name__ == '__main__':
 	government_housing_vouchers = []
 	inquiry_time_of_day = []
 	response_time_of_day = []
-	for i in range(len(df_final)):
+	for i in tqdm(range(len(df_final)), desc="Creating Additional Columns", bar_format="{l_bar}{bar}|   "):
 		# for matches
 		if df_final['response'][i] == 1:
 			order.append(find(D[(df_final['person_name'][i], df_final['address_selection/property'][i])], responseParse(df_final['dateTime_selection/timestamp'][i])))
@@ -257,15 +255,12 @@ if __name__ == '__main__':
 			rental_history.append('n/a')
 			government_housing_vouchers.append('n/a')
 
+	# add columns to df
 	df_final['response_order'] = pd.Series(order)
 	df_final['total_responses'] = pd.Series(totalResponses)
 	df_final['inquiry_order'] = pd.Series(inquiryOrder)
 	df_final['inquiry_weekday'] = pd.Series(inquiryWeekday)
 	df_final['response_weekday'] = pd.Series(responseWeekday)
-	
-	print("'response_order', 'total_responses', 'inquiry_order', 'inquiry_weekday', and 'response_weekday' columns have been made. \n")
-
-	# add additional columns
 	df_final['Income'] = pd.Series(income)
 	df_final['References'] = pd.Series(references)
 	df_final['Credit'] = pd.Series(credit)
@@ -278,21 +273,18 @@ if __name__ == '__main__':
 	df_final['eviction_history'] = pd.Series(eviction_history)
 	df_final['rental_history'] = pd.Series(rental_history)
 	df_final['government_housing_vouchers'] = pd.Series(government_housing_vouchers)
-
-	print("'Income', 'References', 'Credit', 'Employment/Job', 'Co-renters/Roommates', 'Family', 'Smoking', 'Pets', 'Criminal History', 'Eviction History', 'Rental History', and 'Government Housing Vouchers' columns have been made. \n")
-
 	df_final["response_time_of_day"] = pd.Series(response_time_of_day)
 	df_final["inquiry_time_of_day"] = pd.Series(inquiry_time_of_day)
 
-	print("'response_time_of_day' and 'inquiry_time_of_day' columns have been written. \n")
-
-	# reorder columns
-	cols = df_final.columns.tolist()
-	cols = cols[0:42] + cols[43:83] + [cols[88], cols[97], cols[114], cols[94], cols[84], cols[95]] + cols[115:117] + cols[118:120] + [cols[117]] + cols[120:122] + [cols[135], cols[134]] + cols[122:134]
-	df_final = df_final[cols]
+	print()
 
 	# rename certain columns
 	df_final = df_final.rename(index=str, columns={"coding_option_selection/coding_option": "response_medium", "automated_message_selection/person_or_computer": "person_or_computer", "dateTime_selection/timestamp": "timestamp_response_received"})
+
+	# reorder columns
+	cols = df_final.columns.tolist()
+	cols = cols[:42] + cols[43:83] + [cols[88], cols[97]] + [cols[101], cols[94], cols[84], cols[95]] + cols[114:116] + cols[117:119] + [cols[116]] + cols[119:121] + cols[133:] + cols[121:133]
+	df_final = df_final[cols]
 
 	# make sure all column names do not have spaces
 	cols = df_final.columns.tolist()

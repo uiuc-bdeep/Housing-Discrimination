@@ -4,6 +4,7 @@ from xlutils.copy import copy
 import pandas as pd
 import datetime
 import os
+from tqdm import tqdm
 
 # delete old survey files if necessary
 output_files = [f for f in os.listdir('output') if not f.startswith('.')]
@@ -60,7 +61,7 @@ df = df[new_cols]
 file = xlrd.open_workbook(os.getcwd() + '/input/' + TEMPLATE_FILE)
 myFile = copy(file)
 
-for name in names:
+for name in tqdm(names, desc="Writing Survey Files", bar_format="{l_bar}{bar}|  {n_fmt}/{total_fmt}   "):
 	# get list of addresses for a specific person
 	df_upper = df.loc[(df['first name'] == name[0]) & (df['last name'] == name[1])]
 	df_upper = df_upper.reset_index(drop=True)
@@ -104,7 +105,5 @@ for name in names:
 	fileName = 'TX_'+name[0]+'-'+name[1]+'_'+month+'_'+day+'_'+year+'.xls'
 
 	myFile.save(os.getcwd() + '/output/' + fileName)
-
-	print(fileName + ' has been written.')
 
 print()
