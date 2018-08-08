@@ -3,9 +3,17 @@ import os
 import datetime, pytz
 from tqdm import tqdm
 
-TRULIA_ADDRESSES_FILE = 'houston_tx_7_31_18_round_7_11_census.csv'
-TIMESTAMP_FILE = 'houston_tx_7_31_18_round_7-11_timestamp.csv'
+TRULIA_ADDRESSES_FILE = None
+TIMESTAMP_FILE = None
 OUTPUT_FILE = 'houston_tx_final.csv'
+
+for file in os.listdir('input'):
+	if 'census' in file:
+		TRULIA_ADDRESSES_FILE = file
+	elif 'timestamp' in file:
+		TIMESTAMP_FILE = file
+	else:
+		pass
 
 def inquiryParse(d):
 	tmp = d.split('/')
