@@ -6,14 +6,14 @@ import datetime
 import os
 from tqdm import tqdm
 
+print()
+
 # delete old survey files if necessary
 output_files = [f for f in os.listdir('output') if not f.startswith('.')]
 if output_files:
-	for output_file in output_files:
+	for output_file in tqdm(output_files, desc="Deleting Old Survey Files", bar_format="{l_bar}{bar}|  {n_fmt}/{total_fmt}   "):
 		os.remove(os.getcwd() + '/output/' + output_file)
-	print('\nOld survey files have been deleted.')
-
-print()
+	print()
 
 # find input files
 TIMESTAMP_FILE = None
@@ -61,7 +61,7 @@ df = df[new_cols]
 file = xlrd.open_workbook(os.getcwd() + '/input/' + TEMPLATE_FILE)
 myFile = copy(file)
 
-for name in tqdm(names, desc="Writing Survey Files", bar_format="{l_bar}{bar}|  {n_fmt}/{total_fmt}   "):
+for name in tqdm(names, desc="Writing New Survey Files", bar_format="{l_bar}{bar}|  {n_fmt}/{total_fmt}   "):
 	# get list of addresses for a specific person
 	df_upper = df.loc[(df['first name'] == name[0]) & (df['last name'] == name[1])]
 	df_upper = df_upper.reset_index(drop=True)
@@ -102,7 +102,7 @@ for name in tqdm(names, desc="Writing Survey Files", bar_format="{l_bar}{bar}|  
 	s.write(1, 0, name[0] + '_' + name[1] + '_survey')		# title
 	s.write(1, 1, name[0] + '_' + name[1] + '_survey_1_1')	# id string
 
-	fileName = 'TX_'+name[0]+'-'+name[1]+'_'+month+'_'+day+'_'+year+'.xls'
+	fileName = name[0]+'-'+name[1]+'_'+month+'_'+day+'_'+year+'.xls'
 
 	myFile.save(os.getcwd() + '/output/' + fileName)
 
