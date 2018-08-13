@@ -3,9 +3,9 @@ import os
 import datetime, pytz
 from tqdm import tqdm
 
+OUTPUT_FILE = 'houston_tx_final.csv'
 TRULIA_ADDRESSES_FILE = None
 TIMESTAMP_FILE = None
-OUTPUT_FILE = 'houston_tx_final.csv'
 
 for file in os.listdir('input'):
 	if 'census' in file:
@@ -291,7 +291,7 @@ if __name__ == '__main__':
 
 	# reorder columns
 	cols = df_final.columns.tolist()
-	cols = cols[:42] + cols[43:83] + [cols[88], cols[97]] + [cols[101], cols[94], cols[84], cols[95]] + cols[114:116] + cols[117:119] + [cols[116]] + cols[119:121] + cols[133:] + cols[121:133]
+	cols = cols[:42] + cols[43:83] + [cols[88], cols[97]] + [cols[101], cols[94], cols[84], cols[95]] + cols[115:116] + cols[117:119] + [cols[116]] + cols[119:121] + cols[133:] + cols[121:133]
 	df_final = df_final[cols]
 
 	# make sure all column names do not have spaces
