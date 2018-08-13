@@ -302,7 +302,7 @@ if __name__ == '__main__':
 		columns=cols,
 		header=new_headers,
 		index=False)
-	print('atlanta_ga_final.csv has been written. \n')
+	print(OUTPUT_FILE + ' has been written. \n')
 
 	# delete responses_concatenated.csv, since we don't need it anymore
 	os.remove(os.getcwd() + '/input/responses_concatenated.csv')
