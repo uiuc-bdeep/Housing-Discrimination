@@ -81,8 +81,15 @@ def make_soup(msg):
     email['from'] = header_to_unicode_string(msg['From'])
 #     email['subject'] = msg['Subject']
     email['subject'] = header_to_unicode_string(msg['Subject'])
-    email['date'] = pd.to_datetime(msg['date']) 
     email['message-id'] = msg['Message-ID']
+
+    try:
+        email['date'] = pd.to_datetime(msg['date']) 
+    except:
+        print("Message-ID: " + email['message-id'] + "\n\t contains an out of bounds datetime string")
+        print(msg['date'])
+        print("Datetime object being recorded as NaT")
+        email['date']=pd.NaT
 
     for part in msg.walk():  # dept-first traversal of multipart hierarchy
         if part.get_content_type()=='text/plain':
