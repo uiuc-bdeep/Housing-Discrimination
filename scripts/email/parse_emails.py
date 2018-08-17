@@ -205,9 +205,11 @@ def main():
 
     all_emails = pd.merge(all_emails, email_ids, on='email', how='left')
 
-    print(all_emails.shape)
+    print("{} emails processed".format(len(all_emails)))
+    print("Email identifiers containing NULL values: ")
     print(all_emails[['message-id','X-GM-THRID','X-GM-MSGID']].isnull().sum())
-    print(all_emails[all_emails['X-GM-THRID'].isnull()]['email'])
+    print("Emails with NULL entries for X-GM-MSGID")
+    print(all_emails[all_emails['X-GM-MSGID'].isnull()]['email'].values)
 
     ## Removing Inline CSS style from body
     ## Parse Text separately when it appears like:
