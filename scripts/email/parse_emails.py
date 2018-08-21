@@ -10,8 +10,8 @@ PROJ_ROOT = os.environ.get('PROJ_ROOT')
 with open(PROJ_ROOT+'parameters.json') as json_file:
     params = json.load(json_file)
 
-imap = params['IMAP']
 trial = params['trial']
+imap = params['IMAP']
 
 DELIMETER = ','
 NEWLINE = os.linesep
@@ -77,9 +77,7 @@ def make_soup(msg):
     Output: dict, {string feature_name: list feature_observation}
     """
     email = {feature:'' for feature in ['trulia','gmaps','tel','mailto','text_plain','text_html']}
-#     email['from'] = msg['From']
     email['from'] = header_to_unicode_string(msg['From'])
-#     email['subject'] = msg['Subject']
     email['subject'] = header_to_unicode_string(msg['Subject'])
     email['message-id'] = msg['Message-ID']
 
@@ -103,8 +101,9 @@ def make_soup(msg):
 
             part_payload = part.get_payload(decode=True) # Decode according to the Content-Transfer-Encoding header
 
+            # Use charset to specify from_encoding, if available
             if charset:
-                soup = BeautifulSoup(part_payload, 'lxml', from_encoding=charset)
+                soup = BeautifulSoup(part_payload, 'lxml', from_encoding=charset) 
             else:
                 soup = BeautifulSoup(part_payload, 'lxml')
 
@@ -162,6 +161,107 @@ def list_to_json_string(single_list):
         return json.dumps(single_list)
     else:
         return ''
+    
+    
+# GVoice specific Regex
+gvoice_phone_re = re.compile('\(\d{3}\) \d{3}-\d{4}')
+#gvoice_time_re = re.compile('(\d{1,2}:\d{2} [A|P]M)')
+gvoice_text_re = re.compile('@txt.voice.google.com')
+gvoice_text_subject_re = re.compile('<Subject: (.+)> - ')
+
+def parse_gvoice_VM(vm_idx, all_emails):
+    """
+    Input: Index series of emails that match GVoice_VM filter
+        Update any extracted fields to all_emails 
+    Output: dataframe that was used to update all_emails 
+    """
+    
+    emails = []
+    
+    file_handles = all_emails.loc[vm_idx,'email'].values
+    for file_handle in file_handles:
+
+        with open(trial['EMAIL_DIR'] + file_handle, 'rb') as open_email:
+            msg = Parser().parse(open_email)
+        email = {feature:'' for feature in ['text']} 
+        email['subject'] = msg['Subject']
+
+        for part in msg.walk():
+            if part.get_content_type()=='text/html':
+                charset = part.get_content_charset(failobj='utf-8')  # Set 'utf-8' as default
+                part_payload = part.get_payload(decode=True) # Decode according to the Content-Transfer-Encoding header
+
+                if charset:
+                    soup = BeautifulSoup(part_payload, 'lxml', from_encoding=charset)
+                else:
+                    soup = BeautifulSoup(part_payload, 'lxml')    
+
+                body = soup.body
+                all_span = soup.findAll('span')
+                email['text'] = ''.join([span.get_text() for span in all_span if span.string])
+                tel_match = gvoice_phone_re.search(email['subject'])
+                if tel_match:
+                    email['tel'] = tel_match.group(0)
+                else:
+                    email['tel'] = ''
+                
+                email['response_type'] = 'voicemail'
+
+                emails.append(email)
+            
+    gvoice_emails = pd.DataFrame(emails, index=vm_idx)
+    
+    all_emails.update(gvoice_emails)
+    return pd.DataFrame(emails, index=vm_idx)
+
+def parse_gvoice_text(text_idx, all_emails):
+    """
+    Input: Index series of emails that match GVoice_text filter
+        Update any extracted fields to all_emails 
+    Output: dataframe used to update all_emails
+    """
+    emails = []
+    
+    file_handles = all_emails.loc[text_idx,'email'].values
+    for file_handle in file_handles:
+        with open(trial['EMAIL_DIR'] + file_handle, 'rb') as open_email:
+            msg = Parser().parse(open_email)
+            email = {feature:'' for feature in ['text','response_type']} 
+            email['subject'] = msg['Subject']
+            
+            tel_match = gvoice_phone_re.search(email['subject'])
+            if tel_match:
+                email['tel'] = tel_match.group(0)
+            else:
+                email['tel'] = ''
+
+            for part in msg.walk():
+                if part.get_content_type()=='text/html':
+                    charset = part.get_content_charset(failobj='utf-8')  # Set 'utf-8' as default
+                    part_payload = part.get_payload(decode=True) # Decode according to the Content-Transfer-Encoding header
+
+                    if charset:
+                        soup = BeautifulSoup(part_payload, 'lxml', from_encoding=charset)
+                    else:
+                        soup = BeautifulSoup(part_payload, 'lxml')    
+
+                    body = soup.body
+                    email['text'] = body.table.tr.td.contents[1].tr.td.contents[0]
+                        
+            subject_match = gvoice_text_subject_re.search(email['text'])
+            if subject_match:
+                email['subject'] = subject_match.group(1)
+                email['text'] = email['text'][subject_match.end():] # Slice off 'subject' from 'text' field
+            else:
+                email['subject'] = ''
+
+            emails.append(email)
+
+    text_emails = pd.DataFrame(emails,index= text_idx)
+    text_emails['response_type']='text'
+    all_emails.update(text_emails)
+
+    return text_emails
 
 def parse_all(response_type):
     email_summary_cols = ['trulia', 'gmaps', 'tel', 'mailto', 'text']
@@ -186,7 +286,6 @@ def parse_all(response_type):
     return_df['race'] = return_df['account'].apply(lambda x:params['account_to_race'][x])
 
     return return_df
-
 
 def main():
     responses = parse_all(trial['EMAIL_PREFIX'] + '-Response')
@@ -233,12 +332,30 @@ def main():
     for col in list_columns:
         all_emails[col] = all_emails[col].apply(list_to_json_string)
 
+
+    all_emails['response_type'] = 'email'
+    
+    # GVOICE and GTEXT
+    # Parse GVoice voicemails
+    # Select
+    vm_idx = all_emails[all_emails['from']=='Google Voice <voice-noreply@google.com>']['email'].index
+    # Parse and Overwrite matches
+    vm_emails = parse_gvoice_VM(vm_idx, all_emails)
+
+
+    # Parse GVoice texts
+    # Select
+    text_matches = all_emails['from'].apply(lambda x:gvoice_text_re.search(x))
+    text_idx = text_matches.dropna().index
+    # Parse and Overwrite matches
+    text_emails = parse_gvoice_text(text_idx, all_emails)
+
     # Omit 'text_plain' and 'text_html' columns
     out_columns = [u'all_links', u'all_trulia', u'date', u'from', u'gmaps', u'mailto',
                    u'message-id', u'subject', u'tel', u'text', u'trulia', u'email', u'account',
-                   u'race', u'response', u'trulia_bool', u'X-GM-MSGID', u'X-GM-THRID']
+                   u'race', u'response', u'trulia_bool', u'X-GM-MSGID', u'X-GM-THRID','response_type']
 
-    # Write out to the trial's predefined 
+    # Write out to the trial's EMAIL_PARSED location 
     all_emails[out_columns].to_csv(trial['EMAIL_PARSED'],encoding='utf-8',index=False)
 
 if __name__ == "__main__":
