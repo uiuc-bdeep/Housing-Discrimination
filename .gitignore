@@ -1,3 +1,3 @@
-.pyc
+scripts/listings_crawler/*.log
+scripts/listings_crawler/*.pyc
 .DS_Store
-.log
