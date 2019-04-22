@@ -39,12 +39,14 @@ from extract_data import extract_rental
 trulia = "https://www.trulia.com"
 pollution = "https://www3.epa.gov/myem/envmap/find.html"
 
-def restart():
+def restart(crawler_log, debug_mode):
 	import sys
 	print("argv was",sys.argv)
 	print("sys.executable was", sys.executable)
 	print("restart now")
-	sleep(300)
+	
+	if not debug_mode:
+		sleep(300)
 
 	for proc in psutil.process_iter():
 		if "firefox" in proc.name():
@@ -65,7 +67,7 @@ def restart():
 
 	for i, n in enumerate(sys.argv):
 		if i == 2:
-			arg.append(str(int(lines[-1].rstrip())+1) if os.path.isfile(city + number + ".log") == True else lines[-1].rstrip())
+			arg.append(str(int(lines[-1].rstrip())+1) if os.path.isfile(crawler_log) == True else lines[-1].rstrip())
 		else:
 			arg.append(n)
 
@@ -128,7 +130,7 @@ def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriv
 	except:
 		print ("switching window failed??")
 		driver.quit()
-		restart()
+		restart(crawler_log, debug_mode)
 
 	# if city == "ej":
 	# 	workbook = []
@@ -211,13 +213,13 @@ def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriv
 						raise
 					else:
 				 		driver.quit()
-				 		restart()
+				 		restart(crawler_log, debug_mode)
 				if flag == False:
 					crawled_trulia = False
 			elif "this page" in driver.title.lower():
 				print ("Being blocked from accessing Trulia. Restarting...")
 				driver.quit()
-				restart()
+				restart(crawler_log, debug_mode)
 			else:
 				crawled_trulia = False
 				address = driver.title.split(" - ")[0]
@@ -233,26 +235,26 @@ def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriv
 				print("Repair done. going Next...")
 				sleep(random.randint(10,40))
 				continue
-			else:
-				if "L" in crawl_type:
-					address = location[i]
-				elif "A" in crawl_type:
-					address = address_col[i]
-				elif "A" not in crawl_type:
-					if crawled_trulia == False:
-						address = driver.title.split(" - ")[0]
-						if address.find("#") != -1:
-							address = address[:address.find("#")]
-						else:
-							address = address[:address.find("For")]
+
+			if "L" in crawl_type:
+				address = location[i]
+			elif "A" in crawl_type:
+				address = address_col[i]
+			elif "A" not in crawl_type:
+				if crawled_trulia == False:
+					address = driver.title.split(" - ")[0]
+					if address.find("#") != -1:
+						address = address[:address.find("#")]
 					else:
-						if d["address"].find('#') != -1:
-							add = d["address"][:d["address"].find('#')]
-						else:
-							add = d["address"]
-							address = add + ", " + d["city"] + ", " + d["state"] + " " + d["zip code"]
-					if crawled_trulia == False and "Real Estate, " in driver.title:
-						address = "NA"
+						address = address[:address.find("For")]
+				else:
+					if d["address"].find('#') != -1:
+						add = d["address"][:d["address"].find('#')]
+					else:
+						add = d["address"]
+						address = add + ", " + d["city"] + ", " + d["state"] + " " + d["zip code"]
+				if crawled_trulia == False and "Real Estate, " in driver.title:
+					address = "NA"
 
 			driver.execute_script("window.open('https://ejscreen.epa.gov/mapper/', 'new_tab')")
 			sleep(5)
@@ -265,20 +267,28 @@ def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriv
 			# 		filewriter.writerow([i])
 			# 	continue
 
-			# try:
-			# 	handle_ejscreen_input(driver, address)
-			# 	sleep(5)
-		 # 		extract_pollution(driver, d)
-		 # 	except:
-		 # 		driver.quit()
-		 # 		restart()
+			try:
+				handle_ejscreen_input(driver, address)
+				sleep(5)
+				extract_pollution(driver, d)
+			except:
+				if debug_mode:
+					driver.quit()
+					for proc in psutil.process_iter():
+						if proc.name() == "firefox" or proc.name() == "geckodriver":
+							proc.kill()
+					raise
+				else:
+					print("cannot extract pollution. Restarting")
+					driver.quit()
+					restart(crawler_log, debug_mode)
 
-			# save_rental(d, urls[i], output_file)
+			save_rental(d, urls[i], output_file)
 
 			with open(crawler_log, "ab") as log:
-			  filewriter = csv.writer(log, delimiter = ',', quoting = csv.QUOTE_MINIMAL)
-			  filewriter.writerow([i])
-		    
+				filewriter = csv.writer(log, delimiter = ',', quoting = csv.QUOTE_MINIMAL)
+				filewriter.writerow([i])
+				
 			driver.close()
 			driver.switch_to_window(driver.window_handles[0])
 
@@ -292,10 +302,9 @@ def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriv
 			raise
 		else:
 			driver.quit()
-			restart()
+			restart(crawler_log, debug_mode)
 
 	driver.quit()
-	return None
 
 if __name__ == "__main__":
 	# <cmd + alt + '> will update a docstring for the first module/class/function preceding the cursor.
@@ -305,7 +314,7 @@ if __name__ == "__main__":
 	from argparse import RawTextHelpFormatter
 
 	parser = argparse.ArgumentParser(description = 'Crawl Trulia apartment listings and ejscreen given Trulia URLs or Address (optional)', formatter_class=RawTextHelpFormatter, epilog = "Note that input_file must be a CSV file that contains a column 'URL'. \nIt can also contain (A)ddress or (L)atLon")
-	parser.add_argument("type", help = "Whether the input file contains column (A)ddress or (L)atLon", choices = ["A", "L"], nargs = "+")
+	parser.add_argument("type", help = "Whether the input file contains column (A)ddress or (L)atLon", choices = ["U", "A", "L"], nargs = "+")
 	parser.add_argument("input_file", help = "Path of input file")
 	parser.add_argument("output_file", help = "Path of output file")
 	parser.add_argument("start", help = "Start of Input file", type = int)
@@ -316,13 +325,16 @@ if __name__ == "__main__":
 	parser.add_argument("--geckodriver", help = "Path of geckodriver.\nDefault current directory", default = ".")
 	args = parser.parse_args()
 
+	if "U" not in args.type:
+		sys.exit("Must at least choose U for URL. A and L are optional. Aborting.")
+
 	if args.debug:
 		print(args)
 
 	if args.geckodriver:
 		geckodriver_path = args.geckodriver + "geckodriver" + (".exe" if "Windows" in platform.system() else "") 
 		if not os.path.exists(geckodriver_path):
-			sys.exit("geckodriver does not exist in path. aborting.")
+			sys.exit("geckodriver does not exist in path. Aborting.")
 
 	try:
 		main(args.type, args.input_file, args.output_file, args.start, args.end, args.log, geckodriver_path, args.repair, args.debug)

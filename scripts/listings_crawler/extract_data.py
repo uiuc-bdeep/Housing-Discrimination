@@ -1055,7 +1055,7 @@ def extract_rental(driver, d, mode, add = None, df = None, index = None):
 						print ("no phone available")
 						d["phone_number"] = "NA"
 
-		print(d.get("phone_number", "NA"))
+		print("phone number: " + d.get("phone_number", "NA"))
 
 	if mode == "R":
 		if index < 5:
