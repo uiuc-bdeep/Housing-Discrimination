@@ -1,3 +1,4 @@
 scripts/listings_crawler/*.log
 scripts/listings_crawler/*.pyc
+scripts/listings_crawler/*.csv
 .DS_Store
