@@ -121,7 +121,7 @@ def query(driver, pro_type, address):
 
 	return driver.current_url
 
-def main(input_file, output_file, start, end, crawler_log, geckodriver_path, debug_mode):
+def main(input_file, output_file, start, end, crawler_log, geckodriver_path, debug_mode, adblock_path, uBlock_path):
 	urls = []
 
 	df = pd.read_csv(input_file)
@@ -190,18 +190,27 @@ if __name__ == "__main__":
 	parser.add_argument("log", help = "Name of the log")
 	parser.add_argument("--debug", help = "Turn on debug mode or not. Default False", type = bool, default = False)
 	parser.add_argument("--geckodriver", help = "Path of geckodriver.\nDefault current directory", default = ".")
+	parser.add_argument("--adblock", help = "Path of adblock.xpi.\nDefault ../stores/", default = "../../stores/")
+	parser.add_argument("--uBlock", help = "Path of uBlock0.xpi.\nDefault ../stores/", default = "../../stores/")
+
 	args = parser.parse_args()
 
 	if args.debug:
 		print(args)
 
-	if args.geckodriver:
-		geckodriver_path = args.geckodriver + "geckodriver" + (".exe" if "Windows" in platform.system() else "") 
-		if not os.path.exists(geckodriver_path):
-			sys.exit("geckodriver does not exist in path. Aborting.")
+	geckodriver_path = args.geckodriver + "geckodriver" + (".exe" if "Windows" in platform.system() else "")
+	if not os.path.exists(geckodriver_path):
+		sys.exit("geckodriver does not exist in path. Aborting.")
 
+	adblock_path = args.adblock + "adblock_plus-3.3.1-an+fx.xpi"
+	if not os.path.exists(adblock_path):
+		sys.exit("adblock_plus does not exist in path. Aborting.")
+
+	uBlock_path = args.uBlock + "uBlock0@raymondhill.net.xpi"
+	if not os.path.exists(uBlock_path):
+		sys.exit("uBlock does not exist in path. Aborting.")
 	try:
-		main(args.input_file, args.output_file, args.start, args.end, args.log, geckodriver_path, args.debug)
+		main(args.input_file, args.output_file, args.start, args.end, args.log, geckodriver_path, args.debug, adblock_path, uBlock_path)
 	except:
 		for proc in psutil.process_iter():
 			if proc.name() == "firefox" or proc.name() == "geckodriver":
