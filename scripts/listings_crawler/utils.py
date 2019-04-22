@@ -50,7 +50,7 @@ def restart(crawler_log, debug_mode, start):
 		with open(crawler_log) as f:
 			lines = f.readlines() 
 	else:
-		lines = [start]
+		lines = [str(start)]
 
 	print (sys.argv)
 	arg = []
