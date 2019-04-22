@@ -2,7 +2,7 @@
 
 library(stringr)
 
-clean <- function(df, Address, original){
+clean <- function(df, Address = NULL, original = NULL){
   df$Short_form_ID <- NULL
   
   df$Rent_Per_Month <- gsub('\\$|,', '', df$Rent_Per_Month)
@@ -11,8 +11,13 @@ clean <- function(df, Address, original){
   
   df$Price_min <- gsub("[^0-9]", "", df$Price_min)
   df$Price_max <- gsub("[^0-9]", "", df$Price_max)
-  df[df$Price_max == "",]$Price_max <- NA
-  df[df$Price_min == "",]$Price_min <- NA
+  if (length(df[df$Price_max == "",]$Price_max) > 0){
+    df[df$Price_max == "",]$Price_max <- NA
+  }
+  if (length(df[df$Price_min == "",]$Price_min) > 0){
+    df[df$Price_min == "",]$Price_min <- NA
+  }
+  
   df$Price_max <- as.numeric(df$Price_max)
   df$Price_min <- as.numeric(df$Price_min)
   
@@ -22,8 +27,13 @@ clean <- function(df, Address, original){
   df[,c("Sqft_min", "Sqft_max")] <- str_split_fixed(df$Sqft, "-", 2)
   df$Sqft_min <- gsub("[^0-9]", "", df$Sqft_min)
   df$Sqft_max <- gsub("[^0-9]", "", df$Sqft_max)
-  df[df$Sqft_min == "",]$Sqft_min <- NA
-  df[df$Sqft_max == "",]$Sqft_max <- NA
+  if (length(df[df$Sqft_min == "",]$Sqft_min) > 0){
+    df[df$Sqft_min == "",]$Sqft_min <- NA
+  }
+  if (length(df[df$Sqft_max == "",]$Sqft_max) > 0){
+    df[df$Sqft_max == "",]$Sqft_max <- NA
+  }
+  
   df$Sqft_max <- as.numeric(df$Sqft_max)
   df$Sqft_min <- as.numeric(df$Sqft_min)
   
@@ -41,31 +51,59 @@ clean <- function(df, Address, original){
   df$Burglary <- ifelse(df$Burglary == 0, NA, df$Burglary)
   df$Crime_Other <- ifelse(df$Crime_Other == 0, NA, df$Crime_Other)
   
-  Address$latlon <- NULL
-  Address <- Address[index,]
-  original <- original[index,]
-  # Address <- Address[start:end,]
-  # original <- original[start:end,]
-  df <- cbind(Address, df)
-  df[,2] <- NULL
-  df <- cbind(original, df)
-  df$City <- NULL
-  df$State <- NULL
-  df$Zip_Code <- NULL
-  
   df$Price_max <- ifelse(is.na(df$Price_max), df$Price_min, df$Price_max)
   df$Sqft_max <- ifelse(is.na(df$Sqft_max), df$Sqft_min, df$Sqft_max)
   
   df$index <- NULL
   
+  if (!is.null(Address) & !is.null(original)){
+    Address$latlon <- NULL
+    Address <- Address[index,]
+    original <- original[index,]
+    # Address <- Address[start:end,]
+    # original <- original[start:end,]
+    df <- cbind(Address, df)
+    df[,2] <- NULL
+    df <- cbind(original, df)
+    df$City <- NULL
+    df$State <- NULL
+    df$Zip_Code <- NULL
+  }
+
   return (df)
 }
 
-Address <- read.csv("stores/Philadelphia/Philadelphia_PA_2017_address.csv", stringsAsFactors = F)
-original <- readRDS("stores/Philadelphia/Philadelphia_PHA_metro_2017_newrenter_listings.rds")
-df <- read.csv("stores/Philadelphia/Philadelphia_PA_2017_rental_listings_sample1.csv", stringsAsFactors = F)
-url <- read.csv("stores/Philadelphia/Philadelphia_PA_2017_urls.csv", stringsAsFactors = F)
-index <- which(url$sampled == T)
+is_infoUSA <- F
+
+if (is_infoUSA){
+  # Address is a CSV contains two columns: full address and LatLon
+  Address_file <- "stores/Philadelphia/Philadelphia_PA_2017_address.csv"
+  Address <- read.csv(Address_file, stringsAsFactors = F)
+  
+  # Original infoUSA data
+  original_file <- "stores/Philadelphia/Philadelphia_PHA_metro_2017_newrenter_listings.rds"
+  original <- readRDS(original_file)
+  
+  # Crawled data
+  crawled_df <- "stores/Philadelphia/Philadelphia_PA_2017_rental_listings_sample1.csv"
+  df <- read.csv(crawled_df, stringsAsFactors = F)
+  
+  # URL for crawled data
+  url_df <- "stores/Philadelphia/Philadelphia_PA_2017_urls.csv"
+  url <- read.csv(url_df, stringsAsFactors = F)
+  
+  is_sampled <- T
+  if (is_sampled){
+    index <- which(url$sampled == T)
+  } else {
+    index <- 1:nrow(url)
+  }
+} else {
+  crawled_df <- "stores/Philadelphia/Philadelphia_PA_2017_rental_listings_sample1.csv"
+  df <- read.csv(crawled_df, stringsAsFactors = F)
+  Address <- NULL
+  original <- NULL
+}
 
 df <- clean(df, Address, original)
 

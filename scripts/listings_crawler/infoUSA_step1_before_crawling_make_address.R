@@ -1,7 +1,6 @@
-city <- "Philadelphia"
-input_file <- "Philadelphia_PHA_metro_2017_newrenter_listings.rds"
+input_file <- "../../stores/infousa_test.csv"
 
-rds <- readRDS(paste0("stores/", city, "/", input_file))
+rds <- read.csv(input_file, stringsAsFactors = F)
 
 Address <- rds[,c("STREET_NAME", "HOUSE_NUM", 
                   "STREET_SUFFIX", "STREET_POST_DIR", 
@@ -25,6 +24,6 @@ df$latlon <- paste(lat_lon$GE_LATITUDE_2010, ", ", lat_lon$GE_LONGITUDE_2010)
 
 df <- df[,c("full", "latlon")]
 
-output_file <- "Philadelphia_PA_2017_address.csv"
+output_file <- "infousa_test_address.csv"
 
-write.csv(df, paste0("stores/", city, "/", output_file), row.names = F)
+write.csv(df, output_file, row.names = F)

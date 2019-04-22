@@ -39,66 +39,6 @@ from extract_data import extract_rental
 trulia = "https://www.trulia.com"
 pollution = "https://www3.epa.gov/myem/envmap/find.html"
 
-def restart(crawler_log, debug_mode):
-	import sys
-	print("argv was",sys.argv)
-	print("sys.executable was", sys.executable)
-	print("restart now")
-	
-	if not debug_mode:
-		sleep(300)
-
-	for proc in psutil.process_iter():
-		if "firefox" in proc.name():
-			proc.kill()
-		if "geckodriver" in proc.name():
-			proc.kill()
-
-	import os
-
-	if os.path.isfile(city + number + ".log") == True:
-		with open(city + number + ".log") as f:
-			lines = f.readlines() 
-	else:
-		lines = [sys.argv[2]]
-
-	print (sys.argv)
-	arg = []
-
-	for i, n in enumerate(sys.argv):
-		if i == 2:
-			arg.append(str(int(lines[-1].rstrip())+1) if os.path.isfile(crawler_log) == True else lines[-1].rstrip())
-		else:
-			arg.append(n)
-
-	print(arg)
-	os.execv(sys.executable, ['python'] + arg)
-
-def start_firefox(URL, geckodriver_path):
-	DesiredCapabilities.FIREFOX["proxy"] = {
-		"proxyType" : "pac",
-		"proxyAutoconfigUrl" : "http://www.freeproxy-server.net/"
-	}
-
-	options = Options()
-	options.add_argument("--headless")
-	fp = webdriver.FirefoxProfile()
-	fp.set_preference("general.useragent.override", UserAgent().random)
-	fp.update_preferences()
-	driver = webdriver.Firefox(firefox_profile = fp, firefox_options = options, capabilities = webdriver.DesiredCapabilities.FIREFOX, executable_path = geckodriver_path)
-	#driver = webdriver.Remote(desired_capabilities = webdriver.DesiredCapabilities.FIREFOX)
-
-	driver.install_addon("/home/ubuntu/trulia/stores/adblock_plus-3.3.1-an+fx.xpi")
-	driver.install_addon("/home/ubuntu/trulia/stores/uBlock0@raymondhill.net.xpi")
-	#driver.install_addon("I:\\adblock_plus-3.0.2-an+fx.xpi")
-	#driver.install_addon("I:\\uBlock0@raymondhill.net.xpi")
-
-	driver.wait = WebDriverWait(driver, 5)
-	driver.delete_all_cookies()
-	driver.get(URL)
-	print(driver.title)
-	return driver
-
 def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriver_path, repair, debug_mode):
 	# return None
 	# crawl_type = sys.argv[1]
@@ -130,7 +70,7 @@ def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriv
 	except:
 		print ("switching window failed??")
 		driver.quit()
-		restart(crawler_log, debug_mode)
+		restart(crawler_log, debug_mode, start)
 
 	# if city == "ej":
 	# 	workbook = []
@@ -213,13 +153,13 @@ def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriv
 						raise
 					else:
 				 		driver.quit()
-				 		restart(crawler_log, debug_mode)
+				 		restart(crawler_log, debug_mode, start)
 				if flag == False:
 					crawled_trulia = False
 			elif "this page" in driver.title.lower():
 				print ("Being blocked from accessing Trulia. Restarting...")
 				driver.quit()
-				restart(crawler_log, debug_mode)
+				restart(crawler_log, debug_mode, start)
 			else:
 				crawled_trulia = False
 				address = driver.title.split(" - ")[0]
@@ -281,7 +221,7 @@ def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriv
 				else:
 					print("cannot extract pollution. Restarting")
 					driver.quit()
-					restart(crawler_log, debug_mode)
+					restart(crawler_log, debug_mode, start)
 
 			save_rental(d, urls[i], output_file)
 
@@ -302,7 +242,7 @@ def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriv
 			raise
 		else:
 			driver.quit()
-			restart(crawler_log, debug_mode)
+			restart(crawler_log, debug_mode, start)
 
 	driver.quit()
 
