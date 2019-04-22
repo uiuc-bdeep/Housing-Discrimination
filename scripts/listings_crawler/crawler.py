@@ -39,7 +39,7 @@ from extract_data import extract_rental
 trulia = "https://www.trulia.com"
 pollution = "https://www3.epa.gov/myem/envmap/find.html"
 
-def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriver_path, repair, debug_mode):
+def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriver_path, repair, debug_mode, adblock_path, uBlock_path):
 	# return None
 	# crawl_type = sys.argv[1]
 	# start = sys.argv[2]
@@ -59,7 +59,7 @@ def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriv
 	# 	input = "/home/ubuntu/trulia/stores/" + city + ".csv"
 	# 	output = "/home/ubuntu/trulia/stores/" + city + "_rental_houses" + str(number) + ".csv"
 
-	driver = start_firefox(trulia, geckodriver_path)
+	driver = start_firefox(trulia, geckodriver_path, adblock_path, uBlock_path)
 
 	sleep(5)
 
@@ -262,7 +262,10 @@ if __name__ == "__main__":
 	parser.add_argument("log", help = "Name of the log")
 	parser.add_argument("--repair", help = "whether we try to repair the Trulia listings in the input_file or not.\noutput_file will be ignored if this is enabled", type = bool, default = False)
 	parser.add_argument("--debug", help = "Turn on debug mode or not. Default False", type = bool, default = False)
-	parser.add_argument("--geckodriver", help = "Path of geckodriver.\nDefault current directory", default = ".")
+	parser.add_argument("--geckodriver", help = "Path of geckodriver.\nDefault current directory", default = "../../stores/")
+	parser.add_argument("--adblock", help = "Path of adblock.xpi.\nDefault ../stores/", default = "../../stores/")
+	parser.add_argument("--uBlock", help = "Path of uBlock0.xpi.\nDefault ../stores/", default = "../../stores/")
+
 	args = parser.parse_args()
 
 	if "U" not in args.type:
@@ -271,13 +274,20 @@ if __name__ == "__main__":
 	if args.debug:
 		print(args)
 
-	if args.geckodriver:
-		geckodriver_path = args.geckodriver + "geckodriver" + (".exe" if "Windows" in platform.system() else "") 
-		if not os.path.exists(geckodriver_path):
-			sys.exit("geckodriver does not exist in path. Aborting.")
+	geckodriver_path = args.geckodriver + "geckodriver" + (".exe" if "Windows" in platform.system() else "")
+	if not os.path.exists(geckodriver_path):
+		sys.exit("geckodriver does not exist in path. Aborting.")
+
+	adblock_path = args.adblock + "adblock_plus-3.3.1-an+fx.xpi"
+	if not os.path.exists(adblock_path):
+		sys.exit("adblock_plus does not exist in path. Aborting.")
+
+	uBlock_path = args.uBlock + "uBlock0@raymondhill.net.xpi"
+	if not os.path.exists(uBlock_path):
+		sys.exit("uBlock does not exist in path. Aborting.")
 
 	try:
-		main(args.type, args.input_file, args.output_file, args.start, args.end, args.log, geckodriver_path, args.repair, args.debug)
+		main(args.type, args.input_file, args.output_file, args.start, args.end, args.log, geckodriver_path, args.repair, args.debug, adblock_path, uBlock_path)
 	except:
 		for proc in psutil.process_iter():
 			if proc.name() == "firefox" or proc.name() == "geckodriver":

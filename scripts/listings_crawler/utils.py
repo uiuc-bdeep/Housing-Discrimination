@@ -66,7 +66,7 @@ def restart(crawler_log, debug_mode, start):
 	print(arg)
 	os.execv(sys.executable, ['python'] + arg)
 
-def start_firefox(URL, geckodriver_path):
+def start_firefox(URL, geckodriver_path, adblock_path, uBlock_path):
 	DesiredCapabilities.FIREFOX["proxy"] = {
 		"proxyType" : "pac",
 		"proxyAutoconfigUrl" : "http://www.freeproxy-server.net/"
@@ -80,8 +80,8 @@ def start_firefox(URL, geckodriver_path):
 	driver = webdriver.Firefox(firefox_profile = fp, firefox_options = options, capabilities = webdriver.DesiredCapabilities.FIREFOX, executable_path = geckodriver_path)
 	#driver = webdriver.Remote(desired_capabilities = webdriver.DesiredCapabilities.FIREFOX)
 
-	driver.install_addon("/home/ubuntu/trulia/stores/adblock_plus-3.3.1-an+fx.xpi")
-	driver.install_addon("/home/ubuntu/trulia/stores/uBlock0@raymondhill.net.xpi")
+	driver.install_addon(adblock_path)
+	driver.install_addon(uBlock_path)
 	#driver.install_addon("I:\\adblock_plus-3.0.2-an+fx.xpi")
 	#driver.install_addon("I:\\uBlock0@raymondhill.net.xpi")
 

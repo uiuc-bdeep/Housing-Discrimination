@@ -126,7 +126,7 @@ def main(input_file, output_file, start, end, crawler_log, geckodriver_path, deb
 
 	df = pd.read_csv(input_file)
 
-	driver = start_firefox(trulia, geckodriver_path)
+	driver = start_firefox(trulia, geckodriver_path, adblock_path, uBlock_path)
 	sleep(5)
 
 	try:
