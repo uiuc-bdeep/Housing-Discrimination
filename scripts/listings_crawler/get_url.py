@@ -189,7 +189,7 @@ if __name__ == "__main__":
 	parser.add_argument("end", help = "End of Input file", type = int)
 	parser.add_argument("log", help = "Name of the log")
 	parser.add_argument("--debug", help = "Turn on debug mode or not. Default False", type = bool, default = False)
-	parser.add_argument("--geckodriver", help = "Path of geckodriver.\nDefault current directory", default = ".")
+	parser.add_argument("--geckodriver", help = "Path of geckodriver.\nDefault current directory", default = "../../stores/")
 	parser.add_argument("--adblock", help = "Path of adblock.xpi.\nDefault ../stores/", default = "../../stores/")
 	parser.add_argument("--uBlock", help = "Path of uBlock0.xpi.\nDefault ../stores/", default = "../../stores/")
 
