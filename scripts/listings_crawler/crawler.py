@@ -262,9 +262,9 @@ if __name__ == "__main__":
 	parser.add_argument("log", help = "Name of the log")
 	parser.add_argument("--repair", help = "whether we try to repair the Trulia listings in the input_file or not.\noutput_file will be ignored if this is enabled", type = bool, default = False)
 	parser.add_argument("--debug", help = "Turn on debug mode or not. Default False", type = bool, default = False)
-	parser.add_argument("--geckodriver", help = "Path of geckodriver.\nDefault current directory", default = "../../stores/")
-	parser.add_argument("--adblock", help = "Path of adblock.xpi.\nDefault ../stores/", default = "../../stores/")
-	parser.add_argument("--uBlock", help = "Path of uBlock0.xpi.\nDefault ../stores/", default = "../../stores/")
+	parser.add_argument("--geckodriver", help = "Path of geckodriver.\nDefault ../../stores/", default = "../../stores/")
+	parser.add_argument("--adblock", help = "Path of adblock.xpi.\nDefault ../../stores/", default = "../../stores/")
+	parser.add_argument("--uBlock", help = "Path of uBlock0.xpi.\nDefault ../../stores/", default = "../../stores/")
 
 	args = parser.parse_args()
 
