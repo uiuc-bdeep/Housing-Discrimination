@@ -833,7 +833,7 @@ def extract_rental(driver, d, mode, add = None, df = None, index = None):
 								d["state"] = city_state.split(", ")[1].split(" ")[0]
 								d["zip code"] = city_state.split(" ")[-1]
 							except Exception as error:
-        						print('Caught this error: ' + repr(error))
+								print('Caught this error: ' + repr(error))
 
 		print("address: " + d.get("address", "NA"), 
 			"city: " + d.get("city", "NA"), 
