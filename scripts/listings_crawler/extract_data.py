@@ -31,7 +31,6 @@ from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.common.proxy import Proxy
-from utils import start_firefox, restart
 
 def extract_data(driver, d, crawl_type):
 	driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -692,9 +691,6 @@ def extract_rental_shop_eat(driver, d):
 
 		print (restaurant, groceries, nightlife, cafe, shopping, entertainment, beauty, active_life)
 	except:
-		if has_commute == True:
-			driver.quit()
-			restart()
 		d["restaurant"] = "NA"
 		d["groceries"] = "NA"
 		d["nightlife"] = "NA"
@@ -836,9 +832,8 @@ def extract_rental(driver, d, mode, add = None, df = None, index = None):
 								d["city"] = city_state.split(", ")[0]
 								d["state"] = city_state.split(", ")[1].split(" ")[0]
 								d["zip code"] = city_state.split(" ")[-1]
-							except:
-								driver.quit()
-								restart()
+							except Exception as error:
+        						print('Caught this error: ' + repr(error))
 
 		print("address: " + d.get("address", "NA"), 
 			"city: " + d.get("city", "NA"), 
@@ -1134,13 +1129,13 @@ def extract_rental(driver, d, mode, add = None, df = None, index = None):
 
 	if not is_off_market:
 		if d["restaurant"] != "NA" and d["driving"] == "NA":
-			print("commute missing")
+			# print("commute missing")
 			driver.quit()
-			restart()
+			raise Exception('commute missing!')
 
 		if d["driving"] != "NA" and d["restaurant"] == "NA":
-			print("shop and eat missing")
+			# print("shop and eat missing")
 			driver.quit()
-			restart()
+			raise Exception('shop and eat missing!')
 	return True
 
