@@ -268,8 +268,12 @@ def extract_sold_rental_crime(driver, d):
 		info_text = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[3]/div[2]/div/div/div[3]/button/div[2]").text
 		button = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[3]/div[2]/div/div/div[3]/button")
 	except:
-		info_text = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[2]/div[2]/div/div/div[3]/button/div[2]").text
-		button = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[2]/div[2]/div/div/div[3]/button")
+		try:
+			info_text = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[2]/div[2]/div/div/div[3]/button/div[2]").text
+			button = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[2]/div[2]/div/div/div[3]/button")
+		except:
+			info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[4]/div/div[2]").text
+			button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[4]")
 
 	if "crime" in info_text.lower():
 		button.click()
@@ -832,8 +836,15 @@ def extract_rental(driver, d, mode, add = None, df = None, index = None):
 								d["city"] = city_state.split(", ")[0]
 								d["state"] = city_state.split(", ")[1].split(" ")[0]
 								d["zip code"] = city_state.split(" ")[-1]
-							except Exception as error:
-								print("Caught this error: " + repr(error))
+							except:
+								try:
+									d["address"] = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div/div/div[1]/h1/span[1]').text
+									city_state = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[1]/div/div/div[1]/h1/span[2]").text
+									d["city"] = city_state.split(", ")[0]
+									d["state"] = city_state.split(", ")[1].split(" ")[0]
+									d["zip code"] = city_state.split(" ")[-1]
+								except Exception as error:
+									print("Caught this error: " + repr(error))
 
 		print("address: " + d.get("address", "NA"), 
 			"city: " + d.get("city", "NA"), 
