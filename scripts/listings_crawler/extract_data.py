@@ -31,6 +31,7 @@ from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.common.proxy import Proxy
+from utils import start_firefox, restart
 
 def extract_data(driver, d, crawl_type):
 	driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
