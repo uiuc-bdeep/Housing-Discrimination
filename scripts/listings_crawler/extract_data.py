@@ -348,11 +348,11 @@ def extract_sold_rental_crime(driver, d):
 
 	d["crime_other"] = "NA"
 
-	print("assult: " + d.get("assault", "NA"), 
-		"arrest: " + d.get("arrest", "NA"), 
-		"theft: " + d.get("theft", "NA"), 
-		"burglary: " + d.get("burglary", "NA"), 
-		"vandalism: " + d.get("vandalism", "NA"))
+	print("assult: " + str(d.get("assault", "NA")), 
+		"arrest: " + str(d.get("arrest", "NA")), 
+		"theft: " + str(d.get("theft", "NA")), 
+		"burglary: " + str(d.get("burglary", "NA")), 
+		"vandalism: " + str(d.get("vandalism", "NA")))
 
 def extract_sold_rental_school(driver, d):
 	try:
@@ -394,8 +394,8 @@ def extract_sold_rental_school(driver, d):
 		d["elementary_school_count"] = 0
 		d["elementary_school_average_score"] = 0
 
-	print("elem count: " + d["elementary_school_count"], 
-		"elem score: " + d["elementary_school_average_score"])
+	print("elem count: " + str(d["elementary_school_count"]), 
+		"elem score: " + str(d["elementary_school_average_score"]))
 
 	sleep(5)
 	try:
@@ -417,8 +417,8 @@ def extract_sold_rental_school(driver, d):
 		d["middle_school_count"] = 0
 		d["middle_school_average_score"] = 0
 
-	print("middle_school_count: " + d["middle_school_count"], 
-		"middle_school_average_score: " + d["middle_school_average_score"])
+	print("middle_school_count: " + str(d["middle_school_count"]), 
+		"middle_school_average_score: " + str(d["middle_school_average_score"]))
 
 	sleep(5)
 	try:
@@ -440,8 +440,8 @@ def extract_sold_rental_school(driver, d):
 		d["high_school_count"] = 0
 		d["high_school_average_score"] = 0
 
-	print("high_school_count: " + d["high_school_count"], 
-		"high_school_average_score: " + d["high_school_average_score"])
+	print("high_school_count: " + str(d["high_school_count"]), 
+		"high_school_average_score: " + str(d["high_school_average_score"]))
 
 def extract_rental_school(driver, d):
 	try:
@@ -623,7 +623,10 @@ def extract_sold_rental_shop_eat(driver, d):
 
 	try:
 		button = driver.find_element_by_xpath("//button[@data-id='Restaurants']").click()
-		item = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		try:
+			item = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		except:
+			item = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
 		d["restaurant"] = len(item)
 	except:
 		d["restaurant"] = "NA"
@@ -631,7 +634,10 @@ def extract_sold_rental_shop_eat(driver, d):
 
 	try:
 		button = driver.find_element_by_xpath("//button[@data-id='Groceries']").click()
-		item = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		try:
+			item = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		except:
+			item = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
 		d["groceries"] = len(item)
 	except:
 		d["groceries"] = "NA"
@@ -639,7 +645,10 @@ def extract_sold_rental_shop_eat(driver, d):
 
 	try:
 		button = driver.find_element_by_xpath("//button[@data-id='Nightlife']").click()
-		item = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		try:
+			item = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		except:
+			item = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
 		d["nightlife"] = len(item)
 	except:
 		d["nightlife"] = "NA"
@@ -647,7 +656,10 @@ def extract_sold_rental_shop_eat(driver, d):
 
 	try:
 		button = driver.find_element_by_xpath("//button[@data-id='Cafes']").click()
-		item = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		try:
+			item = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		except:
+			item = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
 		d["cafe"] = len(item)
 	except:
 		d["cafe"] = "NA"
@@ -655,7 +667,10 @@ def extract_sold_rental_shop_eat(driver, d):
 
 	try:
 		button = driver.find_element_by_xpath("//button[@data-id='Shopping']").click()
-		item = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		try:
+			item = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		except:
+			item = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
 		d["shopping"] = len(item)
 	except:
 		d["shopping"] = "NA"
@@ -663,7 +678,10 @@ def extract_sold_rental_shop_eat(driver, d):
 
 	try:
 		button = driver.find_element_by_xpath("//button[@data-id='ArtsAndEntertainment']").click()
-		item = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		try:
+			item = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		except:
+			item = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
 		d["entertainment"] = len(item)
 	except:
 		d["entertainment"] = "NA"
@@ -671,7 +689,10 @@ def extract_sold_rental_shop_eat(driver, d):
 
 	try:
 		button = driver.find_element_by_xpath("//button[@data-id='Fitness']").click()
-		item = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		try:
+			item = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		except:
+			item = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
 		d["active_life"] = len(item)
 	except:
 		d["active_life"] = "NA"
