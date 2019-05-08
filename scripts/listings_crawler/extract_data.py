@@ -290,7 +290,10 @@ def extract_sold_rental_crime(driver, d):
 
 	try:
 		crime = driver.find_element_by_xpath("//button[@data-id='Theft']").click()
-		theft = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		try:
+			theft = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		except:
+			theft = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
 		d["theft"] = len(theft) - 1
 	except:
 		d["theft"] = "NA"
@@ -299,7 +302,10 @@ def extract_sold_rental_crime(driver, d):
 
 	try:
 		crime = driver.find_element_by_xpath("//button[@data-id='Assault']").click()
-		assault = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		try:
+			assault = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		except:
+			assault = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
 		d["assault"] = len(assault) - 1
 	except:
 		d["assault"] = "NA"
@@ -308,7 +314,10 @@ def extract_sold_rental_crime(driver, d):
 
 	try:
 		crime = driver.find_element_by_xpath("//button[@data-id='Arrest']").click()
-		arrest = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		try:
+			arrest = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		except:
+			arrest = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
 		d["arrest"] = len(arrest) - 1
 	except:
 		d["arrest"] = "NA"
@@ -317,7 +326,10 @@ def extract_sold_rental_crime(driver, d):
 
 	try:
 		crime = driver.find_element_by_xpath("//button[@data-id='Vandalism']").click()
-		vandalism = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		try:
+			vandalism = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		except:
+			vandalism = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
 		d["vandalism"] = len(vandalism) - 1
 	except:
 		d["vandalism"] = "NA"
@@ -326,7 +338,10 @@ def extract_sold_rental_crime(driver, d):
 
 	try:
 		crime = driver.find_element_by_xpath("//button[@data-id='Burglary']").click()
-		burglary = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		try:
+			burglary = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		except:
+			burglary = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
 		d["burglary"] = len(burglary) - 1
 	except:
 		d["burglary"] = "NA"
@@ -362,7 +377,10 @@ def extract_sold_rental_school(driver, d):
 	sleep(5)
 	try:
 		school = driver.find_element_by_xpath("//button[@data-id='ELEMENTARY']").click()
-		scores = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		try:
+			scores = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		except:
+			scores = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
 		school_count = len(scores) - 1
 		score = 0
 		for s in scores[:-1]:
@@ -382,7 +400,10 @@ def extract_sold_rental_school(driver, d):
 	sleep(5)
 	try:
 		school = driver.find_element_by_xpath("//button[@data-id='MIDDLE']").click()
-		scores = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		try:
+			scores = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		except:
+			scores = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
 		school_count = len(scores) - 1
 		score = 0
 		for s in scores[:-1]:
@@ -402,7 +423,10 @@ def extract_sold_rental_school(driver, d):
 	sleep(5)
 	try:
 		school = driver.find_element_by_xpath("//button[@data-id='HIGH']").click()
-		scores = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		try:
+			scores = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+		except:
+			scores = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
 		school_count = len(scores) - 1
 		score = 0
 		for s in scores[:-1]:
