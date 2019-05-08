@@ -275,6 +275,7 @@ def extract_sold_rental_crime(driver, d):
 			info_text = driver.find_element_by_xpath("//*[@id='__next']/div[2]/div[2]/div[4]/div[2]/div/div/div[4]/div/div[2]").text
 			button = driver.find_element_by_xpath("//*[@id='__next']/div[2]/div[2]/div[4]/div[2]/div/div/div[4]")
 
+
 	if "crime" in info_text.lower():
 		button.click()
 	else:
@@ -285,6 +286,7 @@ def extract_sold_rental_crime(driver, d):
 
 	print("crime button clicked")
 	sleep(10)
+	driver.save_screenshot('screenie.png')
 
 	try:
 		crime = driver.find_element_by_xpath("//button[@data-id='Theft']").click()
