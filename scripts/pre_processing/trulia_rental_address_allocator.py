@@ -10,7 +10,7 @@ import pandas as pd
 NUM_IDENTITES_PER_RACE = 6
 NUM_RACIAL_GROUPS      = 3
 
-def initialize_data_sheets(status, email, phone, df_names, LPI):
+def initialize_data_sheets(status, df_names, LPI):
 	num_cols = (LPI*3) + 1
 	timestamp_cols = ['handled']
 
@@ -18,20 +18,7 @@ def initialize_data_sheets(status, email, phone, df_names, LPI):
 		timestamp_cols.append('address ' + str(i))
 		timestamp_cols.append('timestamp ' + str(i))
 		timestamp_cols.append('inquiry order ' + str(i))
-#----------------------------------------------------------------------------------------------------------------------------------
-	email_cols = []
-	for i in range(1, num_cols): 
-		email_cols.append('address ' + str(i))
-		email_cols.append('total responses ' + str(i))
-		email_cols.append('response timestamp ' + str(i))
-		email_cols.append('total unavailable ' + str(i))
-		email_cols.append('unavailable ' + str(i))
-#----------------------------------------------------------------------------------------------------------------------------------
-	# new column names for the phone sheet
-	phone_cols = []
-	for i in range(1, num_cols):
-		phone_cols.append('address ' + str(i)) 
-#----------------------------------------------------------------------------------------------------------------------------------
+
 	df_new          = (pd.DataFrame(columns=timestamp_cols)).fillna(' ')		# empty dataframe with new columns for status sheet 
 
 	df_timestamp    = df_names[df_names.columns[0:8]] 							# create a new dataframe from the return sheet
@@ -39,37 +26,21 @@ def initialize_data_sheets(status, email, phone, df_names, LPI):
 	df_timestamp    = pd.concat([df_timestamp, df_new], axis = 1).fillna(' ')	# concatenate old values with the new columns
 	df_timestamp['handled'] = 0
 	df_timestamp.to_csv(status,mode='w',index=False)
-#----------------------------------------------------------------------------------------------------------------------------------
-	df_new          = (pd.DataFrame(columns=email_cols)).fillna(' ')			# empty dataframe with new columns for phone sheet
 
-	df_email       	= df_names[df_names.columns[0:8]]							# create a new dataframe from the return sheet
+	return df_timestamp
 
-	df_email       	= pd.concat([df_email, df_new], axis = 1).fillna(' ')		# concatenate old values with the new columns
-	df_email.to_csv(email,mode='w',index=False)
-#----------------------------------------------------------------------------------------------------------------------------------
-	df_new   		= (pd.DataFrame(columns=phone_cols)).fillna(' ')			# empty dataframe with new columns for phone sheet
-
-	df_phone 		= df_names[df_names.columns[0:8]]							# create a new dataframe from the return sheet
-
-	df_phone 		= pd.concat([df_phone, df_new], axis = 1).fillna(' ')		# concatenate old values with the new columns
-	df_phone.to_csv(phone,mode='w',index=False)
-#----------------------------------------------------------------------------------------------------------------------------------
-	return df_timestamp, df_email,df_phone
-
-def get_dataframes(names, status, email, phone, LPI): 
+def get_dataframes(names, status, LPI): 
 	df_names = pd.read_csv(names) 						# create a dataframe with the names csv
 
 	if os.path.isfile(status) == False: 				# check if the status sheet exists
 		print('Status Sheet Not Initialized\nInitializing ...')
-		df_timestamp, df_email,df_phone = initialize_data_sheets(status, email, phone, df_names, LPI)
+		df_timestamp= initialize_data_sheets(status, df_names, LPI)
 
 	else: 
 		# create a dataframe from saved status sheet csv
 		df_timestamp = pd.read_csv(status)
-		df_email     = pd.read_csv(email) 
-		df_phone     = pd.read_csv(phone)
 
-	return df_names, df_timestamp, df_email,df_phone
+	return df_names, df_timestamp
 
 def test_output(df_csv,num_addr): 
 	address = []
@@ -153,19 +124,19 @@ def get_partitions(df_rentals):
 	return group_one, group_two, group_three, LPI
 
 def get_day_dict(df_rentals, day_num = 3):
-	 	group_one, group_two, group_three, LPI = get_partitions(df_rentals)
-	 	print('LPI: ' + str(LPI))
-	 	day_trial_dict = {}
-	 	for i in range(1,day_num + 1): 
-	 		if i == 1:
-	 			race_dict = {'black': group_one, 'white': group_two, 'hispanic': group_three}
-	 		elif i == 2: 
-	 			race_dict = {'black': group_two, 'white': group_three, 'hispanic': group_one}
-	 		else: 
-	 			race_dict = {'black': group_three, 'white': group_one, 'hispanic': group_two}
-	 		day_trial_dict.update({i:race_dict})
+	group_one, group_two, group_three, LPI = get_partitions(df_rentals)
+	print('LPI: ' + str(LPI))
+	day_trial_dict = {}
+	for i in range(1,day_num + 1):
+		if i == 1:
+			race_dict = {'black': group_one, 'white': group_two, 'hispanic': group_three}
+		elif i == 2:
+			race_dict = {'black': group_two, 'white': group_three, 'hispanic': group_one}
+		else:
+			race_dict = {'black': group_three, 'white': group_one, 'hispanic': group_two}
+		day_trial_dict.update({i:race_dict})
 
- 		return day_trial_dict, LPI	
+	return day_trial_dict, LPI
 
 def main():
 	parameter_file_name = str(sys.argv[1])
@@ -176,9 +147,7 @@ def main():
 
 	names_sheet 	   = parameters[0] 					# name_market.csv
 	time_status_sheet  = parameters[1] 					# timestamp output csv
-	email_status_sheet = parameters[2]					# email output csv
-	phone_status_sheet = parameters[3] 					# phone output csv
-	rentals_sheet 	   = parameters[4] 					# csv that contains listings
+	rentals_sheet 	   = parameters[2] 					# csv that contains listings
 
 
 	df_rentals = pd.read_csv(rentals_sheet)																	# read in csv file
@@ -187,7 +156,7 @@ def main():
 	print('csv length: ' + str(len(df_rentals)))
 	day_trial_dict, LPI = get_day_dict(df_rentals) 															# day_trial_dict - a dictionary that maps the day to a dictionay which maps a race to a dataframe of address
 
-	df_names, df_status_timestamp, df_status_email, df_status_phone = get_dataframes(names_sheet, time_status_sheet, email_status_sheet, phone_status_sheet,LPI) # initialize dataframes
+	df_names, df_status_timestamp = get_dataframes(names_sheet, time_status_sheet,LPI) # initialize dataframes
 
 	inquiry_order = {}																													# inquiry_order - a dictionary that maps an address to the number of occurences 
 	loc = 1
@@ -208,13 +177,9 @@ def main():
 				# write it the address and timestamp into the dataframe
 				df_status_timestamp.at[index, 'inquiry order ' + str(i)] = str(inquiry_order[rand_row_add]) 						
 				df_status_timestamp.at[index,'address ' + str(i)] = '('+ str(rand_row_add) + ', ' + str(rand_row_url) + ')'
-				df_status_phone.at[index, 'address ' + str(i)]    = rand_row_add
-				df_status_email.at[index, 'address ' + str(i)]    = rand_row_add
 			loc += 1
 
 	df_status_timestamp.to_csv(time_status_sheet,mode='w',index=False)
-	df_status_email.to_csv(email_status_sheet,mode='w',index=False)
-	df_status_phone.to_csv(phone_status_sheet,mode='w',index=False)
 
 	test_output(df_status_timestamp,(LPI * NUM_RACIAL_GROUPS) + 1)
 

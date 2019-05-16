@@ -54,19 +54,24 @@ cols = df.columns.tolist()
 new_cols = cols[:9]
 num_addresses = int(cols[-1].split(' ')[-1])
 for i in range(1, num_addresses + 1):
-	df['address ' + str(i)] = df['address ' + str(i)].str.split(',', expand=True)[0].str.split('(', expand=True)[1]
+	for first,last in names:
+		if str(df.loc[df['first name'] == first,'address ' + str(i)].values[0]).lower() == 'nan':
+			df.loc[df['first name'] == first,'address ' + str(i)] = None
+		else: 
+			df.loc[df['first name'] == first,'address ' + str(i)] = df.loc[df['first name'] == first,'address ' + str(i)].values[0].split(',')[0].split('(')[1]
 	new_cols.append('address ' + str(i))
 df = df[new_cols]
 
 file = xlrd.open_workbook(os.getcwd() + '/input/' + TEMPLATE_FILE)
-myFile = copy(file)
 
 for name in tqdm(names, desc="Writing New Survey Files", bar_format="{l_bar}{bar}|  {n_fmt}/{total_fmt}   "):
+	myFile = copy(file)
 	# get list of addresses for a specific person
 	df_upper = df.loc[(df['first name'] == name[0]) & (df['last name'] == name[1])]
 	df_upper = df_upper.reset_index(drop=True)
 	df_upper = df_upper[df_upper.columns.tolist()[9:]]
-	addresses = list(df_upper.iloc[0,:])
+	addresses = list(set(df_upper.iloc[0,:]))
+	addresses = [x for x in addresses if (str(x) != 'nan' and x != None)]
 
 	# create dataframe that is basically the first half of the 2nd sheet of the xls sheet
 	df_upper = pd.DataFrame(index=range(1+len(addresses)), columns=['list name', 'name', 'label'])
