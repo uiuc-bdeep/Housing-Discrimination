@@ -45,7 +45,7 @@ def main():
 
 		df_status.to_csv(time_status_sheet,mode='w',index=False)
 		print('Timestamp  : ' + str(time_stamp) + '\n' + '---------------------------------')
-		#sleep(40) #sleep here to add delay between inquiries
+		sleep(15) #sleep here to add delay between inquiries
 		restart(True,driver)
 	else:
 		print('All names have been handled\nexiting... \n ---------------------------------')

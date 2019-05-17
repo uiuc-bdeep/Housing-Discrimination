@@ -1,5 +1,6 @@
 import random
 import datetime
+from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import NoSuchElementException
@@ -46,8 +47,8 @@ def send_message(driver,name, email, phone_num, address,url,send):
 		return "RESTART DRIVER" # "NEED NEW ADDRESS"
 
 	# wait for the page to load the map on listing page
-	status_cond   = EC.presence_of_element_located((By.CSS_SELECTOR,'#mapViewCard > div > div.cardDescription.pam > div > p.typeEmphasize.activeLink.mtn.ptn'))
-	status_handle = wait_and_get(driver, status_cond, 10)
+	# status_cond   = EC.presence_of_element_located((By.CSS_SELECTOR,'#mapViewCard > div > div.cardDescription.pam > div > p.typeEmphasize.activeLink.mtn.ptn'))
+	# status_handle = wait_and_get(driver, status_cond, 10)
 
 	form_check = try_page_element(driver,SEND_CSS, ['Request Sent'])
 
@@ -60,7 +61,10 @@ def send_message(driver,name, email, phone_num, address,url,send):
 	element = '#__next > div > section > div > div.HomeDetailsHero__Container-hubkl0-0.eFsGnT > div > div.HomeDetailsHero__HomeInfoBanner-hubkl0-4.eiQVQP > div:nth-child(1) > div > div.Text__TextContainerBase-s1cait9d-1.krEVrP.Text__TextBase-s1cait9d-0-div.lgawpF'
 	error  += try_page_element(driver, element,['Off Market','Recently Sold'])
 
-	element = '#__next > div > section > div.BasicPageLayout__BasicPageLayoutContainer-mfegza-0.fVMZGj > div.HomeDetailsHero__Container-hubkl0-0.bOZPCt > div > div > div.HomeDetailsHero__HomeInfoBanner-hubkl0-5.cUoBll > div:nth-child(1) > div > span.PropertyTag-sc-5t90lx-0.ebIvTY.Tag__TagBase-sc-1rp6fz0-1.clFGBQ.Text__TextBase-sc-1cait9d-0.dJEjin > span'
+	element = '#main-content > div.BasicPageLayout__BasicPageLayoutContainer-mfegza-0.fVMZGj > div.HomeDetailsHero__Container-hubkl0-0.bbKmZG > div > div > div.HomeDetailsHero__HomeInfoBanner-hubkl0-4.bHObIE > div.HomeDetailsHero__HomeStatusTitle-hubkl0-7.eLIcbC > span > span'
+	error  += try_page_element(driver,element,['OFF MARKET'])
+
+	element = '#main-content > div.BasicPageLayout__BasicPageLayoutContainer-mfegza-0.fVMZGj > div.HomeDetailsHero__Container-hubkl0-0.bbKmZG > div > div > div.HomeDetailsHero__HomeInfoBanner-hubkl0-4.bHObIE > div.HomeDetailsHero__HomeStatusTitle-hubkl0-7.eLIcbC > span.PropertyTag-sc-5t90lx-0.ebIvTY.Tag__TagBase-sc-1rp6fz0-1.clFGBQ.Text__TextBase-sc-1cait9d-0.dJEjin > span'
 	error  += try_page_element(driver,element,['SOLD'])
 
 	element = '#__next > div > section > div.BasicPageLayout__BasicPageLayoutContainer-mfegza-0.fVMZGj > div.HomeDetailsHero__Container-hubkl0-0.bOZPCt > div > div > div.HomeDetailsHero__HomeInfoBanner-hubkl0-5.cUoBll > div.HomeDetailsHero__HomeStatusTitle-hubkl0-8.jNtMuF > span > span'
@@ -69,9 +73,9 @@ def send_message(driver,name, email, phone_num, address,url,send):
 	if error > 0:
 		return 'SOLD'
 
-	if status_handle == 0:
-		print('Page Could Not load')
-		return "RESTART DRIVER"
+	# if status_handle == 0:
+	# 	print('Page Could Not load')
+	# 	return "RESTART DRIVER"
 
 	element = '#marketStatusLabel'
 	error  += try_page_element(driver,element, ['OFF MARKET','RECENTLY SOLD'])

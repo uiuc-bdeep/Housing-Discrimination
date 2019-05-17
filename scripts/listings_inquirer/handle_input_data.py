@@ -8,10 +8,6 @@ def get_LPI(df_timestamp):
 	return int(LPI)
 
 def get_dataframes(status):
-	if os.path.isfile(status) == False: 				# check if the status sheet exists
-		print('WRONG TIMESTAMP FILE PATH')
-		exit()
-
 	df_timestamp = pd.read_csv(status)
 	LPI          = get_LPI(df_timestamp)
 

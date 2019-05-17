@@ -29,10 +29,10 @@ def start_firefox():
 	fp.update_preferences()
 	driver = webdriver.Firefox(firefox_profile = fp, firefox_options = options,
 								capabilities = webdriver.DesiredCapabilities.FIREFOX,
-								executable_path = '/usr/local/bin/geckodriver')
+								executable_path = '/usr/bin/geckodriver')
 
-	# driver.install_addon("/home/ubuntu/trulia/stores/adblock_plus-3.3.1-an+fx.xpi")
-	# driver.install_addon("/home/ubuntu/trulia/stores/uBlock0@raymondhill.net.xpi")
+	driver.install_addon("/home/ubuntu/trulia/stores/adblock_plus-3.3.1-an+fx.xpi")
+	driver.install_addon("/home/ubuntu/trulia/stores/uBlock0@raymondhill.net.xpi")
 
 	driver.wait = WebDriverWait(driver, 5)
 	driver.delete_all_cookies()
