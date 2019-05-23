@@ -903,8 +903,18 @@ def extract_rental(driver, d, mode, add = None, df = None, index = None):
 									d["city"] = city_state.split(", ")[0]
 									d["state"] = city_state.split(", ")[1].split(" ")[0]
 									d["zip code"] = city_state.split(" ")[-1]
-								except Exception as error:
-									print("Caught this error: " + repr(error))
+									try:
+										d["address"] = driver.find_element_by_xpath("//*[@id='address']/h1/div[1]/span").text
+										city_state = driver.find_element_by_xpath("//*[@id='address']/h1/div[2]/span[1]").text
+										d["city"] = city_state.split(", ")[0]
+										d["state"] = city_state.split(", ")[1].split(" ")[0]
+										d["zip code"] = city_state.split(" ")[-1]
+									except Exception as error:
+										d["address"] = "NA"
+										d["city"] = "NA"
+										d["state"] = "NA"
+										d["zip code"] = "NA"
+										print("Caught this error: " + repr(error))
 
 		print("address: " + d.get("address", "NA"), 
 			"city: " + d.get("city", "NA"), 
