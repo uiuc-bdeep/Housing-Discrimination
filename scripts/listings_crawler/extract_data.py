@@ -903,6 +903,7 @@ def extract_rental(driver, d, mode, add = None, df = None, index = None):
 									d["city"] = city_state.split(", ")[0]
 									d["state"] = city_state.split(", ")[1].split(" ")[0]
 									d["zip code"] = city_state.split(" ")[-1]
+								except:
 									try:
 										d["address"] = driver.find_element_by_xpath("//*[@id='address']/h1/div[1]/span").text
 										city_state = driver.find_element_by_xpath("//*[@id='address']/h1/div[2]/span[1]").text
