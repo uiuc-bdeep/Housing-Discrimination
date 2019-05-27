@@ -193,7 +193,7 @@ def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriv
 						add = d["address"][:d["address"].find('#')]
 					else:
 						add = d["address"]
-						address = add + ", " + d["city"] + ", " + d["state"] + " " + d["zip code"]
+					address = add + ", " + d["city"] + ", " + d["state"] + " " + d["zip code"]
 				if crawled_trulia == False and "Real Estate, " in driver.title:
 					address = "NA"
 
