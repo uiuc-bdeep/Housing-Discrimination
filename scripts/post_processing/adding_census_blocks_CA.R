@@ -19,8 +19,9 @@ get_layerName <- function(shp_file_path)
   print(relative_path)
   return(ogrListLayers(relative_path)[1])
 }
-
-input_points <- read.csv("/Users/Chris/Research/trulia_project/test_folder/houston_data/round_8/houston_tx_round_8_rentals.csv")
+state = "MO"
+tabblock = "29" 
+input_points <- read.csv("/Users/Chris/Research/trulia_project/test_folder/toxic_data/reruns_2/round_3/round_3_rentals.csv")
 #input_points <- LA_final
 points <- input_points
 points_not_na <- points[which(!is.na(points$Longitude) & !is.na(points$Latitude)),]
@@ -32,7 +33,7 @@ points <- points[which(!is.na(points$Longitude) & !is.na(points$Latitude)),]
 coordinates(points) <- cbind(points$Longitude, points$Latitude)
 proj4string(points) <- CRS("+proj=longlat")
 
-polygons_path <- paste0("/Users/Chris/Research/trulia_project/test_folder/houston_data/48/tl_2016_48_tabblock10.shp")
+polygons_path <- paste0(paste("/Users/Chris/Research/trulia_project/test_folder/toxic_data/census_block/",tabblock,"/tl_2016_",tabblock,"_tabblock10.shp",sep = ""))
 # step 4: preprocess for the polygons #
 shpLayerName <- get_layerName(polygons_path)
 shp_poly <- readOGR(path.expand(polygons_path), shpLayerName)
@@ -53,4 +54,4 @@ res <- over(points, shp_poly)
 #points_res <- as.data.frame(points_raw)
 points_res <- cbind(points_not_na, res)
 
-write.csv(points_res,"/Users/Chris/Research/trulia_project/test_folder/houston_data/round_8/houston_tx_round_8_census.csv", row.names = F)
+write.csv(points_res,"/Users/Chris/Research/trulia_project/test_folder/toxic_data/reruns_2/round_3/round_3_census.csv", row.names = F)
