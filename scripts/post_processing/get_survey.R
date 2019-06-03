@@ -1,8 +1,10 @@
+install.packages("Rcpp", dependencies=TRUE)
+install.packages("dplyr", dependencies=TRUE)
 library(jsonlite)
 library(dplyr)
 
-min_Survey_ID <- 394339 #334581 # 358242
-max_Survey_ID <- 394357 #348085 #358260
+min_Survey_ID <- 408023 #334581 # 358242
+max_Survey_ID <- 408045 #348085 #358260
 
 print("Pulling responses from Ona...")
 
@@ -28,6 +30,6 @@ df$`_tags` <- NULL
 df$`_geolocation` <- NULL
 df$`_attachments` <- NULL
 
-setwd("/Users/Chris/Research/trulia_project/test_folder/scripts/merge/input")
+setwd("/home/ubuntu/Housing-Discrimination/scripts/post_processing/input")
 write.csv(df, "responses_concatenated.csv", row.names = F)
 print("responses_concatenated.csv has been written.")
