@@ -55,7 +55,7 @@ def wait_and_get(browser, cond, maxtime):
 				browser.switch_to_window(browser.window_handles[0])
 				flag = True
 
-root = '/Users/Chris/Research/trulia_project/test_folder/'
+root = '/home/ubuntu/Housing-Discrimination/'
 
 
 ZIP_URL_PRE = 'https://www.trulia.com/for_rent/'
@@ -75,16 +75,24 @@ round_num   = sys.argv[2]
 round_city  = sys.argv[3]
 round_state = sys.argv[4]
 zip_start   = int(sys.argv[5])
-#dest = '/Users/Chris/Research/trulia_project/test_folder/' + round_city + '_data/' + 'round_' + round_num + '/' + round_city + '_' + round_state + '_' +'round_' + round_num + '_' + 'rental_urls.csv'
-dest = '/Users/Chris/Research/trulia_project/test_folder/toxic_data/reruns_2/rerun_' +round_num + '/rerun_' + round_num + '_rental_urls.csv'
+dest = '/home/ubuntu/Housing-Discrimination/rounds/round_' + round_num + '/round_' + round_num + '_urls.csv'
 df_zip    = pd.read_csv(zip_csv) 
 zip_list =  list(df_zip['zip_codes'].values.flatten())
 
-driver   = webdriver.Firefox(executable_path='/usr/local/bin/geckodriver')
-driver.set_page_load_timeout(30) # set a time out for 30 secons
+options = Options()
+options.add_argument("--headless")
+fp = webdriver.FirefoxProfile()
+#fp.set_preference("general.useragent.override", UserAgent().random)
+fp.update_preferences()
+driver = webdriver.Firefox(firefox_profile = fp, firefox_options = options,
+                                                        capabilities = webdriver.DesiredCapabilities.FIREFOX,
+                                                        executable_path = '/usr/bin/geckodriver')
+#driver   = webdriver.Firefox(executable_path='/usr/bin/geckodriver')
+#driver.set_page_load_timeout(30) # set a time out for 30 secons
 driver.maximize_window()
 display  = Display(visible=0, size=(1024, 768)) # start display
 display.start() # start the display
+
 listings_all = []
 with open(dest, "w") as f:
 	writer = csv.writer(f)
