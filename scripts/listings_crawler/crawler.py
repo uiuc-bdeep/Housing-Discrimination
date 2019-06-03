@@ -41,25 +41,6 @@ trulia = "https://www.trulia.com"
 pollution = "https://www3.epa.gov/myem/envmap/find.html"
 
 def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriver_path, repair, debug_mode, adblock_path, uBlock_path):
-	# return None
-	# crawl_type = sys.argv[1]
-	# start = sys.argv[2]
-	# end = sys.argv[3]
-	# number = sys.argv[4]
-	# city = sys.argv[5]
-
-	# if crawl_type == "sold":
-	# 	input = "/home/ubuntu/trulia/stores/LA.csv"
-	# 	output = "/home/ubuntu/trulia/stores/LA" + str(number) + ".csv"
-	# 	#input = "/home/ubuntu/trulia/stores/urls.csv"
-	# 	#output = "/home/ubuntu/trulia/stores/availunit_houses" + str(number) + ".csv"
-	# elif crawl_type == "new":
-	# 	input = "/home/ubuntu/share/projects/Trulia/stores/" + city + "/new_listing/" + city.lower() + "_new_urls.csv"
-	# 	output = "/home/ubuntu/share/projects/Trulia/stores/" + city + "/new_listing/" + city.lower() + "_new_house.csv"
-	# elif crawl_type == "rental":
-	# 	input = "/home/ubuntu/trulia/stores/" + city + ".csv"
-	# 	output = "/home/ubuntu/trulia/stores/" + city + "_rental_houses" + str(number) + ".csv"
-
 	driver = start_firefox(trulia, geckodriver_path, adblock_path, uBlock_path)
 
 	sleep(5)
@@ -72,14 +53,6 @@ def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriv
 		print ("switching window failed??")
 		driver.quit()
 		restart(crawler_log, debug_mode, start)
-
-	# if city == "ej":
-	# 	workbook = []
-	# 	with open("/home/ubuntu/trulia/stores/availunit_address.csv", 'rU') as f:
-	# 		d = [row for row in csv.reader(f.read().splitlines())]
-	# 		for i in d:
-	# 			s = i[0]
-	# 			workbook.append(s)
 
 	df = pd.read_csv(input_file)
 
@@ -113,20 +86,6 @@ def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriv
 			print(urls[i])
 			driver.delete_all_cookies()
 			d = {}
-			# crawled_trulia = False
-
-			# if "sold" in urls[i]:
-			# 	crawled_trulia = True
-			# 	driver.get(urls[i])
-			# 	print(driver.title)
-			# 	sleep(3)
-			# 	flag = extract_data(driver, d, crawl_type)
-			# 	if flag != False:
-			# 	  sleep(3)
-			# 	  extract_school_and_crime(driver, d)
-			# 	else:
-			# 	  crawled_trulia = False
-			# else:
 
 			crawled_trulia = True
 			driver.get(urls[i])
@@ -135,7 +94,6 @@ def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriv
 			if "Real Estate, " in driver.title or "Not Found" in driver.title:
 				print ("404 in trulia")
 				crawled_trulia = False
-			# elif ("rental" in driver.current_url or "Rent" in driver.title) and "Not Disclosed" not in driver.title:
 			elif "Trulia" in driver.title:
 				print ("Start crawling")
 				try:
