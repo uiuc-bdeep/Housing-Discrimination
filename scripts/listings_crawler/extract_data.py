@@ -117,7 +117,13 @@ def check_off_market(driver):
 							print("off_market = 2")
 							is_off_market = 2
 					except:
-						print ("in market")
+						try:
+							off_market = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[1]/div/div/div[3]/div[1]/span/span").text
+							if "off" in off_market.lower() or "sold" in off_market.lower():
+								print("off_market = 2")
+								is_off_market = 2
+						except:
+							print ("in market")
 
 	return is_off_market
 
@@ -129,7 +135,10 @@ def get_rent(driver, is_off_market):
 		try:
 			rent = driver.find_element_by_xpath("/html/body/div[5]/div[4]/div[6]/div/div/div[3]/div[1]/div[2]").text
 		except:
-			rent = "NA"
+			try:
+				rent = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[1]/div/div/div[2]/h3/div").text
+			except:
+				rent = "NA"
 	else:
 		try:
 			rent = driver.find_element_by_xpath("//*[@id='rentalPdpContactLeadForm']/div[1]/div").text
