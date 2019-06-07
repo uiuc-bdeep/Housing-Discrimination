@@ -1,3 +1,5 @@
+"""Summary
+"""
 import os
 import sys
 import os.path
@@ -34,6 +36,13 @@ from selenium.webdriver.common.proxy import Proxy
 
 
 def extract_rental_detail(driver, d):
+	"""Extract rental detail such as number bedrooms and bathrooms, Sqft, Type of Housing, Year Built, etc.
+	
+	Args:
+	    driver (Firefox Driver): The Firefox driver
+	    d (dict): Dictionary that holds all the data
+	"""
+
 	try:
 		property_detail = driver.find_element_by_xpath("//*[@id='propertyDetails']/div/ul[1]").text.split("\n")
 	except:
@@ -116,6 +125,13 @@ def extract_rental_detail(driver, d):
 			d["type"] = s
 
 def extract_rental_school(driver, d):
+	"""Extract Assigned Schools score and get the average
+	
+	Args:
+	    driver (Firefox Driver): The Firefox driver
+	    d (dict): Dictionary that holds all the data
+	"""
+
 	try:
 		driver.find_element_by_xpath("//*[@id='schoolsCard']").click()
 	except:	
@@ -219,6 +235,13 @@ def extract_rental_school(driver, d):
 
 
 def extract_rental_crime(driver, d):
+	"""Extract number of Crimes from Trulia
+	
+	Args:
+	    driver (Firefox Driver): The Firefox driver
+	    d (dict): Dictionary that holds all the data
+	"""
+
 	try:
 		driver.find_element_by_xpath("//*[@id='listingHomeDetailsContainer']/div[4]/div[2]/div[2]/div[2]").click()
 	except:
@@ -259,6 +282,13 @@ def extract_rental_crime(driver, d):
 			d["crime_other"] = "NA"
 
 def extract_rental_shop_eat(driver, d):
+	"""Extract Shop and Eat scores from Trulia
+	
+	Args:
+	    driver (Firefox Driver): The Firefox driver
+	    d (dict): Dictionary that holds all the data
+	"""
+	
 	try:
 		try:
 			driver.find_element_by_xpath("//*[@id='localInfoTabs']/div[1]/div/div/button[7]").click()

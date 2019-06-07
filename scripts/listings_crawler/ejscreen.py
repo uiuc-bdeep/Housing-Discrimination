@@ -1,3 +1,5 @@
+"""Summary
+"""
 import os
 import sys
 import os.path
@@ -33,6 +35,16 @@ from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.common.proxy import Proxy
 
 def handle_ejscreen_input(driver, address):
+	"""Send Address to ejscreen
+	
+	Args:
+	    driver (Firefox Driver): The Firefox driver
+	    address (String): String of the address
+	
+	Returns:
+	    Bool: True if success, False otherwise
+	"""
+	
 	sleep(10)
 	#driver.save_screenshot('screenie.png')
 
@@ -66,6 +78,16 @@ def handle_ejscreen_input(driver, address):
 	return True
 
 def extract_pollution(driver, d):
+	"""Extract the pollution data from ejscreen
+	
+	Args:
+	    driver (Firefox Driver): The Firefox driver
+	    d (dict): Dictionary that holds all the data
+	
+	Returns:
+	    None
+	"""
+
 	try:
 		driver.switch_to_window(driver.window_handles[2])
 	except:

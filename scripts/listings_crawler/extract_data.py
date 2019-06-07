@@ -1,3 +1,5 @@
+"""Summary
+"""
 import os
 import sys
 import os.path
@@ -35,7 +37,17 @@ from selenium.webdriver.common.proxy import Proxy
 from extract_sold_rental_data import *
 from extract_rental_data import *
 
-def extract_commute(driver, d, has_commute):
+def extract_commute(driver, d):
+	"""Extract commute score from Trulia
+	
+	Args:
+	    driver (Firefox Driver): The Firefox driver
+	    d (dict): Dictionary that holds all the data
+	
+	Returns:
+	    Bool: True if have commute, False otherwise
+	"""
+
 	try:
 		try:
 			driver.find_element_by_xpath("//*[@id='localInfoTabs']/div[1]/div/div/button[6]").click()
@@ -84,7 +96,18 @@ def extract_commute(driver, d, has_commute):
 		d["cycling"] = "NA"
 		print("commute not available")
 
+	return has_commute
+
 def check_off_market(driver):
+	"""Check wheather if the listing is off market (or new/old type of layout, if you prefer)
+	
+	Args:
+	    driver (Firefox Driver): The Firefox driver
+	
+	Returns:
+	    int: 0 if on market, 1 if old layout off market, 2 if new layout
+	"""
+
 	is_off_market = 0
 
 	try:
@@ -128,6 +151,16 @@ def check_off_market(driver):
 	return is_off_market
 
 def get_rent(driver, is_off_market):
+	"""Extract the rent from Trulia
+	
+	Args:
+	    driver (Firefox Driver): The Firefox driver
+	    is_off_market (int): Wheather the listing is off market
+	
+	Returns:
+	    String: The rent
+	"""
+
 	# is_apartment = True
 	# recently_sold = False
 
@@ -171,6 +204,13 @@ def get_rent(driver, is_off_market):
 	return rent
 
 def get_address(driver, d):
+	"""Extract the address from Trulia
+	
+	Args:
+	    driver (Firefox Driver): The Firefox driver
+	    d (dict): Dictionary that holds all the data
+	"""
+
 	try:
 		info = driver.find_element_by_xpath("//*[@id='propertyDetails']/div/div[2]/span").text.split(", ")
 		d["address"] = info[0]
@@ -243,6 +283,13 @@ def get_address(driver, d):
 									print("Caught this error: " + repr(error))
 
 def extract_phone(driver, d):
+	"""Extract phone number from Trulia
+	
+	Args:
+	    driver (Firefox Driver): The Firefox driver
+	    d (dict): Dictionary that holds all the data
+	"""
+
 	try:
 		phone = driver.find_element_by_xpath("//*[@id='contactAside']/div/h3").text
 		if "Contact" in phone:
@@ -266,6 +313,23 @@ def extract_phone(driver, d):
 					d["phone_number"] = "NA"
 
 def extract_rental(driver, d, mode, add = None, df = None, index = None):
+	"""Extract all information from Trulia
+	
+	Args:
+	    driver (Firefox Driver): The Firefox driver
+	    d (dict): Dictionary that holds all the data
+	    mode (String): One of "U", "R", "A"
+	    add (None, optional): Address from csv if available
+	    df (None, optional): Dataframe from csv if available and is in R mode
+	    index (None, optional): Starting index from csv
+	
+	Returns:
+	    Bool: True if success, False otherwise
+	
+	Raises:
+	    Exception: Description
+	"""
+	
 	is_off_market = check_off_market(driver)
 
 	rent = get_rent(driver, is_off_market)
@@ -378,9 +442,7 @@ def extract_rental(driver, d, mode, add = None, df = None, index = None):
 	else:
 		extract_rental_school(driver, d)
 
-	has_commute = False
-
-	extract_commute(driver, d, has_commute)
+	has_commute = extract_commute(driver, d)
 
 	if is_off_market == 2:
 		extract_sold_rental_shop_eat(driver, d)

@@ -1,3 +1,5 @@
+"""Summary
+"""
 import os
 import sys
 import os.path
@@ -34,6 +36,13 @@ from selenium.webdriver.common.proxy import Proxy
 
 
 def extract_sold_rental_detail(driver, d):
+	"""Extract rental detail such as number bedrooms and bathrooms, Sqft, Type of Housing, Year Built, etc.
+	
+	Args:
+	    driver (Firefox Driver): The Firefox driver
+	    d (dict): Dictionary that holds all the data
+	"""
+
 	try:
 		detail = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[1]/div/div[1]/div[1]/div[1]/div/ul").text.split("\n")
 	except:
@@ -82,6 +91,13 @@ def extract_sold_rental_detail(driver, d):
 	d["sqft"] = sqft
 
 def extract_sold_rental_school(driver, d):
+	"""Extract Assigned Schools score and get the average
+	
+	Args:
+	    driver (Firefox Driver): The Firefox driver
+	    d (dict): Dictionary that holds all the data
+	"""
+
 	try:
 		info_text = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[3]/div[2]/div/div/div[2]/button/div[2]").text
 		button = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[3]/div[2]/div/div/div[2]/button")
@@ -171,6 +187,13 @@ def extract_sold_rental_school(driver, d):
 		"high_school_average_score: " + str(d["high_school_average_score"]))
 
 def extract_sold_rental_crime(driver, d):
+	"""Extract number of Crimes from Trulia
+	
+	Args:
+	    driver (Firefox Driver): The Firefox driver
+	    d (dict): Dictionary that holds all the data
+	"""
+
 	try:
 		info_text = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[3]/div[2]/div/div/div[3]/button/div[2]").text
 		button = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[3]/div[2]/div/div/div[3]/button")
@@ -262,6 +285,13 @@ def extract_sold_rental_crime(driver, d):
 		"vandalism: " + str(d.get("vandalism", "NA")))
 
 def extract_sold_rental_shop_eat(driver, d):
+	"""Extract Shop and Eat scores from Trulia
+	
+	Args:
+	    driver (Firefox Driver): The Firefox driver
+	    d (dict): Dictionary that holds all the data
+	"""
+	
 	webdriver.ActionChains(driver).send_keys(Keys.ESCAPE).perform()
 
 	print("Change to shop and eat")

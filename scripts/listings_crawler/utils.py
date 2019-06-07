@@ -1,3 +1,5 @@
+"""Summary
+"""
 import os
 import sys
 import os.path
@@ -33,6 +35,14 @@ from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.common.proxy import Proxy
 
 def restart(crawler_log, debug_mode, start):
+	"""Summary
+	
+	Args:
+	    crawler_log (String): Name of the log
+	    debug_mode (Bool): Wheather this is debug mode
+	    start (int): Starting index of the crawling
+	"""
+
 	print("argv was",sys.argv)
 	print("sys.executable was", sys.executable)
 	print("restart now")
@@ -67,6 +77,18 @@ def restart(crawler_log, debug_mode, start):
 	os.execv(sys.executable, ['python'] + arg)
 
 def start_firefox(URL, geckodriver_path, adblock_path, uBlock_path):
+	"""Summary
+	
+	Args:
+	    URL (String): a URL string
+	    geckodriver_path (String): Path to geckodriver
+	    adblock_path (String): Path to adblock
+	    uBlock_path (String): Path to uBlock
+	
+	Returns:
+	    FirefoxDriver: The Firefox Driver
+	"""
+	
 	DesiredCapabilities.FIREFOX["proxy"] = {
 		"proxyType" : "pac",
 		"proxyAutoconfigUrl" : "http://www.freeproxy-server.net/"

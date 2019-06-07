@@ -1,3 +1,9 @@
+"""Summary
+
+Attributes:
+    pollution (str): Description
+    trulia (str): Description
+"""
 import os
 import sys
 import os.path
@@ -41,6 +47,22 @@ trulia = "https://www.trulia.com"
 pollution = "https://www3.epa.gov/myem/envmap/find.html"
 
 def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriver_path, repair, debug_mode, adblock_path, uBlock_path):
+	"""Main function to do the crawling
+	
+	Args:
+	    crawl_type (List of String): default ["U"]. Can add ["A", "L"]
+	    input_file (String): Name of the input file
+	    output_file (String): Name of the output file
+	    start (int): Starting index of the crawling
+	    end (int): Ending index of the crawling
+	    crawler_log (String): Name of the log
+	    geckodriver_path (String): Path to the geckodriver
+	    repair (Bool): Wheather this crawling is repair mode or not
+	    debug_mode (Bool): Wheater this crawling is debug mode or not
+	    adblock_path (String): Path to the adblock
+	    uBlock_path (String): Path to the uBlock
+	"""
+	
 	driver = start_firefox(trulia, geckodriver_path, adblock_path, uBlock_path)
 
 	sleep(5)
