@@ -48,6 +48,8 @@ def extract_commute(driver, d):
 	    Bool: True if have commute, False otherwise
 	"""
 
+	has_commute = False
+
 	try:
 		try:
 			driver.find_element_by_xpath("//*[@id='localInfoTabs']/div[1]/div/div/button[6]").click()
