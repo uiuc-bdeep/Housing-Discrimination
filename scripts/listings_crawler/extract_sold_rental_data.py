@@ -106,8 +106,12 @@ def extract_sold_rental_school(driver, d):
 			info_text = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[2]/div[2]/div/div/div[2]/button/div[2]").text
 			button = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[2]/div[2]/div/div/div[2]/button")
 		except:
-			info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[3]/div/div[2]").text
-			button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[3]")
+			try:
+				info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[2]/div/div[2]").text
+				button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[2]")
+			except:
+				info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[3]/div/div[2]").text
+				button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[3]")
 
 	if "school" in info_text.lower():
 		button.click()
@@ -307,13 +311,16 @@ def extract_sold_rental_shop_eat(driver, d):
 			info_text = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[2]/div[2]/div/div/div[5]/button/div[2]").text
 			button = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[2]/div[2]/div/div/div[5]/button")
 		except:
-			
 			try:
 				info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[6]/div/div[2]").text
 				button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[6]")
 			except:
-				info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[6]/div/div/div[2]").text
-				button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[6]")
+				try:
+					info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[6]/div/div/div[2]").text
+					button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[6]")
+				except:
+					info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[5]/div/div/div[2]").text
+					button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[5]")
 
 	if "shop" in info_text.lower():
 		button.click()
