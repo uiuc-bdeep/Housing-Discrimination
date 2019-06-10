@@ -151,6 +151,7 @@ In the case where the data from previous run got corrupted, you can turn on repa
 Issues
 ---
 **Program keeps printing 'zomming out':**
+
 Restart the program.
 
 **The program keeps restarting or loops at the same place:**
