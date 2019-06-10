@@ -1,6 +1,6 @@
 Listing Crawler
 ===
-Listing Crawler is an application that allows user to crawl Trulia listings and corresponding ejscreen data.
+Listing Crawler is an application that allows user to crawl URL listings and corresponding ejscreen data.
 
 ## Table of Contents
 
@@ -36,7 +36,7 @@ usage: crawler.py [-h] [--repair REPAIR] [--debug DEBUG]
                   [--uBlock UBLOCK]
                   {U,A,L} [{U,A,L} ...] input_file output_file start end log
 
-Crawl Trulia apartment listings and ejscreen given Trulia URLs or Address (optional)
+Crawl URL listings and ejscreen given URLs or Address (optional)
 
 positional arguments:
   {U,A,L}               Whether the input file contains column (A)ddress or (L)atLon
@@ -48,7 +48,7 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
-  --repair REPAIR       whether we try to repair the Trulia listings in the input_file or not.
+  --repair REPAIR       whether we try to repair the URL listings in the input_file or not.
                         output_file will be ignored if this is enabled
   --debug DEBUG         Turn on debug mode or not. Default False
   --geckodriver GECKODRIVER
@@ -116,29 +116,11 @@ Structure
         __init__.py
 ```
 
-Layout
----
-There are currently 2 main layouts in Trulia:
-
-Old layout: 
-![Old layout](doc/old_layout.png)
-https://www.trulia.com/p/fl/opa-locka/20809-nw-41st-avenue-rd-opa-locka-fl-33055--2093597167
-
-The code handling old layout is located in ```extract/rental```
-
-New layout: 
-![New layout](doc/new_layout.png)
-https://www.trulia.com/p/fl/miramar/2301-sw-86th-way-miramar-fl-33025--2093488800?rd=1
-
-The code handling new layout is located in ```extract/sold_rental```
-
-Note that the naming of the script has nothing to do with the script, and will be updated in later update...
-
 InfoUSA
 ---
 In order to crawl the listing using infoUSA data, you need to do the following:
 1. Extract the addresses and coordinates `infoUSA_step1_before_crawling_make_address.R`. 
-2. Crawl the url from Trulia using `preprocessing/get_url.py`. 
+2. Crawl the url using `preprocessing/get_url.py`. 
 3. Run `infoUSA_step2_1_clean_url.R` and `infoUSA_step2_2_append_url.R` to get an input file. 
 4. Run the `crawler.py` with `U` and `L` mode using the input file from step 3.
 
@@ -160,7 +142,8 @@ It is likely there are problems in the code. Run the program again with debug mo
 
 **NoSuchElementException: Message: Unable to locate element: //*[@id=__next]:**
 
-It means Trulia updates its layout and therefore the program cannot locate the desired element. You just need to add the rule to locate the new element in corresponding python file given the error message. ***(remember to update this repo!!)***
+It means 
+its layout and therefore the program cannot locate the desired element. You just need to add the rule to locate the new element in corresponding python file given the error message. ***(remember to update this repo!!)***
 
 **No such file or directory: '/tmp/tmpwBhpuO':**
 
