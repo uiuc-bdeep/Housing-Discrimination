@@ -4,6 +4,8 @@ Crawler is a Python application that allows user to crawl Trulia listings and co
 
 # Layout
 
+![Screenshot](doc/layout.png)
+
 # Instruction
 
 # Current Issue
