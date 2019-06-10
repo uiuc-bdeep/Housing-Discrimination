@@ -1,8 +1,3 @@
----
-title: 'List Crawler Documentation'
-author: Francis Ng
----
-
 Listing Crawler
 ===
 Listing Crawler is an application that allows user to crawl Trulia listings and corresponding ejscreen data.
@@ -126,11 +121,13 @@ Layout
 There are currently 2 main layouts in Trulia:
 
 Old layout: 
+![Old layout](doc/old_layout.png)
 https://www.trulia.com/p/fl/opa-locka/20809-nw-41st-avenue-rd-opa-locka-fl-33055--2093597167
 
 The code handling old layout is located in ```extract/rental```
 
 New layout: 
+![New layout](doc/new_layout.png)
 https://www.trulia.com/p/fl/miramar/2301-sw-86th-way-miramar-fl-33025--2093488800?rd=1
 
 The code handling new layout is located in ```extract/sold_rental```
