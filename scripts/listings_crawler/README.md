@@ -65,7 +65,7 @@ It can also contain (A)ddress or (L)atLon
 
 ### Example Command:
 ```gherkin=
-python crawler.py U input.csv output.csv 0 100 logfile --geckodriver /usr/bin/ --adblock /home/ubuntu/trulia/stores/ --uBlock /home/ubuntu/trulia/stores/
+python crawler.py U input.csv output.csv 0 100 logfile --geckodriver /usr/bin/
 ```
 ### Restarting program or Continue the program:
 First we need to locate where we left by using ```tail logfile```, then replace **start** with the **last number in logfile + 1**. For example, if the end of logfile is 57, then when you rerun the program, start at 58.
