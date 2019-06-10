@@ -34,7 +34,6 @@ from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.common.proxy import Proxy
 
-
 def extract_sold_rental_detail(driver, d):
 	"""Extract rental detail such as number bedrooms and bathrooms, Sqft, Type of Housing, Year Built, etc.
 	
@@ -110,8 +109,12 @@ def extract_sold_rental_school(driver, d):
 				info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[2]/div/div[2]").text
 				button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[2]")
 			except:
-				info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[3]/div/div[2]").text
-				button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[3]")
+				try:
+					info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div[1]/div/div[3]/div/div[2]").text
+					button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div[1]/div/div[3]")
+				except:	
+					info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[3]/div/div[2]").text
+					button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[3]")
 
 	if "school" in info_text.lower():
 		button.click()
@@ -210,8 +213,12 @@ def extract_sold_rental_crime(driver, d):
 				info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[3]/div/div[2]").text
 				button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[3]")
 			except:
-				info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[4]").text
-				button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[4]")
+				try:
+					info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div[1]/div/div[4]/div/div[2]").text
+					button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div[1]/div/div[4]")
+				except:
+					info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[4]").text
+					button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[4]")
 
 	if "crime" in info_text.lower():
 		button.click()
