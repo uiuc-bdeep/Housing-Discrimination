@@ -39,9 +39,9 @@ from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.common.proxy import Proxy
 
 from save_to_file import save_rental
-from ejscreen import handle_ejscreen_input, extract_pollution
-from extract_data import extract_rental
-from utils import start_firefox, restart
+from ejscreen.ejscreen import handle_ejscreen_input, extract_pollution
+from extract.extract_data import extract_rental
+from util.util import start_firefox, restart
 
 trulia = "https://www.trulia.com"
 pollution = "https://www3.epa.gov/myem/envmap/find.html"

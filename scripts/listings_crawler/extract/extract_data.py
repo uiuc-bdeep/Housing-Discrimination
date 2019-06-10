@@ -34,8 +34,8 @@ from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.common.proxy import Proxy
 
-from extract_sold_rental_data import *
-from extract_rental_data import *
+from sold_rental.extract_sold_rental_data import *
+from rental.extract_rental_data import *
 
 def extract_commute(driver, d):
 	"""Extract commute score from Trulia
@@ -462,4 +462,3 @@ def extract_rental(driver, d, mode, add = None, df = None, index = None):
 			driver.quit()
 			raise Exception('shop and eat missing!')
 	return True
-
