@@ -154,13 +154,17 @@ Issues
 Restart the program.
 
 **The program keeps restarting or loops at the same place:**
+
 It is likely there are problems in the code. Run the program again with debug mode on to inspect the problem.
 
-**NoSuchElementException: Message: Unable to locate element: //*[@id=__next]**
+**NoSuchElementException: Message: Unable to locate element: //*[@id=__next]:**
+
 It means Trulia updates its layout and therefore the program cannot locate the desired element. You just need to add the rule to locate the new element in corresponding python file given the error message. ***(remember to update this repo!!)***
 
-**No such file or directory: '/tmp/tmpwBhpuO'**
+**No such file or directory: '/tmp/tmpwBhpuO':**
+
 If it only happens during debug mode, then you can safely ignore it. Otherwise, it means the disk is full and you need to clean up the system a bit. Usually a reboot will help.
 
-**Issue regarding fake_useragent**
+**Issue regarding fake_useragent:**
+
 Update the package by ```pip install -U fake-useragent```
