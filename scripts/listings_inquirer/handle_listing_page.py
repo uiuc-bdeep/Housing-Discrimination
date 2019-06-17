@@ -67,6 +67,9 @@ def send_message(driver,name, email, phone_num, address,url,send):
 	element = '#main-content > div.BasicPageLayout__BasicPageLayoutContainer-mfegza-0.fVMZGj > div.HomeDetailsHero__Container-hubkl0-0.bbKmZG > div > div > div.HomeDetailsHero__HomeInfoBanner-hubkl0-4.dodyUc > div.HomeDetailsHero__HomeStatusTitle-hubkl0-7.BFhlM > span > span'
 	error  += try_page_element(driver,element,['OFF MARKET'])
 
+        element = '#main-content > div.BasicPageLayout__BasicPageLayoutContainer-mfegza-0.fVMZGj > div.HomeDetailsHero__Container-hubkl0-0.bbKmZG > div > div > div.HomeDetailsHero__HomeInfoBanner-hubkl0-4.dodyUc > div.HomeDetailsHero__HomeStatusTitle-hubkl0-6.isuzeT > span > span'
+        error  += try_page_element(driver,element,['OFF MARKET'])
+
 	element = '#main-content > div.BasicPageLayout__BasicPageLayoutContainer-mfegza-0.fVMZGj > div.HomeDetailsHero__Container-hubkl0-0.bbKmZG > div > div > div.HomeDetailsHero__HomeInfoBanner-hubkl0-4.bHObIE > div.HomeDetailsHero__HomeStatusTitle-hubkl0-7.eLIcbC > span.PropertyTag-sc-5t90lx-0.ebIvTY.Tag__TagBase-sc-1rp6fz0-1.clFGBQ.Text__TextBase-sc-1cait9d-0.dJEjin > span'
 	error  += try_page_element(driver,element,['SOLD'])
 
