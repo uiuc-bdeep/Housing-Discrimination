@@ -31,7 +31,9 @@ from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.common.proxy import Proxy
 
-from utils import start_firefox, restart
+sys.path.insert(1, os.path.join(sys.path[0], '..'))
+
+from util.util import start_firefox, restart
 trulia = "https://www.trulia.com"
 
 # def start_firefox(URL, geckodriver_path):
