@@ -116,6 +116,28 @@ def extract_sold_rental_school(driver, d):
 					info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[3]/div/div[2]").text
 					button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[3]")
 
+	possible_xpath = ["//*[@id='__next']/div/section/div[1]/div[2]/div[3]/div[2]/div/div/div[2]/button/div[2]", 
+	"//*[@id='__next']/div/section/div[1]/div[2]/div[2]/div[2]/div/div/div[2]/button/div[2]",
+	"//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[2]/div/div[2]",
+	"//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div[1]/div/div[3]/div/div[2]",
+	"//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[3]/div/div[2]"]
+
+	buttons = ["//*[@id='__next']/div/section/div[1]/div[2]/div[3]/div[2]/div/div/div[2]/button",
+	"//*[@id='__next']/div/section/div[1]/div[2]/div[2]/div[2]/div/div/div[2]/button",
+	"//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[2]",
+	"//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div[1]/div/div[3]",
+	"//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[3]"
+	]
+
+	for xpath, btn in zip(possible_xpath, buttons):
+		try:
+			info_text = driver.find_element_by_xpath(xpath).text
+			if "school" in info_text.lower():
+				button = driver.find_element_by_xpath(btn)
+				break
+		except:
+			pass
+
 	if "school" in info_text.lower():
 		button.click()
 	else:
@@ -201,24 +223,47 @@ def extract_sold_rental_crime(driver, d):
 	    d (dict): Dictionary that holds all the data
 	"""
 
-	try:
-		info_text = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[3]/div[2]/div/div/div[3]/button/div[2]").text
-		button = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[3]/div[2]/div/div/div[3]/button")
-	except:
+	# try:
+	# 	info_text = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[3]/div[2]/div/div/div[3]/button/div[2]").text
+	# 	button = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[3]/div[2]/div/div/div[3]/button")
+	# except:
+	# 	try:
+	# 		info_text = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[2]/div[2]/div/div/div[3]/button/div[2]").text
+	# 		button = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[2]/div[2]/div/div/div[3]/button")
+	# 	except:
+	# 		try:
+	# 			info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[3]/div/div[2]").text
+	# 			button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[3]")
+	# 		except:
+	# 			try:
+	# 				info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div[1]/div/div[4]/div/div[2]").text
+	# 				button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div[1]/div/div[4]")
+	# 			except:
+	# 				info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[4]").text
+	# 				button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[4]")
+
+	possible_xpath = ["//*[@id='__next']/div/section/div[1]/div[2]/div[3]/div[2]/div/div/div[3]/button/div[2]", 
+	"//*[@id='__next']/div/section/div[1]/div[2]/div[2]/div[2]/div/div/div[3]/button/div[2]",
+	"//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[3]/div/div[2]",
+	"//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div[1]/div/div[4]/div/div[2]",
+	"//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[4]",
+	"//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[4]/div/div[2]"]
+
+	buttons = ["//*[@id='__next']/div/section/div[1]/div[2]/div[3]/div[2]/div/div/div[3]/button",
+	"//*[@id='__next']/div/section/div[1]/div[2]/div[2]/div[2]/div/div/div[3]/button",
+	"//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[3]",
+	"//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div[1]/div/div[4]",
+	"//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[4]",
+	"//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[4]"]
+
+	for xpath, btn in zip(possible_xpath, buttons):
 		try:
-			info_text = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[2]/div[2]/div/div/div[3]/button/div[2]").text
-			button = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[2]/div[2]/div/div/div[3]/button")
+			info_text = driver.find_element_by_xpath(xpath).text
+			if "crime" in info_text.lower():
+				button = driver.find_element_by_xpath(btn)
+				break
 		except:
-			try:
-				info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[3]/div/div[2]").text
-				button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[3]")
-			except:
-				try:
-					info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div[1]/div/div[4]/div/div[2]").text
-					button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div[1]/div/div[4]")
-				except:
-					info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[4]").text
-					button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[4]")
+			pass
 
 	if "crime" in info_text.lower():
 		button.click()
