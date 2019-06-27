@@ -25,7 +25,12 @@ def get_row_info(row):
 		address = None
 		url     = None
 	else:
-		address       = row['address ' + str(handled_state + 1)].split(',')[0][1:]
-		url           = str(row['address ' + str(handled_state + 1)].split(',')[1][:-1])
+            if(len(row['address ' + str(handled_state + 1)].split(',')) == 3):
+                address       = row['address ' + str(handled_state + 1)].split(',')[1]
+                url           = str(row['address ' + str(handled_state + 1)].split(',')[2][:-1])
+            else:
+                address       = row['address ' + str(handled_state + 1)].split(',')[0][1:]
+                url           = str(row['address ' + str(handled_state + 1)].split(',')[1][:-1])
+
 
 	return handled_state, name, email, phone_num, race, person_id, address, url
