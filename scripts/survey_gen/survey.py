@@ -58,7 +58,13 @@ for i in range(1, num_addresses + 1):
 		if str(df.loc[df['first name'] == first,'address ' + str(i)].values[0]).lower() == 'nan':
 			df.loc[df['first name'] == first,'address ' + str(i)] = None
 		else: 
-			df.loc[df['first name'] == first,'address ' + str(i)] = df.loc[df['first name'] == first,'address ' + str(i)].values[0].split(',')[0].split('(')[1]
+			#df.loc[df['first name'] == first,'address ' + str(i)] = df.loc[df['first name'] == first,'address ' + str(i)].values[0].split(',')[0].split('(')[1]
+                        loc = df.loc[df['first name'] == first,'address ' + str(i)]
+                        if(len(loc.values[0].split(',')) == 2):
+                            df.loc[df['first name'] == first,'address ' + str(i)] = df.loc[df['first name'] == first,'address ' + str(i)].values[0].split(',')[0].split('(')[1]
+                        else:
+                            df.loc[df['first name'] == first,'address ' + str(i)] = "(" + df.loc[df['first name'] == first,'address ' + str(i)].values[0].split(',')[0][1:-3] + ") " + df.loc[df['first name'] == first,'address ' + str(i)].values[0].split(',')[1]
+
 	new_cols.append('address ' + str(i))
 df = df[new_cols]
 
@@ -105,7 +111,7 @@ for name in tqdm(names, desc="Writing New Survey Files", bar_format="{l_bar}{bar
 	# overwrite values in 3rd sheet
 	s = myFile.get_sheet(2)
 	s.write(1, 0, name[0] + '_' + name[1] + '_survey')		# title
-	s.write(1, 1, name[0] + '_' + name[1] + '_survey_1_1')	# id string
+	s.write(1, 1, name[0] + '_' + name[1] + '_survey_1_1_3')	# id string
 
 	fileName = name[0]+'-'+name[1]+'_'+month+'_'+day+'_'+year+'.xls'
 
