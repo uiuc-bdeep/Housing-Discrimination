@@ -8,12 +8,12 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from wait_and_get import wait_and_get
 
-NAME_CSS    = "#nameInput"
-EMAIL_CSS   = "#emailInput"
-PHONE_CSS   = "#phoneInput"
-SEND_CSS    = '.ctaButton'
-MESSAGE_CSS = '#topPanelLeadForm > div > div > span > div > div.madlibsForm.form > div:nth-child(6) > a'
-TEXTB_CSS   = '#textarea'
+NAME_CSS    = ["#name_PDP_TOP_THIRD", "#nameInput"]
+EMAIL_CSS   = ["#email_PDP_TOP_THIRD", "#emailInput"]
+PHONE_CSS   = ["#phone_PDP_TOP_THIRD","#phoneInput"]
+SEND_CSS    = ["#main-content > div.BasicPageLayout__BasicPageLayoutContainer-mfegza-0.fVMZGj > div.BasicPageLayout__BasicPageContent-mfegza-1.dyVWBq > div.HomeDetailsContentOverview__ContentWithLeadFormGrid-sc-1lql7o5-0.bHYvJo.Grid__GridContainer-sc-144isrp-1.lputZN > div.Grid__CellBox-sc-144isrp-0.HomeDetailsContentOverview__HiddenExceptLargeCell-sc-1lql7o5-1.eNNXco > div > div > form > div > div:nth-child(2) > button", '.ctaButton']
+#MESSAGE_CSS = '#topPanelLeadForm > div > div > span > div > div.madlibsForm.form > div:nth-child(6) > a'
+#TEXTB_CSS   = '#textarea'
 
 def try_page_element(driver, element, element_text):
 	for text in element_text:
@@ -50,7 +50,7 @@ def send_message(driver,name, email, phone_num, address,url,send):
 	# status_cond   = EC.presence_of_element_located((By.CSS_SELECTOR,'#mapViewCard > div > div.cardDescription.pam > div > p.typeEmphasize.activeLink.mtn.ptn'))
 	# status_handle = wait_and_get(driver, status_cond, 10)
 
-	form_check = try_page_element(driver,SEND_CSS, ['Request Sent'])
+	form_check = try_page_element(driver,SEND_CSS[0], ['Request Sent'])
 
 	if form_check > 0:
 		print('No Send Button')
@@ -69,6 +69,9 @@ def send_message(driver,name, email, phone_num, address,url,send):
 
         element = '#main-content > div.BasicPageLayout__BasicPageLayoutContainer-mfegza-0.fVMZGj > div.HomeDetailsHero__Container-hubkl0-0.bbKmZG > div > div > div.HomeDetailsHero__HomeInfoBanner-hubkl0-4.dodyUc > div.HomeDetailsHero__HomeStatusTitle-hubkl0-6.isuzeT > span > span'
         error  += try_page_element(driver,element,['OFF MARKET'])
+
+	element = '#main-content > div.BasicPageLayout__BasicPageLayoutContainer-mfegza-0.fVMZGj > div.HomeDetailsHero__Container-hubkl0-0.bbKmZG > div > div > div.HomeDetailsHero__HomeInfoBanner-hubkl0-4.dodyUc > div.HomeDetailsHero__HomeStatusTitle-hubkl0-6.gZQsUf > span > span'
+	error  += try_page_element(driver,element,['OFF MARKET'])
 
 	element = '#main-content > div.BasicPageLayout__BasicPageLayoutContainer-mfegza-0.fVMZGj > div.HomeDetailsHero__Container-hubkl0-0.bbKmZG > div > div > div.HomeDetailsHero__HomeInfoBanner-hubkl0-4.bHObIE > div.HomeDetailsHero__HomeStatusTitle-hubkl0-7.eLIcbC > span.PropertyTag-sc-5t90lx-0.ebIvTY.Tag__TagBase-sc-1rp6fz0-1.clFGBQ.Text__TextBase-sc-1cait9d-0.dJEjin > span'
 	error  += try_page_element(driver,element,['SOLD'])
@@ -106,23 +109,32 @@ def send_message(driver,name, email, phone_num, address,url,send):
 
 	print('Page Status: Available')
 
+	page_structure = 0
+	for i in range(len(NAME_CSS)):
+		name_cond   = EC.presence_of_element_located((By.CSS_SELECTOR,NAME_CSS[i]))
+		name_handle = wait_and_get(driver, name_cond, 10)
+		if name_handle != 0:
+			page_structure = i
+			break
 
-	name_cond   = EC.presence_of_element_located((By.CSS_SELECTOR,NAME_CSS))
-	name_handle = wait_and_get(driver, name_cond, 10)
 	if name_handle == 0:
 		print('Name Cond: No Such Element')
 		return 'RESTART DRIVER'
+	
+	print("Page structure: " + str(page_structure))
 
 	name_handle.send_keys(name) # once it is found, send the name string to it
 
 	# send the email string
-	email_handle = driver.find_element_by_css_selector(EMAIL_CSS)
+	email_handle = driver.find_element_by_css_selector(EMAIL_CSS[page_structure])
 	email_handle.send_keys((str(email) + '@gmail.com'))
 	# send the phone string
-	phone_handle = driver.find_element_by_css_selector(PHONE_CSS)
+	phone_handle = driver.find_element_by_css_selector(PHONE_CSS[page_structure])
 	phone_handle.send_keys(str(phone_num))
 
-	send_handle = driver.find_element_by_css_selector(SEND_CSS)
+	print("Email: {}@gmail.com\nPhone: {}".format(str(email), str(phone_num)))
+
+	send_handle = driver.find_element_by_css_selector(SEND_CSS[page_structure])
 
 	if send == 1:
 		print('Clicking...')

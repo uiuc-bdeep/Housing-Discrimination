@@ -13,7 +13,6 @@ def wait_and_get(browser, cond, maxtime):
 			flag = False
 			return ret
 		except TimeoutException:
-			print("Time out")
 			flag = False
 			while len(browser.window_handles) > 1:
 				browser.switch_to_window(browser.window_handles[-1])

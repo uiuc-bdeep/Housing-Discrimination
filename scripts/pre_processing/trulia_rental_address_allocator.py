@@ -139,22 +139,33 @@ def get_day_dict(df_rentals, day_num = 3):
 	return day_trial_dict, LPI
 
 def main():
-	parameter_file_name = str(sys.argv[1])
+	if len(sys.argv) != 4:
+		print('-------------------------------------------------')
+		print('REQUIRED ARGUMENTS:')
+		print('python trulia_rental_address_allocator.py <rentals sheet> <timestamp destination> <names sheet (1 or 2).')
+		print('-------------------------------------------------')
+		print('EXAMPLE:')
+		print('python trulia_rental_address_allocator.py round_1/round_3_rentals_1.csv round_3/round_3_timestamps_1.csv 1')
+		print('-------------------------------------------------')
+		exit()
 
-	file_line =  linecache.getline(parameter_file_name, 1)
-	file_line = re.sub('\n','',file_line)
-	parameters = file_line.split(",") # parse the text file by the \ character
 
-	names_sheet 	   = parameters[0] 					# name_market.csv
-	time_status_sheet  = parameters[1] 					# timestamp output csv
-	rentals_sheet 	   = parameters[2] 					# csv that contains listings
+	if str(sys.argv[3]) != '1' and str(sys.argv[3]) != '2':
+		print("Final argument must be a 1 or 2 corresponding to which set of identities to use")
+		exit()
+
+	rounds_directory  = '/home/ubuntu/Housing-Discrimination/rounds/'
+	rentals_sheet     = round_directory + str(sys.argv[1])		# csv that contains detailed listing information
+	time_status_sheet = round_directory + str(sys.argv[2]) 		# output destination of the schedule csv that is created
+	names_sheet       = '/home/Housing-Discrimination/scripts/pre_processing/toxic_names_market_{}.csv'.format(str(sys.argv[3]))            # name_market.csv
 
 
-	df_rentals = pd.read_csv(rentals_sheet)																	# read in csv file
+
+	df_rentals = pd.read_csv(rentals_sheet)										# read in csv file
 	df_rentals = df_rentals[pd.notnull(df_rentals['Address'])].drop_duplicates(subset = 'Address')			# drop duplicates in address
 	print(df_rentals)
 	print('csv length: ' + str(len(df_rentals)))
-	day_trial_dict, LPI = get_day_dict(df_rentals) 															# day_trial_dict - a dictionary that maps the day to a dictionay which maps a race to a dataframe of address
+	day_trial_dict, LPI = get_day_dict(df_rentals) 		# day_trial_dict - a dictionary that maps the day to a dictionay which maps a race to a dataframe of address
 
 	df_names, df_status_timestamp = get_dataframes(names_sheet, time_status_sheet,LPI) # initialize dataframes
 

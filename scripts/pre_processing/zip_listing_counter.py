@@ -2,7 +2,6 @@ import re
 import os
 import csv 
 import sys
-import math
 import pandas as pd 
 from time import sleep 
 from selenium import webdriver
@@ -55,27 +54,25 @@ def wait_and_get(browser, cond, maxtime):
 				browser.switch_to_window(browser.window_handles[0])
 				flag = True
 
-root = '/home/ubuntu/Housing-Discrimination/'
+root = '/home/ubuntu/Housing-Discrimination/rounds/'
 
 
 ZIP_URL_PRE = 'https://www.trulia.com/for_rent/'
-ZIP_URL_SUF = '_zip/'#3_beds/2_baths/'
-ZIP_URL_PAGE = '_p'
+ZIP_URL_SUF = '_zip'
 
 # read in zip code csv file 
-if len(sys.argv) !=4: 
+if len(sys.argv) != 3: 
 	print('-------------------------------------------------')
 	print('REQUIRED ARGUMENTS:')
-	print('python zip_url_finder.py <csv file> <round_num> <zip_page_start>')
+	print('python zip_url_finder.py <csv file> <row index>')
 	print('-------------------------------------------------')
 	exit()
 
 zip_csv     = sys.argv[1]
-round_num   = sys.argv[2]
-zip_start   = int(sys.argv[3])
-dest = '/home/ubuntu/Housing-Discrimination/rounds/round_' + round_num + '/round_' + round_num + '_urls.csv'
+row_index   = int(sys.argv[2])
+
 df_zip    = pd.read_csv(zip_csv) 
-zip_list =  list(df_zip['zip_codes'].values.flatten())
+zip_list =  df_zip['zip_codes'].values
 
 options = Options()
 options.add_argument("--headless")
@@ -90,61 +87,39 @@ driver = webdriver.Firefox(firefox_profile = fp, firefox_options = options,
 driver.maximize_window()
 display  = Display(visible=0, size=(1024, 768)) # start display
 display.start() # start the display
+stop = 0
 
-listings_all = []
-with open(dest, "w") as f:
+dest = '/home/ubuntu/Housing-Discrimination/rounds/round_16/num_listings_per_zip.csv'
+with open(dest, "a") as f:
 	writer = csv.writer(f)
-	for i in range(0,len(zip_list)):
-		if zip_start != 0: 
-			zip_url = ZIP_URL_PRE + str(zip_list[i]) + ZIP_URL_SUF + '/' + str(zip_start) + ZIP_URL_PAGE 
-			counter = zip_start
-		else: 
-			zip_url = ZIP_URL_PRE + str(zip_list[i]) + ZIP_URL_SUF 
-			counter      = 0
+
+	if row_index == 0:
+		writer.writerow(['zip_codes', 'num_listings'])
+	for i in range(row_index,len(zip_list)):
+		print('===========================================================================')
+		zip_url = ZIP_URL_PRE + str(zip_list[i]) + ZIP_URL_SUF 
 		driver.get(zip_url)
 		driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-		num_listings = list(set(re.findall(r'\w*[0-9]* rentals? available on Trulia',driver.page_source)))
-		print('Page Number: ' + str(counter))
-		num_pages    = 0
-		if num_listings:
-			num_pages    = math.ceil(float((num_listings[0].split(' ')[0]))/30)
+		if driver.title == 'Access to this page has been denied.': 
+			try_conter = 0 
+			print(driver.title)
+			while driver.title == 'Access to this page has been denied.': 
+				sleep(30)
+				driver.get(zip_url)
+				if try_conter > 5: 
+					stop = 1
+					break
+				try_conter += 1
+		if stop == 1: 
+			break
+		num_listings  = list(set(re.findall(r'\w*[0-9]* rentals? available on Trulia',driver.page_source)))
+		if num_listings: 
+			num_listings = int(num_listings[0].split(' ')[0])
+		else: 
+			num_listings = 0
+		print(str(i) + '. ' + 'zip: ' + str(zip_list[i]) + ' ' + 'num_listings: ' + str(num_listings))
+		writer.writerow([zip_list[i], num_listings])
 
-		print('=======================================================================================')
-		print(str(i) + '. Scraping ' + str(zip_list[i]) + ' with ' + str(num_pages) + ' pages')
-		while counter < num_pages: 
-			print('Page Number: ' + str(counter))
-			driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-			listings_on_page = []
-
-			next_cond   = EC.presence_of_element_located((By.CSS_SELECTOR,'#resultsColumn > div > div.resultsColumn > div.backgroundControls > div.backgroundBasic > div.paginationContainer.pls.mtl.ptl.mbm > div:nth-child(1) > a > i'))
-			next_handle = wait_and_get(driver, next_cond, 15)
-
-			listings_on_page = list(set(re.findall(r'\w*href="\W[a-z]\W[a-z][a-z][\w|\W]*?"',driver.page_source)))
-
-			listings_on_page = [listing.replace('href="','https://www.trulia.com').replace('"','') for listing in listings_on_page]
-
-			listings_on_page = [page for page in listings_on_page if page not in listings_all]
-			listings_all = (listings_all) + listings_on_page
-			listings_on_page = [[page] for page in listings_on_page]
-			writer.writerows(listings_on_page)
-			#print(listings_on_page)
-			print('------------------------------------------------------------')
-			print('Length of listings on page: ' + str(len(listings_on_page)))
-			print('Length of listings        : ' + str(len(listings_all)))
-			counter += 1
-			if counter < num_pages:
-				driver.get(zip_url+str(counter) + '_p')
-				sleep(5)
-
-			
-
-
-driver.quit()
-display.stop()
-
-listings_all = list(set(listings_all))
-listings_all  = pd.Series(listings_all)
-df_listings   = pd.DataFrame()
-df_listings['urls'] = listings_all
-print(df_listings)
-
+	driver.quit()
+	display.stop()
+    

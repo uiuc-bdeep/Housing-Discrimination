@@ -4,8 +4,8 @@ import datetime, pytz
 from tqdm import tqdm
 
 OUTPUT_FILE = 'toxic_rerun_final.csv'
-TRULIA_ADDRESSES_FILE = 'toxic_t_round_1_census'
-TIMESTAMP_FILE = 'toxic_t_9_30_18_round_1_timestamp'
+TRULIA_ADDRESSES_FILE = 'round_1_census.csv'
+TIMESTAMP_FILE = 'rerun_1_timestamps_5_10_19.csv'
 
 for file in os.listdir('input'):
 	if 'census' in file:
@@ -28,7 +28,6 @@ def inquiryParse(d):
 		year, month, day, hour, minute = int('20' + tmp[0]), int(tmp[1]), int(tmp2[0]), int(tmp3[0]), int(tmp3[1])
 	if len(str(year)) != 4:
 		year = int(str(year)[2:])
-	print(pytz.timezone('America/Chicago').localize(datetime.datetime(year, month, day, hour, minute)))
 	return pytz.timezone('America/Chicago').localize(datetime.datetime(year, month, day, hour, minute))
 
 def responseParse(d):
@@ -106,8 +105,9 @@ if __name__ == '__main__':
 
 	# get addresses
 	df_trulia = pd.read_csv(os.getcwd() + '/input/' + TRULIA_ADDRESSES_FILE)
-	df_trulia = df_trulia.drop_duplicates(subset = 'Address')
-	df_trulia = df_trulia.reset_index(drop=True)
+	# Do NOT want to drop duplicates here
+	#df_trulia = df_trulia.drop_duplicates(subset = 'Address')
+	#df_trulia =i df_trulia.reset_index(drop=True)
 	
 	print("Acquired Trulia addresses. \n")
 
@@ -121,16 +121,17 @@ if __name__ == '__main__':
 		cols = ['person id', 'person_name', 'gender', 'racial category',
 			'education level', 'address ' + str(i), 'timestamp ' + str(i), 'inquiry order ' + str(i)]
 		tempDF = df_timestamp[cols]
-		address_list = [x for x in tempDF['address ' + str(i)].values if str(x) not in ('','nan','NaN')]
+		address_list = [x for x in tempDF['address ' + str(i)].values if str(x) not in (' ','','nan','NaN')]
 		tempDF = tempDF.reset_index(drop=True)
 		if len(address_list) != 0:
-			tempDF['address ' + str(i)] = tempDF['address ' + str(i)].str.split(',', expand=True)[0].str.split('(', expand=True)[1]
+			print(tempDF['address ' + str(i)])
+			tempDF['address ' + str(i)] = tempDF['address ' + str(i)].str.split(',', expand=True)[0].str.split('(', expand=True)[1].astype(int)
 			for j in range(len(tempDF)):
 				inquiry_dict[(tempDF['person_name'][j], tempDF['address ' + str(i)][j])] = tempDF['inquiry order ' + str(i)][j]
 			old_columns=['person id', 'person_name', 'gender', 'racial category',
 					'education level', 'address ' + str(i), 'timestamp ' + str(i)]
 			new_columns=['person id', 'person_name', 'gender', 'racial category',
-					'education level', 'inquiry_address', 'timestamp inquiry sent out']
+					'education level', 'trial id', 'timestamp inquiry sent out']
 			tempDF = tempDF[old_columns]
 			tempDF = tempDF.rename(index=str, columns={ old_columns[k]: new_columns[k] for k in range(len(new_columns))})
 			individual_timestamp_dfs.append(tempDF)
@@ -142,8 +143,10 @@ if __name__ == '__main__':
 	# join trulia addresses file with each individual timestamp dataframe
 	for individual_timestamp_df in tqdm(individual_timestamp_dfs, desc="Merging Timestamp Dataframes with Trulia Addresses", bar_format="{l_bar}{bar}|  {n_fmt}/{total_fmt}   "):
 		individual_timestamp_df_merge_trulia = pd.merge(df_trulia, individual_timestamp_df,
-			left_on=['Address'],
-			right_on=['inquiry_address'],
+			#left_on=['Address'],
+			#right_on=['inquiry_address'],
+			left_on=['ID'],
+			right_on=['trial id'],
 			how='right')
 		individual_timestamp_df_merge_trulia = individual_timestamp_df_merge_trulia.sort_values('person id')
 		individual_timestamp_dfs_merge_trulia.append(individual_timestamp_df_merge_trulia)
@@ -164,8 +167,8 @@ if __name__ == '__main__':
 
 	# merge file with combined responses
 	df_final = pd.merge(df_final, pd.read_csv(os.getcwd() + '/input/responses_concatenated.csv'),
-			left_on=['person_name', 'inquiry_address'],
-			right_on=['people_name_selection/person_name', 'address_selection/property'],
+			left_on=['person_name', 'trial id'], #'inquiry_address'],
+			right_on=['people_name_selection/person_name', 'trial_id_'], #'address_selection/property'],
 			how='left')
 
 	# create new column for "timeDiff" and "response"
@@ -182,7 +185,7 @@ if __name__ == '__main__':
 			diffs[-1] = (diffs[-1].days*24*60) + (diffs[-1].seconds/60.0)
 			resp.append(1)
 		else:
-			diffs.append("n/a")
+			diffs.append("")
 			resp.append(0)
 
 	df_final['timeDiff'] = pd.Series(diffs) # timeDiff is in minutes
@@ -193,15 +196,17 @@ if __name__ == '__main__':
 	D = {}
 	for i in range(len(df_final)):
 		if df_final['response'][i] == 1:
-			if not (df_final['person_name'][i], df_final['address_selection/property'][i]) in D:
-				D[(df_final['person_name'][i], df_final['address_selection/property'][i])] = [responseParse(df_final['dateTime_selection/timestamp'][i])]
+			if not (df_final['person_name'][i], df_final['trial id'][i]) in D:
+				D[(df_final['person_name'][i], df_final['trial id'][i])] = [responseParse(df_final['dateTime_selection/timestamp'][i])]
 			else:
-				D[(df_final['person_name'][i], df_final['address_selection/property'][i])].append(responseParse(df_final['dateTime_selection/timestamp'][i]))
+				D[(df_final['person_name'][i], df_final['trial id'][i])].append(responseParse(df_final['dateTime_selection/timestamp'][i]))
 
 	for key in D:
 		D[key].sort()
 		D[key].reverse()
 
+	roundNumbers = []
+	addressIDs = []
 	order = []
 	totalResponses = []
 	inquiryOrder = []
@@ -222,11 +227,19 @@ if __name__ == '__main__':
 	inquiry_time_of_day = []
 	response_time_of_day = []
 	for i in tqdm(range(len(df_final)), desc="Creating Additional Columns", bar_format="{l_bar}{bar}|   "):
+		trial_id = str(df_final['trial id'][i])
+		if trial_id == 'nan':
+			roundNumbers.append('')
+			addressIDs.append('')
+		else:
+			roundNumbers.append(str(int(df_final['trial id'][i]))[:-3])
+			addressIDs.append(str(int(df_final['trial id'][i]))[-3:])
+		#print(str(int(df_final['ID'][i])))
 		# for matches
 		if df_final['response'][i] == 1:
-			order.append(find(D[(df_final['person_name'][i], df_final['address_selection/property'][i])], responseParse(df_final['dateTime_selection/timestamp'][i])))
-			totalResponses.append(len(D[(df_final['person_name'][i], df_final['address_selection/property'][i])]))
-			inquiryOrder.append(inquiry_dict[(df_final['person_name'][i], df_final['inquiry_address'][i])])
+			order.append(find(D[(df_final['person_name'][i], df_final['trial id'][i])], responseParse(df_final['dateTime_selection/timestamp'][i]))) #address_selection/property
+			totalResponses.append(len(D[(df_final['person_name'][i], df_final['trial id'][i])]))
+			inquiryOrder.append(inquiry_dict[(df_final['person_name'][i], df_final['trial id'][i])]) #inquiry_address
 			inquiryWeekday.append(getWeekday(inquiryParse(str(df_final['timestamp inquiry sent out'][i]))))
 			responseWeekday.append(getWeekday(responseParse(str(df_final['dateTime_selection/timestamp'][i]))))
 			inquiry_time_of_day.append(time_of_day(str(df_final['timestamp inquiry sent out'][i]), "inquiry"))
@@ -247,30 +260,33 @@ if __name__ == '__main__':
 				government_housing_vouchers.append(1) if 'Government Housing Vouchers' in df_final['screening_selection/screening_terms'][i] else government_housing_vouchers.append(0) 
 		else:
 			if len(str(df_final['timestamp inquiry sent out'][i])) > 5:
-				inquiryOrder.append(inquiry_dict[(df_final['person_name'][i], df_final['inquiry_address'][i])])
-				inquiryWeekday.append(getWeekday(inquiryParse(str(df_final['timestamp inquiry sent out'][i]))))
+				inquiryOrder.append(inquiry_dict[(df_final['person_name'][i], df_final['trial id'][i])]) #inquiry_address
+				inquiryWeekday.append(getWeekday(inquiryParse(str(df_final['timestamp inquiry sent out'][i])))) 
 			else:
-				inquiryOrder.append('n/a')
-				inquiryWeekday.append('n/a')
+				#inquiryOrder.append('n/a')
+				inquiryOrder.append(inquiry_dict[(df_final['person_name'][i], df_final['trial id'][i])]) #inquiry_address
+				inquiryWeekday.append('')
 			
 			# for non-matches
-			order.append('n/a')
+			order.append('')
 			totalResponses.append(0)
-			responseWeekday.append('n/a')
-			income.append('n/a')
-			references.append('n/a')
-			credit.append('n/a')
-			employment.append('n/a')
-			coRenters.append('n/a')
-			family.append('n/a')
-			smoking.append('n/a')
-			pets.append('n/a')
-			criminal_history.append('n/a')
-			eviction_history.append('n/a')
-			rental_history.append('n/a')
-			government_housing_vouchers.append('n/a')
+			responseWeekday.append('')
+			income.append('')
+			references.append('')
+			credit.append('')
+			employment.append('')
+			coRenters.append('')
+			family.append('')
+			smoking.append('')
+			pets.append('')
+			criminal_history.append('')
+			eviction_history.append('')
+			rental_history.append('')
+			government_housing_vouchers.append('')
 
 	# add columns to df
+	df_final['round'] = pd.Series(roundNumbers)
+	df_final['address_id'] = pd.Series(addressIDs)
 	df_final['response_order'] = pd.Series(order)
 	df_final['total_responses'] = pd.Series(totalResponses)
 	df_final['inquiry_order'] = pd.Series(inquiryOrder)
@@ -293,20 +309,18 @@ if __name__ == '__main__':
 
 	# rename certain columns
 	df_final = df_final.rename(index=str, columns={"coding_option_selection/coding_option": "response_medium", "automated_message_selection/person_or_computer": "person_or_computer", "dateTime_selection/timestamp": "timestamp_response_received"})
-	#reorder columns
+	# reorder columns
 	cols = df_final.columns.tolist()
 	x    = enumerate(cols)
 	for xx in x: 
 		print(xx)
-	#cols = cols[:42] + cols[43:83] + [cols[116], cols[115], cols[88], cols[97], cols[101], cols[94], cols[84], cols[95], cols[117]] + cols[118:]
-	cols = cols[:42] + cols[43:83] + [cols[111],cols[110],cols[106],cols[109],cols[113],cols[112],cols[84],cols[104],cols[116]] + cols[117:]
+
 	# real columns
-	#cols = cols[:42] + cols[43:83] + [cols[111],cols[86],cols[90], cols[99]] + [cols[103], cols[96], cols[84], cols[97]] + cols[117:123] + cols[136:138] + cols[123:136]
+	cols = [cols[1]] + cols[121:123] + cols[2:43] + cols[44:84] + [cols[112],cols[111],cols[107],cols[110],cols[114],cols[113],cols[85],cols[105],cols[117]] + cols[119:121] + cols[123:]
 	df_final = df_final[cols]
 
 	# make sure all column names do not have spaces
 	cols = df_final.columns.tolist()
-	# rename certain c
 	new_headers = [col.replace(" ", "_") for col in cols]
 	df_final = df_final.dropna(subset=['Address'])
 	df_final.to_csv(os.getcwd() + '/output/' + OUTPUT_FILE, 
