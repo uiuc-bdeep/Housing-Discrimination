@@ -235,40 +235,44 @@ if __name__ == "__main__":
 	from argparse import RawTextHelpFormatter
 
 	parser = argparse.ArgumentParser(description = 'Crawl Trulia apartment listings and ejscreen given Trulia URLs or Address (optional)', formatter_class=RawTextHelpFormatter, epilog = "Note that input_file must be a CSV file that contains a column 'URL'. \nIt can also contain (A)ddress or (L)atLon")
-	parser.add_argument("type", help = "Whether the input file contains column (A)ddress or (L)atLon", choices = ["U", "A", "L"], nargs = "+")
+	#parser.add_argument("type", help = "Whether the input file contains column (A)ddress or (L)atLon", choices = ["U", "A", "L"], nargs = "+")
 	parser.add_argument("input_file", help = "Path of input file")
 	parser.add_argument("output_file", help = "Path of output file")
+	parser.add_argument("log", help = "Name of the log")
 	parser.add_argument("start", help = "Start of Input file", type = int)
 	parser.add_argument("end", help = "End of Input file", type = int)
-	parser.add_argument("log", help = "Name of the log")
 	parser.add_argument("--repair", help = "whether we try to repair the Trulia listings in the input_file or not.\noutput_file will be ignored if this is enabled", type = bool, default = False)
 	parser.add_argument("--debug", help = "Turn on debug mode or not. Default False", type = bool, default = False)
-	parser.add_argument("--geckodriver", help = "Path of geckodriver.\nDefault ../../stores/", default = "../../stores/")
-	parser.add_argument("--adblock", help = "Path of adblock.xpi (need ABSOLUTE PATH!!).\nDefault /home/ubuntu/Housing-Discrimination/stores/", default = "/home/ubuntu/Housing-Discrimination/stores/")
-	parser.add_argument("--uBlock", help = "Path of uBlock0.xpi (need ABSOLUTE PATH!!).\nDefault /home/ubuntu/Housing-Discrimination/stores/", default = "/home/ubuntu/Housing-Discrimination/stores/")
+	#parser.add_argument("--geckodriver", help = "Path of geckodriver.\nDefault ../../stores/", default = "../../stores/")
+	#parser.add_argument("--adblock", help = "Path of adblock.xpi (need ABSOLUTE PATH!!).\nDefault /home/ubuntu/Housing-Discrimination/stores/", default = "/home/ubuntu/Housing-Discrimination/stores/")
+	#parser.add_argument("--uBlock", help = "Path of uBlock0.xpi (need ABSOLUTE PATH!!).\nDefault /home/ubuntu/Housing-Discrimination/stores/", default = "/home/ubuntu/Housing-Discrimination/stores/")
 
 	args = parser.parse_args()
 
-	if "U" not in args.type:
-		sys.exit("Must at least choose U for URL. A and L are optional. Aborting.")
+	crawl_type = ["U"]
+	#if "U" not in args.type:
+	#	sys.exit("Must at least choose U for URL. A and L are optional. Aborting.")
 
 	if args.debug:
 		print(args)
 
-	geckodriver_path = args.geckodriver + "geckodriver" + (".exe" if "Windows" in platform.system() else "")
+	#geckodriver_path = args.geckodriver + "geckodriver" + (".exe" if "Windows" in platform.system() else "")
+	geckodriver_path = '/usr/bin/geckodriver'
 	if not os.path.exists(geckodriver_path):
-		sys.exit("geckodriver does not exist in path. Aborting.")
+		sys.exit("geckodriver does not exist at {}\nAborting.".format(geckodriver_path))
 
-	adblock_path = args.adblock + "adblock_plus-3.3.1-an+fx.xpi"
+	#adblock_path = args.adblock + "adblock_plus-3.3.1-an+fx.xpi"
+	adblock_path = "/home/ubuntu/trulia/stores/adblock_plus-3.3.1-an+fx.xpi"
 	if not os.path.exists(adblock_path):
-		sys.exit("adblock_plus does not exist in path. Aborting.")
+		sys.exit("adblock_plus does not exist at {}\nAborting.".format(adblock_path))
 
-	uBlock_path = args.uBlock + "uBlock0@raymondhill.net.xpi"
+	#uBlock_path = args.uBlock + "uBlock0@raymondhill.net.xpi"
+	uBlock_path = "/home/ubuntu/trulia/stores/uBlock0@raymondhill.net.xpi"
 	if not os.path.exists(uBlock_path):
-		sys.exit("uBlock does not exist in path. Aborting.")
+		sys.exit("uBlock does not exist at {}\nAborting.".format(uBlock_path))
 
 	try:
-		main(args.type, args.input_file, args.output_file, args.start, args.end, args.log, geckodriver_path, args.repair, args.debug, adblock_path, uBlock_path)
+		main(crawl_type, args.input_file, args.output_file, args.start, args.end, args.log, geckodriver_path, args.repair, args.debug, adblock_path, uBlock_path)
 	except:
 		for proc in psutil.process_iter():
 			if proc.name() == "firefox" or proc.name() == "geckodriver":
