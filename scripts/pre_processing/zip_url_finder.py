@@ -63,16 +63,19 @@ ZIP_URL_SUF = '_zip/'#3_beds/2_baths/'
 ZIP_URL_PAGE = '_p'
 
 # read in zip code csv file 
-if len(sys.argv) !=4: 
+if len(sys.argv) != 3 and len(sys.argv) != 4: 
 	print('-------------------------------------------------')
 	print('REQUIRED ARGUMENTS:')
-	print('python zip_url_finder.py <csv file> <round_num> <zip_page_start>')
+	print('python zip_url_finder.py <csv file> <round_num> <zip_page_start (Default = 0)>')
 	print('-------------------------------------------------')
 	exit()
 
 zip_csv     = sys.argv[1]
 round_num   = sys.argv[2]
-zip_start   = int(sys.argv[3])
+zip_start = 0
+if len(sys.argv) == 4:
+	zip_start   = int(sys.argv[3])
+print("Starting from index {}".format(zip_start)) 
 dest = '/home/ubuntu/Housing-Discrimination/rounds/round_' + round_num + '/round_' + round_num + '_urls.csv'
 df_zip    = pd.read_csv(zip_csv) 
 zip_list =  list(df_zip['zip_codes'].values.flatten())
@@ -94,6 +97,7 @@ display.start() # start the display
 listings_all = []
 with open(dest, "w") as f:
 	writer = csv.writer(f)
+	writer.writerow(["URL"])
 	for i in range(0,len(zip_list)):
 		if zip_start != 0: 
 			zip_url = ZIP_URL_PRE + str(zip_list[i]) + ZIP_URL_SUF + '/' + str(zip_start) + ZIP_URL_PAGE 
