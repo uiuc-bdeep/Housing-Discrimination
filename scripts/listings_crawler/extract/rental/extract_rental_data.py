@@ -217,45 +217,56 @@ def extract_rental_school(driver, d):
 		print(d["elementary_school_count"], d["middle_school_count"], d["high_school_count"])
 		print(d["elementary_school_average_score"], d["middle_school_average_score"], d["high_school_average_score"])
 	except:
-		print("except part for school")
-		high_school = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/tbody"))).text.split("\n")
-		total = 0
-		indices = [i for i, j in enumerate(high_school) if "Assigned" in j]
-		for i in indices:
-			total += int(high_school[i+1])
-		d["high_school_count"] = len(indices)
-		if len(indices) != 0:
-			d["high_school_average_score"] = total / len(indices)
-		else:
-			d["high_school_average_score"] = "NA"
+                try:
+		    print("except part for school")
+		    high_school = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/tbody"))).text.split("\n")
+		    total = 0
+		    indices = [i for i, j in enumerate(high_school) if "Assigned" in j]
+		    for i in indices:
+		        total += int(high_school[i+1])
+		    d["high_school_count"] = len(indices)
+		    if len(indices) != 0:
+		        d["high_school_average_score"] = total / len(indices)
+		    else:
+		        d["high_school_average_score"] = "NA"
 
-		WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/thead/tr/th[1]/select/option[2]"))).click()
-		sleep(3)
+		    WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/thead/tr/th[1]/select/option[2]"))).click()
+		    sleep(3)
 
-		middle_school = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/tbody"))).text.split("\n")
-		total = 0
-		indices = [i for i, j in enumerate(middle_school) if "Assigned" in j]
-		for i in indices:
-			total += int(middle_school[i+1])
-		d["middle_school_count"] = len(indices)
-		if len(indices) != 0:
-			d["middle_school_average_score"] = total / len(indices)
-		else:
-			d["middle_school_average_score"] = "NA"
+		    middle_school = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/tbody"))).text.split("\n")
+		    total = 0
+		    indices = [i for i, j in enumerate(middle_school) if "Assigned" in j]
+		    for i in indices:
+		        total += int(middle_school[i+1])
+		    d["middle_school_count"] = len(indices)
+		    if len(indices) != 0:
+		        d["middle_school_average_score"] = total / len(indices)
+		    else:
+		        d["middle_school_average_score"] = "NA"
 
-		WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/thead/tr/th[1]/select/option[3]"))).click()
-		sleep(3)
+		    WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/thead/tr/th[1]/select/option[3]"))).click()
+		    sleep(3)
 
-		elementary_school = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/tbody"))).text.split("\n")
-		total = 0
-		indices = [i for i, j in enumerate(elementary_school) if "Assigned" in j]
-		for i in indices:
-			total += int(elementary_school[i+1])
-		d["elementary_school_count"] = len(indices)
-		if len(indices) != 0:
+		    elementary_school = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/tbody"))).text.split("\n")
+		    total = 0
+		    indices = [i for i, j in enumerate(elementary_school) if "Assigned" in j]
+		    for i in indices:
+		    	total += int(elementary_school[i+1])
+		    d["elementary_school_count"] = len(indices)
+		    if len(indices) != 0:
 			d["elementary_school_average_score"] = total / len(indices)
-		else:
+		    else:
 			d["elementary_school_average_score"] = "NA"
+
+                except:
+                    d["elementary_school_count"] = "NA"
+                    d["elementary_school_average_score"] = "NA"
+                    d["middle_school_count"] = "NA"
+                    d["middle_school_average_score"] = "NA"
+                    d["high_school_count"] = "NA"
+                    d["high_school_average_score"] = "NA"
+                    print("Unable to find any school info")
+
 
 
 def extract_rental_crime(driver, d):
