@@ -48,7 +48,11 @@ def extract_sold_rental_detail(driver, d):
 		try:
 			detail = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[2]/div[2]/div[1]/div/div/div[1]/div[1]/div/ul").text.split("\n")
 		except:
-			pass
+			try:
+				detail = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div/div/div[1]/div[1]/div/ul').text.split("\n")
+									#'//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/div[1]/div/ul'
+			except:
+				pass
 		
 	bedroom = ""
 	bathroom = ""
@@ -278,6 +282,7 @@ def extract_sold_rental_crime(driver, d):
 
 	try:
 		crime = driver.find_element_by_xpath("//button[@data-id='Theft']").click()
+
 		try:
 			theft = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
 		except:

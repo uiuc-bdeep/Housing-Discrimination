@@ -68,8 +68,14 @@ def extract_commute(driver, d):
 					print("commute card")
 					driving = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//*[@id='commuteTab']/div[2]/div/div[1]/p"))).text.split("%")[0]
 				except:
-					driver.find_element_by_xpath("//*[@id='tabButtonContainer']/button[5]").click()
-					driving = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//*[@id='commuteTab']/div[2]/div/div[1]/p"))).text.split("%")[0]
+					try:
+						print("Trying to click commute image")
+						driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[5]/div').click()
+						driving = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//*[@id='commuteTab']/div[2]/div/div[1]/p"))).text.split("%")[0]
+					except:
+						print("EXCEPT commute")
+						driver.find_element_by_xpath("//*[@id='tabButtonContainer']/button[5]").click()
+						driving = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//*[@id='commuteTab']/div[2]/div/div[1]/p"))).text.split("%")[0]
 
 		sleep(5)
 		
@@ -201,7 +207,11 @@ def get_rent(driver, is_off_market):
 									try:
 										rent = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[1]/div/div[1]/div[2]/h2/div").text
 									except:
-										rent = "NA"
+										try:
+											rent = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[2]/h3/div').text
+										except:
+											print("Unable to find RENT")
+											rent = "NA"
 
 	return rent
 
@@ -277,12 +287,27 @@ def get_address(driver, d):
 									d["city"] = city_state.split(", ")[0]
 									d["state"] = city_state.split(", ")[1].split(" ")[0]
 									d["zip code"] = city_state.split(" ")[-1]
-								except Exception as error:
-									d["address"] = "NA"
-									d["city"] = "NA"
-									d["state"] = "NA"
-									d["zip code"] = "NA"
-									print("Caught this error: " + repr(error))
+								except:
+									try:
+										d["address"] = driver.find_element_by_xpath('//*[@id="address"]/h1/div[1]/span').text
+										city_state = driver.find_element_by_xpath('//*[@id="address"]/h1/div[2]/span[1]').text
+										d["city"] = city_state.split(", ")[0]
+                                                                        	d["state"] = city_state.split(", ")[1].split(" ")[0]
+                                                                        	d["zip code"] = city_state.split(" ")[-1]
+									except:
+										try:
+											d["address"] = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/h1/span[1]').text
+                                                                                	city_state = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/h1/span[2]').text
+                                                                                	d["city"] = city_state.split(", ")[0]
+                                                                                	d["state"] = city_state.split(", ")[1].split(" ")[0]
+                                                                                	d["zip code"] = city_state.split(" ")[-1]
+										except Exception as error:
+											d["address"] = "NA"
+											d["city"] = "NA"
+											d["state"] = "NA"
+											d["zip code"] = "NA"
+											print("Unable to find ADDRESS")
+											print("Caught this error: " + repr(error))
 
 def extract_phone(driver, d):
 	"""Extract phone number from Trulia

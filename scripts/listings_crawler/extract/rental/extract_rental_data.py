@@ -10,6 +10,8 @@ import random
 import json
 import pandas as pd
 import numpy as np
+sys.path.insert(1, '/home/ubuntu/Housing-Discrimination/scripts/listings_crawler/extract/sold_rental')
+import extract_sold_rental_data as extract
 from sys import exit
 from time import sleep
 from re import sub
@@ -59,7 +61,12 @@ def extract_rental_detail(driver, d):
 					property_detail = driver.find_element_by_xpath("/html/body/div[5]/div[4]/div[2]/div/div[1]/ul").text.split("\n")
 					property_detail += driver.find_element_by_xpath("/html/body/div[5]/div[4]/div[2]/div/div[2]/ul").text.split("\n")
 				except:
-					property_detail = driver.find_element_by_xpath("/html/body/div[5]/div[3]/div[2]/div/div[1]/ul").text.split("\n")
+					try:
+						property_detail = driver.find_element_by_xpath("/html/body/div[5]/div[3]/div[2]/div/div[1]/ul").text.split("\n")
+					except:
+						property_detail = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/div[1]/div/ul').text.split("\n")
+						#//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/div[1]/div/ul/li[2]/div/div[2]
+						#//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/div[1]/div/ul
 
 	bedroom = ""
 	bathroom = ""
@@ -114,7 +121,10 @@ def extract_rental_detail(driver, d):
 					property_detail = driver.find_element_by_xpath("/html/body/div[5]/div[4]/div[2]/div/div[1]/ul").text.split("\n")
 					property_detail += driver.find_element_by_xpath("/html/body/div[5]/div[4]/div[2]/div/div[2]/ul").text.split("\n")
 				except:
-					property_detail = driver.find_element_by_xpath("/html/body/div[5]/div[3]/div[2]/div/div[1]/ul").text.split("\n")
+					try:
+						property_detail = driver.find_element_by_xpath("/html/body/div[5]/div[3]/div[2]/div/div[1]/ul").text.split("\n")
+					except:
+						property_detail = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/div[1]/div/ul').text.split("\n")
 
 	for s in property_detail:
 		if "sqft" in s and "/sqft" not in s:
@@ -138,8 +148,22 @@ def extract_rental_school(driver, d):
 		try:
 			driver.find_element_by_xpath("//*[@id='schoolsAtAGlance']/div[3]/a").click()
 		except:
+			try:
 				driver.refresh()
 				driver.find_element_by_xpath("//*[@id='schoolsAtAGlance']/div[3]/a").click()
+			except:
+				try:
+					extract.extract_sold_rental_school(driver, d)
+				except:
+					d["elementary_school_count"] = "NA"
+					d["elementary_school_average_score"] = "NA"
+					d["middle_school_count"] = "NA"
+					d["middle_school_average_score"] = "NA"
+					d["high_school_count"] = "NA"
+					d["high_school_average_score"] = "NA"
+					print("Unable to find any school info")
+					return
+					
 	try:
 		print ("try part for school")
 		button = Select(WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//*[@id='schoolsTab']/div[2]/div/div[2]/div/form/div/span/div/select"))))
@@ -251,7 +275,14 @@ def extract_rental_crime(driver, d):
 			try:
 				driver.find_element_by_xpath("//*[@id='crimeCard']/div/div[2]").click()
 			except:
-				driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[4]/button").click()
+				try:
+					driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[4]/button").click()
+				except:
+					try:
+						driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[4]').click() #doesn't work
+						print("Crime button")
+					except:
+						print("Could not find Crime button")
 	
 	sleep(15)
 
@@ -273,13 +304,70 @@ def extract_rental_crime(driver, d):
 			d[one[1].lower()] = one[0]
 			d[two[1].lower()] = two[0]
 			d[three[1].lower()] = three[0]
-		except:
-			d["assault"] = "NA"
-			d["arrest"] = "NA"
-			d["theft"] = "NA"
-			d["burglary"] = "NA"
-			d["vandalism"] = "NA"
-			d["crime_other"] = "NA"
+		except:			
+        		try:
+                		crime = driver.find_element_by_xpath("//button[@data-id='Theft']").click()
+
+                		try:
+                        		theft = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+                		except:
+                        		theft = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
+                		d["theft"] = len(theft) - 1
+        		except:
+                		d["theft"] = "NA"
+
+			sleep(3)
+
+			try:
+                		crime = driver.find_element_by_xpath("//button[@data-id='Assault']").click()
+                		try:
+                        		assault = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+                		except:
+                        		assault = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
+                		d["assault"] = len(assault) - 1
+        		except:
+                		d["assault"] = "NA"
+
+        		sleep(3)
+
+        		try:
+                		crime = driver.find_element_by_xpath("//button[@data-id='Arrest']").click()
+                		try:
+                        		arrest = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+                		except:
+                        		arrest = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
+                		d["arrest"] = len(arrest) - 1
+        		except:
+                		d["arrest"] = "NA"
+
+        		sleep(3)
+
+        		try:
+                		crime = driver.find_element_by_xpath("//button[@data-id='Vandalism']").click()
+                		try:
+                        		vandalism = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+                		except:
+                        		vandalism = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
+                		d["vandalism"] = len(vandalism) - 1
+        		except:
+                		d["vandalism"] = "NA"
+
+        		sleep(3)
+
+        		try:
+                		crime = driver.find_element_by_xpath("//button[@data-id='Burglary']").click()
+                		try:
+                        		burglary = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
+                		except:
+                        		burglary = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
+                		d["burglary"] = len(burglary) - 1
+        		except:
+                		d["burglary"] = "NA"
+
+        		d["crime_other"] = "NA"
+
+	print("assult: " + str(d.get("assault", "NA")), "arrest: " + str(d.get("arrest", "NA")), "theft: " + str(d.get("theft", "NA")), "burglary: " + str(d.get("burglary", "NA")), "vandalism: " + str(d.get("vandalism", "NA")))
+
 
 def extract_rental_shop_eat(driver, d):
 	"""Extract Shop and Eat scores from Trulia
