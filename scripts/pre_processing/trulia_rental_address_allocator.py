@@ -157,7 +157,7 @@ def main():
 	round_directory  = '/home/ubuntu/Housing-Discrimination/rounds/'
 	rentals_sheet     = round_directory + str(sys.argv[1])		# csv that contains detailed listing information
 	time_status_sheet = round_directory + str(sys.argv[2]) 		# output destination of the schedule csv that is created
-	names_sheet       = '/home/Housing-Discrimination/scripts/pre_processing/toxic_names_market_{}.csv'.format(str(sys.argv[3]))            # name_market.csv
+	names_sheet       = '/home/ubuntu/Housing-Discrimination/scripts/pre_processing/toxic_names_market_{}.csv'.format(str(sys.argv[3]))            # name_market.csv
 
 
 
