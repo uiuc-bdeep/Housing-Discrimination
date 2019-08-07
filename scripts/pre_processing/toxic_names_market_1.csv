@@ -1,0 +1,19 @@
+person id,first name,last name,gender,racial category,education level,email,phone number,pair id
+1,Jalen,Jackson,male,black,high,jalenjackson094,4707370939,0
+2,Lamar,Williams,male,black,medium,lamarwilliams236,4704407376,0
+3,DaQuan,Robinson,male,black,low,dqrobinson224,4705821627,0
+4,Nia,Harris,female,black,high,niaharris4545,4703612381,0
+5,Ebony,James,female,black,medium,ebonyj780,4703364284,0
+6,Shanice,Thomas,female,black,low,shanicethomas261,4704079755,0
+7,Caleb,Peterson,male,white,high,calebp4504,6788833640,1
+8,Charlie,Myers,male,white,medium,charliemyers1002,6783837685,0
+9,Ronnie,Miller,male,white,low,ronniemiller143,6785404857,0
+10,Aubrey,Murphy,female,white,high,aubreymurphy25,6788016817,0
+11,Erica,Cox,female,white,medium,ericacoxx4,6787128344,0
+12,Leslie,Wood,female,white,low,leslie.wood776,6786718279,0
+13,Jorge,Rodriguez,male,hispanic,high,jorgerodriguez7877,7704154312,0
+14,Pedro,Sanchez,male,hispanic,medium,pedrosanchezz917,7702845273,0
+15,Luis,Torres,male,hispanic,low,luistor926,7703737285,0
+16,Isabella,Lopez,female,hispanic,high,925isabellopez,7709195723,0
+17,Mariana,Morales,female,hispanic,medium,moralesmariana423,7708926206,0
+18,Jimena,Ramirez,female,hispanic,low,ramirezj2212,7706189902,0
