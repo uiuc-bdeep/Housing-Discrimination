@@ -470,21 +470,21 @@ def extract_rental(driver, d, mode, add = None, df = None, index = None):
 	else:
 		extract_rental_school(driver, d)
 
-	has_commute = extract_commute(driver, d)
+	#has_commute = extract_commute(driver, d)
 
 	if is_off_market == 2:
 		extract_sold_rental_shop_eat(driver, d)
 	else:
 		extract_rental_shop_eat(driver, d)
 
-	if not is_off_market:
-		if d["restaurant"] != "NA" and d["driving"] == "NA":
-			# print("commute missing")
-			driver.quit()
-			raise Exception('commute missing!')
+	#if not is_off_market:
+	#	if d["restaurant"] != "NA" and d["driving"] == "NA":
+	#		# print("commute missing")
+	#		driver.quit()
+	#		raise Exception('commute missing!')
 
-		if d["driving"] != "NA" and d["restaurant"] == "NA":
-			# print("shop and eat missing")
-			driver.quit()
-			raise Exception('shop and eat missing!')
+	#	if d["driving"] != "NA" and d["restaurant"] == "NA":
+	#		# print("shop and eat missing")
+	#		driver.quit()
+	#		raise Exception('shop and eat missing!')
 	return True
