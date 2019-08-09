@@ -331,10 +331,12 @@ def extract_rental_crime(driver, d):
 					driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[3]/div[2]/div[1]/div/div[4]/button").click()
 				except:
 					try:
-						driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[4]').click() #doesn't work
-						print("Crime button")
+						driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[4]/div[2]/div[1]/div/div[4]').click()
 					except:
-						print("Could not find Crime button")
+						try:
+							driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[4]').click()
+						except:
+							print("Could not find Crime button")
 	
 	sleep(15)
 
@@ -428,7 +430,16 @@ def extract_rental_shop_eat(driver, d):
 	    driver (Firefox Driver): The Firefox driver
 	    d (dict): Dictionary that holds all the data
 	"""
-	
+	try:
+		driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[6]/div').click()
+		driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div[1]/div/div[2]/div/button').click() #restaurant button
+		restaurant_counter = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/ul')
+		restaurants = len(restarurant_counter.find_elements_by_tag_name("li"))
+		d["restaurant"] = restaurant
+		print(d)
+		return
+	except:
+		print("new shop method unsuccessful")
 	try:
 		try:
 			driver.find_element_by_xpath("//*[@id='localInfoTabs']/div[1]/div/div/button[7]").click()
@@ -436,10 +447,15 @@ def extract_rental_shop_eat(driver, d):
 			restaurant = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//*[@id='amenitiesSubTitle']/span"))).text.split(" ")[0]
 			#restaurant = driver.find_element_by_xpath("//*[@id='amenitiesSubTitle']/span").text.split(" ")[0]
 		except:
-			driver.find_element_by_xpath("//*[@id='localInfoTabs']/div[1]/div/div/button[6]").click()
-			print("shop and eat button")
-			restaurant = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//*[@id='amenitiesSubTitle']/span"))).text.split(" ")[0]
-			#restaurant = driver.find_element_by_xpath("//*[@id='amenitiesSubTitle']/span").text.split(" ")[0]
+			try:
+				driver.find_element_by_xpath("//*[@id='localInfoTabs']/div[1]/div/div/button[6]").click()
+				print("shop and eat button")
+				restaurant = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//*[@id='amenitiesSubTitle']/span"))).text.split(" ")[0]
+				#restaurant = driver.find_element_by_xpath("//*[@id='amenitiesSubTitle']/span").text.split(" ")[0]
+			except:
+				driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[6]/div').click()
+				print("shop & eat")
+				restaurant = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//*[@id='amenitiesSubTitle']/span"))).text.split(" ")[0]
 
 		sleep(5)
 

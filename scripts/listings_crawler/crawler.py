@@ -134,6 +134,7 @@ def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriv
 						raise
 					else:
 				 		driver.quit()
+						print("Reached EXCEPT after extract_rental")
 				 		restart(crawler_log, debug_mode, start)
 				if flag == False:
 					crawled_trulia = False
