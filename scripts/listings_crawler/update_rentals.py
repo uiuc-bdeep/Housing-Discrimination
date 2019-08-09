@@ -63,8 +63,8 @@ def update_row(idx):
         num_failed += update_school(idx, is_off_market)
         num_failed += update_commute(idx, is_off_market)
         #shop & eat
-        #rentals.to_csv('../../rounds/round_2/round_2_rentals_1_updated.csv', index=False)
-        print("Finished")
+        rentals.to_csv('../../rounds/round_2/round_2_rentals_1_updated.csv', index=False)
+    finish_listing(idx)
 
 def update_basic_info(idx, off_market):
     print("Updating basic info")
@@ -137,14 +137,15 @@ def update_commute(idx, off_market):
         return 0
     print("Updating commute data")
     d = {}
-    extract_commute(driver, d)
-    print("Successfully extraced commute data:")
-    print(d)
-    #update rentals df
-    return 0
-    #except:
-        #print("Unable to update commute data")
-        #return 1
+    try:
+        extract_commute(driver, d)
+        print("Successfully extraced commute data:")
+        print(d)
+        #update rentals df
+        return 0
+    except:
+        print("Unable to update commute data")
+        return 1
 
 
 def open_page(url):
@@ -165,12 +166,10 @@ def open_page(url):
         restart("logfile", debug, start)
         return 1
 
-def finish_listing(d, idx):
-    #save_rental(d, urls[i], output_file) FIX THIS
-
+def finish_listing(idx):
     with open("logfile", "ab") as log:
         filewriter = csv.writer(log, delimiter = ',', quoting = csv.QUOTE_MINIMAL)
-        filewriter.writerow([i])
+        filewriter.writerow([idx])
 
     driver.close()
     driver.switch_to_window(driver.window_handles[0])
@@ -204,7 +203,7 @@ if(debug == 1):
 driver = start_driver()
 if driver != None:
     print("Driver Successfully Started")
-for i in range(0, 1):
+for i in range(start, end):
     update_row(i)
 
 
