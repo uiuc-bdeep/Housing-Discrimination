@@ -147,40 +147,41 @@ def extract_rental_school(driver, d):
 	    d (dict): Dictionary that holds all the data
 	"""
         try:
-            elementary_school_count = int(driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[3]/div/div[3]').text.split(' ')[0])
-            middle_school_count = int(driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[3]/div/div[4]').text.split(' ')[0])
-            high_school_count = int(driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[3]/div/div[5]').text.split(' ')[0])
-            try:
-		driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[3]/div').click()
-            except:
-	        driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[6]/div').click() 
-            WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div/div/div[1]/div/button'))).click()
-            sleep(3)
-            total = 0
-            for i in range(1, elementary_school_count + 1):
-                score = int(driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/ul/li[{}]/div[1]/div/div/div[1]/div/span[1]/b'.format(i)).text)
-                total += score
-            d['elementary_school_count'] = elementary_school_count
-            d['elementary_school_average_score'] = float(total) / elementary_school_count
+        	elementary_school_count = int(driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[3]/div/div[3]').text.split(' ')[0])
+        	middle_school_count = int(driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[3]/div/div[4]').text.split(' ')[0])
+        	high_school_count = int(driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[3]/div/div[5]').text.split(' ')[0])
+        	try:
+	    		driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[3]/div').click()
+        	except:
+	   		driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[6]/div').click() 
 
-            driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div/div/div[2]/div/button').click()
-            sleep(3)
-            total = 0
-            for i in range(1, middle_school_count + 1):
-                score = int(driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/ul/li[{}]/div[1]/div/div/div[1]/div/span[1]/b'.format(i)).text)
-                total += score
-            d['middle_school_count'] = middle_school_count
-            d['middle_school_average_score'] = float(total) / middle_school_count
+        	WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div/div/div[1]/div/button'))).click()
+        	sleep(3)
+        	total = 0
+        	for i in range(1, elementary_school_count + 1):
+                	score = int(driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/ul/li[{}]/div[1]/div/div/div[1]/div/span[1]/b'.format(i)).text)
+                	total += score
+        	d['elementary_school_count'] = elementary_school_count
+        	d['elementary_school_average_score'] = float(total) / elementary_school_count
 
-            driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div/div/div[3]/div/button').click()
-            sleep(3)
-            total = 0
-            for i in range(1, high_school_count + 1):
-                score = int(driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/ul/li[{}]/div[1]/div/div/div[1]/div/span[1]/b'.format(i)).text)
-                total += score
-            d['high_school_count'] = high_school_count
-            d['high_school_average_score'] = float(total) / high_school_count
-            return
+        	driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div/div/div[2]/div/button').click()
+        	sleep(3)
+        	total = 0
+        	for i in range(1, middle_school_count + 1):
+                	score = int(driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/ul/li[{}]/div[1]/div/div/div[1]/div/span[1]/b'.format(i)).text)
+                	total += score
+        	d['middle_school_count'] = middle_school_count
+        	d['middle_school_average_score'] = float(total) / middle_school_count
+
+        	driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div/div/div[3]/div/button').click()
+        	sleep(3)
+        	total = 0
+        	for i in range(1, high_school_count + 1):
+                	score = int(driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/ul/li[{}]/div[1]/div/div/div[1]/div/span[1]/b'.format(i)).text)
+                	total += score
+        	d['high_school_count'] = high_school_count
+        	d['high_school_average_score'] = float(total) / high_school_count
+        	return
 
         except:
                 print("New method unsuccessful")
@@ -200,7 +201,7 @@ def extract_rental_school(driver, d):
                                         return
 				except:
                                         try:
-                                                driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[3]/div/div[1]').click()
+                                                driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[3]').click()
                                         except:
 					        d["elementary_school_count"] = "NA"
 					        d["elementary_school_average_score"] = "NA"
@@ -263,55 +264,55 @@ def extract_rental_school(driver, d):
 		print(d["elementary_school_count"], d["middle_school_count"], d["high_school_count"])
 		print(d["elementary_school_average_score"], d["middle_school_average_score"], d["high_school_average_score"])
 	except:
-                try:
-		    print("except part for school")
-		    high_school = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/tbody"))).text.split("\n")
-		    total = 0
-		    indices = [i for i, j in enumerate(high_school) if "Assigned" in j]
-		    for i in indices:
+                #try:
+		print("except part for school")
+		high_school = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/tbody"))).text.split("\n")
+		total = 0
+		indices = [i for i, j in enumerate(high_school) if "Assigned" in j]
+		for i in indices:
 		        total += int(high_school[i+1])
-		    d["high_school_count"] = len(indices)
-		    if len(indices) != 0:
+		d["high_school_count"] = len(indices)
+		if len(indices) != 0:
 		        d["high_school_average_score"] = total / len(indices)
-		    else:
+		else:
 		        d["high_school_average_score"] = "NA"
 
-		    WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/thead/tr/th[1]/select/option[2]"))).click()
-		    sleep(3)
+		WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/thead/tr/th[1]/select/option[2]"))).click()
+		sleep(3)
 
-		    middle_school = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/tbody"))).text.split("\n")
-		    total = 0
-		    indices = [i for i, j in enumerate(middle_school) if "Assigned" in j]
-		    for i in indices:
+		middle_school = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/tbody"))).text.split("\n")
+		total = 0
+		indices = [i for i, j in enumerate(middle_school) if "Assigned" in j]
+		for i in indices:
 		        total += int(middle_school[i+1])
-		    d["middle_school_count"] = len(indices)
-		    if len(indices) != 0:
+		d["middle_school_count"] = len(indices)
+		if len(indices) != 0:
 		        d["middle_school_average_score"] = total / len(indices)
-		    else:
+		else:
 		        d["middle_school_average_score"] = "NA"
 
-		    WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/thead/tr/th[1]/select/option[3]"))).click()
-		    sleep(3)
+		WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/thead/tr/th[1]/select/option[3]"))).click()
+		sleep(3)
 
-		    elementary_school = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/tbody"))).text.split("\n")
-		    total = 0
-		    indices = [i for i, j in enumerate(elementary_school) if "Assigned" in j]
-		    for i in indices:
+		elementary_school = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/tbody"))).text.split("\n")
+		total = 0
+		indices = [i for i, j in enumerate(elementary_school) if "Assigned" in j]
+		for i in indices:
 		    	total += int(elementary_school[i+1])
-		    d["elementary_school_count"] = len(indices)
-		    if len(indices) != 0:
+		d["elementary_school_count"] = len(indices)
+		if len(indices) != 0:
 			d["elementary_school_average_score"] = total / len(indices)
-		    else:
+		else:
 			d["elementary_school_average_score"] = "NA"
 
-                except:
-                        d["elementary_school_count"] = "NA"
-                        d["elementary_school_average_score"] = "NA"
-                        d["middle_school_count"] = "NA"
-                        d["middle_school_average_score"] = "NA"
-                        d["high_school_count"] = "NA"
-                        d["high_school_average_score"] = "NA"
-                        print("Unable to find any school info")
+                #except:
+                #        d["elementary_school_count"] = "NA"
+                #        d["elementary_school_average_score"] = "NA"
+                #        d["middle_school_count"] = "NA"
+                #        d["middle_school_average_score"] = "NA"
+                #        d["high_school_count"] = "NA"
+                #        d["high_school_average_score"] = "NA"
+                #        print("Unable to find any school info")
 
 
 
