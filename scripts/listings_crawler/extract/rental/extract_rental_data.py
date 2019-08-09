@@ -122,7 +122,10 @@ def extract_rental_detail(driver, d):
 					try:
 						property_detail = driver.find_element_by_xpath("/html/body/div[5]/div[3]/div[2]/div/div[1]/ul").text.split("\n")
 					except:
-					        ul_path = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[2]/ul')
+						try:
+					        	ul_path = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[2]/ul')
+						except:
+							ul_path = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[3]/ul')
                                                 li_options = ul_path.find_elements_by_tag_name("li")
                                                 property_detail = []
                                                 for option in li_options:
@@ -133,7 +136,7 @@ def extract_rental_detail(driver, d):
 			d["sqft"] = s.split(" ")[0]
 		elif "Built" in s:
 			d["year"] = s.split(" ")[2]
-		elif "Home" in s or "Apartment" in s or "Family" in s or "loft" in s.lower():
+		elif "Home" in s or "Apartment" in s or "Family" in s or "Townhouse" in s or "loft" in s.lower():
 			d["type"] = s
 
 def extract_rental_school(driver, d):
@@ -147,8 +150,10 @@ def extract_rental_school(driver, d):
             elementary_school_count = int(driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[3]/div/div[3]').text.split(' ')[0])
             middle_school_count = int(driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[3]/div/div[4]').text.split(' ')[0])
             high_school_count = int(driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[3]/div/div[5]').text.split(' ')[0])
-            driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[3]/div/div[1]').click()
-        
+            try:
+		driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[3]/div').click()
+            except:
+	        driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[6]/div').click() 
             WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div/div/div[1]/div/button'))).click()
             sleep(3)
             total = 0
