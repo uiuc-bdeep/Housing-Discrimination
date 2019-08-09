@@ -70,12 +70,14 @@ def extract_commute(driver, d):
 				except:
 					try:
 						print("Trying to click commute image")
-						driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[5]/div').click()
+						driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[1]/div/div[1]/div/div[1]/div/div[6]/div/button').click()
+                                                print("Clicked one")
 						driving = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//*[@id='commuteTab']/div[2]/div/div[1]/p"))).text.split("%")[0]
 					except:
 						print("EXCEPT commute")
 						driver.find_element_by_xpath("//*[@id='tabButtonContainer']/button[5]").click()
 						driving = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//*[@id='commuteTab']/div[2]/div/div[1]/p"))).text.split("%")[0]
+                                                print("Successfully ended commute except")
 
 		sleep(5)
 		
