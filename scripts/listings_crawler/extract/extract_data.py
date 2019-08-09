@@ -307,10 +307,6 @@ def get_address(driver, d):
                                                                                 	d["state"] = city_state.split(", ")[1].split(" ")[0]
                                                                                 	d["zip code"] = city_state.split(" ")[-1]
 										except 	Exception as error:
-											d["address"] = "NA"
-											d["city"] = "NA"
-											d["state"] = "NA"
-											d["zip code"] = "NA"
 											print("Unable to find ADDRESS")
 											print("Caught this error: " + repr(error))
 
