@@ -10,9 +10,21 @@ def print_progress(handled_state,LPI,parameter_day_trial,person_id,name):
 		  str(person_id) + '. ' + str(name) + '\n' + '---------------------------------')
 
 def main():
+        if len(sys.argv) != 3 and len(sys.argv) != 4:
+            print('-------------------------------------------------')
+            print('REQUIRED ARGUMENTS:')
+            print('python send_inquiries.py <path_to_timestamp_file> <Day (1, 2, or 3)> <Send (0 or 1) (Default = 1)>')
+            print('-------------------------------------------------')
+            print('EXAMPLE - SENDING OUT ROUND 2 DAY 3')
+            print('python send_inquiries.py ../../rounds/round_2/round_2_timestamps_1.csv 3 1')
+            print('-------------------------------------------------')
+            exit()
+
 	time_status_sheet   = sys.argv[1]  # timestamp output csv
 	parameter_day_trial = int(sys.argv[2])  # tests are split into three days. Each unique listing is sent and inquiry each day.
-	parameter_send      = int(sys.argv[3])  # can be a value of 0 or 1. 0 will fill out the inquiry form, but will not click the send button. 1 Will click the send button.
+        parameter_send      = 1
+        if len(sys.argv) == 4:
+	    parameter_send = int(sys.argv[3])  # can be a value of 0 or 1. 0 will fill out the inquiry form, but will not click the send button. 1 Will click the send button. 
 
 	df_status, LPI = get_dataframes(time_status_sheet)  # get all required dataframes
 
