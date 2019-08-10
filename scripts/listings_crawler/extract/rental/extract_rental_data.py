@@ -153,7 +153,10 @@ def extract_rental_school(driver, d):
         	try:
 	    		driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[3]/div').click()
         	except:
-	   		driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[6]/div').click() 
+			try:
+	   			driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[6]/div').click() 
+			except:
+				driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[4]/div').click()
 
         	WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div/div/div[1]/div/button'))).click()
         	sleep(3)
@@ -264,55 +267,55 @@ def extract_rental_school(driver, d):
 		print(d["elementary_school_count"], d["middle_school_count"], d["high_school_count"])
 		print(d["elementary_school_average_score"], d["middle_school_average_score"], d["high_school_average_score"])
 	except:
-                #try:
-		print("except part for school")
-		high_school = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/tbody"))).text.split("\n")
-		total = 0
-		indices = [i for i, j in enumerate(high_school) if "Assigned" in j]
-		for i in indices:
-		        total += int(high_school[i+1])
-		d["high_school_count"] = len(indices)
-		if len(indices) != 0:
-		        d["high_school_average_score"] = total / len(indices)
-		else:
-		        d["high_school_average_score"] = "NA"
+                try:
+			print("except part for school")
+			high_school = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/tbody"))).text.split("\n")
+			total = 0
+			indices = [i for i, j in enumerate(high_school) if "Assigned" in j]
+			for i in indices:
+		        	total += int(high_school[i+1])
+			d["high_school_count"] = len(indices)
+			if len(indices) != 0:
+		        	d["high_school_average_score"] = total / len(indices)
+			else:
+		        	d["high_school_average_score"] = "NA"
 
-		WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/thead/tr/th[1]/select/option[2]"))).click()
-		sleep(3)
+			WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/thead/tr/th[1]/select/option[2]"))).click()
+			sleep(3)
 
-		middle_school = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/tbody"))).text.split("\n")
-		total = 0
-		indices = [i for i, j in enumerate(middle_school) if "Assigned" in j]
-		for i in indices:
-		        total += int(middle_school[i+1])
-		d["middle_school_count"] = len(indices)
-		if len(indices) != 0:
-		        d["middle_school_average_score"] = total / len(indices)
-		else:
-		        d["middle_school_average_score"] = "NA"
+			middle_school = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/tbody"))).text.split("\n")
+			total = 0
+			indices = [i for i, j in enumerate(middle_school) if "Assigned" in j]
+			for i in indices:
+		        	total += int(middle_school[i+1])
+			d["middle_school_count"] = len(indices)
+			if len(indices) != 0:
+		        	d["middle_school_average_score"] = total / len(indices)
+			else:
+		        	d["middle_school_average_score"] = "NA"
 
-		WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/thead/tr/th[1]/select/option[3]"))).click()
-		sleep(3)
+			WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/thead/tr/th[1]/select/option[3]"))).click()
+			sleep(3)
 
-		elementary_school = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/tbody"))).text.split("\n")
-		total = 0
-		indices = [i for i, j in enumerate(elementary_school) if "Assigned" in j]
-		for i in indices:
-		    	total += int(elementary_school[i+1])
-		d["elementary_school_count"] = len(indices)
-		if len(indices) != 0:
-			d["elementary_school_average_score"] = total / len(indices)
-		else:
-			d["elementary_school_average_score"] = "NA"
+			elementary_school = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "/html/body/div[4]/div/div/div[1]/div/div[2]/table/tbody"))).text.split("\n")
+			total = 0
+			indices = [i for i, j in enumerate(elementary_school) if "Assigned" in j]
+			for i in indices:
+		    		total += int(elementary_school[i+1])
+			d["elementary_school_count"] = len(indices)
+			if len(indices) != 0:
+				d["elementary_school_average_score"] = total / len(indices)
+			else:
+				d["elementary_school_average_score"] = "NA"
 
-                #except:
-                #        d["elementary_school_count"] = "NA"
-                #        d["elementary_school_average_score"] = "NA"
-                #        d["middle_school_count"] = "NA"
-                #        d["middle_school_average_score"] = "NA"
-                #        d["high_school_count"] = "NA"
-                #        d["high_school_average_score"] = "NA"
-                #        print("Unable to find any school info")
+                except:
+                        d["elementary_school_count"] = "NA"
+                        d["elementary_school_average_score"] = "NA"
+                        d["middle_school_count"] = "NA"
+                        d["middle_school_average_score"] = "NA"
+                        d["high_school_count"] = "NA"
+                        d["high_school_average_score"] = "NA"
+                        print("Unable to find any school info")
 
 
 
@@ -366,12 +369,19 @@ def extract_rental_crime(driver, d):
 			d[three[1].lower()] = three[0]
 		except:			
         		try:
-                		crime = driver.find_element_by_xpath("//button[@data-id='Theft']").click()
+				try:
+                			crime = driver.find_element_by_xpath("//button[@data-id='Theft']").click()
+				except:
+					crime = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/div[4]/div/div[1]/div/div[1]/div/button').click()
 
                 		try:
                         		theft = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
                 		except:
-                        		theft = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
+					try:
+                        			theft = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
+					except:
+						theft = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/ul').find_elements_by_tag_name("li")
+
                 		d["theft"] = len(theft) - 1
         		except:
                 		d["theft"] = "NA"
@@ -379,11 +389,19 @@ def extract_rental_crime(driver, d):
 			sleep(3)
 
 			try:
-                		crime = driver.find_element_by_xpath("//button[@data-id='Assault']").click()
+				try:
+                			crime = driver.find_element_by_xpath("//button[@data-id='Assault']").click()
+				except:
+					crime = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/div[4]/div/div[1]/div/div[2]/div/button').click()
+
                 		try:
                         		assault = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
                 		except:
-                        		assault = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
+					try:
+                        			assault = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
+					except:
+						assault = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/ul').find_elements_by_tag_name("li")
+
                 		d["assault"] = len(assault) - 1
         		except:
                 		d["assault"] = "NA"
@@ -391,11 +409,19 @@ def extract_rental_crime(driver, d):
         		sleep(3)
 
         		try:
-                		crime = driver.find_element_by_xpath("//button[@data-id='Arrest']").click()
+				try:
+                			crime = driver.find_element_by_xpath("//button[@data-id='Arrest']").click()
+				except:
+					crime = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/div[4]/div/div[1]/div/div[3]/div/button').click()
+
                 		try:
                         		arrest = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
                 		except:
-                        		arrest = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
+					try:
+                        			arrest = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
+					except:
+						arrest = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/ul').find_elements_by_tag_name("li")
+
                 		d["arrest"] = len(arrest) - 1
         		except:
                 		d["arrest"] = "NA"
@@ -403,11 +429,18 @@ def extract_rental_crime(driver, d):
         		sleep(3)
 
         		try:
-                		crime = driver.find_element_by_xpath("//button[@data-id='Vandalism']").click()
+				try:
+                			crime = driver.find_element_by_xpath("//button[@data-id='Vandalism']").click()
+				except:
+					crime = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/div[4]/div/div[1]/div/div[4]/div/button').click()
                 		try:
                         		vandalism = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
                 		except:
-                        		vandalism = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
+					try:
+                        			vandalism = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
+					except:
+						vandalism = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/ul').find_elements_by_tag_name("li")
+
                 		d["vandalism"] = len(vandalism) - 1
         		except:
                 		d["vandalism"] = "NA"
@@ -415,11 +448,19 @@ def extract_rental_crime(driver, d):
         		sleep(3)
 
         		try:
-                		crime = driver.find_element_by_xpath("//button[@data-id='Burglary']").click()
+				try:
+                			crime = driver.find_element_by_xpath("//button[@data-id='Burglary']").click()
+				except:
+					crime = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/div[4]/div/div[1]/div/div[5]/div/button').click()
+
                 		try:
                         		burglary = driver.find_element_by_xpath("//ul[@data-testid='local-info-tab-cards-list']").find_elements_by_tag_name("li")
                 		except:
-                        		burglary = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
+					try:
+                        			burglary = driver.find_element_by_xpath("//ul[@data-testid='lil-tab-cards-list']").find_elements_by_tag_name("li")
+					except:
+						burglary = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/ul').find_elements_by_tag_name("li")
+	
                 		d["burglary"] = len(burglary) - 1
         		except:
                 		d["burglary"] = "NA"
@@ -437,7 +478,13 @@ def extract_rental_shop_eat(driver, d):
 	    d (dict): Dictionary that holds all the data
 	"""
 	try:
-		driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[6]/div').click()
+		try:
+			driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[6]/div/div').click() 
+		except:
+			driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[2]/button').click() #scroll it into view
+				#ERROR: This button ^ is not clickable because something obscures it
+			driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[6]/div/div').click()
+
 		driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div[1]/div/div[2]/div/button').click() #restaurant button
 		restaurant_counter = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/ul')
 		restaurants = len(restarurant_counter.find_elements_by_tag_name("li"))
