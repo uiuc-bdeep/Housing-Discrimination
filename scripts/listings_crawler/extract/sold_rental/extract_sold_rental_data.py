@@ -376,8 +376,12 @@ def extract_sold_rental_shop_eat(driver, d):
 					info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[6]/div/div/div[2]").text
 					button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[6]")
 				except:
-					info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[5]/div/div/div[2]").text
-					button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[5]")
+					try:
+						info_text = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[5]/div/div/div[2]").text
+						button = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[4]/div[2]/div/div/div[5]")
+					except:
+						print("shop & eat not available")
+						return
 
 	if "shop" in info_text.lower():
 		button.click()
