@@ -125,11 +125,17 @@ def extract_rental_detail(driver, d):
 						try:
 					        	ul_path = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[2]/ul')
 						except:
-							ul_path = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[3]/ul')
-                                                li_options = ul_path.find_elements_by_tag_name("li")
-                                                property_detail = []
-                                                for option in li_options:
-                                                    property_detail.append(option.text)
+							try:
+								try:
+									ul_path = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[3]/ul')
+								except:
+									ul_path = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[4]/ul')
+                                                		li_options = ul_path.find_elements_by_tag_name("li")
+                                                		property_detail = []
+                                                		for option in li_options:
+                                                    			property_detail.append(option.text)
+							except:
+								property_detail = []
 
 	for s in property_detail:
 		if "sqft" in s and "/sqft" not in s:

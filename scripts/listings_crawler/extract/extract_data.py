@@ -298,13 +298,14 @@ def get_address(driver, d):
                                                                         	d["zip code"] = city_state.split(" ")[-1]
 									except:
 										try:
-											d["address"] = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/h1/span[1]').text
 											try:
+												d["address"] = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/h1/span[1]').text
                                                                                 		city_state = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/h1/span[2]').text
 												d["city"] = city_state.split(", ")[0]
                                                                       				d["state"] = city_state.split(", ")[1].split(" ")[0]
                                                                                         	d["zip code"] = city_state.split(" ")[-1]
 											except:
+												d["address"] = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/h1/span[2]').text
 												city_state = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/h1/span[3]').text
                                                                                 		d["city"] = city_state.split(", ")[0]
                                                                                 		d["state"] = city_state.split(", ")[1].split(" ")[0]
