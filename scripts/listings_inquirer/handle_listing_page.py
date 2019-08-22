@@ -11,7 +11,7 @@ from wait_and_get import wait_and_get
 NAME_CSS    = ["#name_PDP_TOP_THIRD", "#nameInput"]
 EMAIL_CSS   = ["#email_PDP_TOP_THIRD", "#emailInput"]
 PHONE_CSS   = ["#phone_PDP_TOP_THIRD","#phoneInput"]
-SEND_CSS    = ["#main-content > div.BasicPageLayout__BasicPageLayoutContainer-mfegza-0.fVMZGj > div.BasicPageLayout__BasicPageContent-mfegza-1.dyVWBq > div.HomeDetailsContentOverview__ContentWithLeadFormGrid-sc-1lql7o5-0.bHYvJo.Grid__GridContainer-sc-144isrp-1.lputZN > div.Grid__CellBox-sc-144isrp-0.HomeDetailsContentOverview__HiddenExceptLargeCell-sc-1lql7o5-1.eNNXco > div > div > form > div > div:nth-child(2) > button", '.ctaButton']
+SEND_CSS    = ["#main-content > div.BasicPageLayout__BasicPageLayoutContainer-mfegza-0.fVMZGj > div.BasicPageLayout__BasicPageContent-mfegza-1.dyVWBq > div.HomeDetailsContentOverview__ContentWithLeadFormGrid-sc-1lql7o5-0.bHYvJo.Grid__GridContainer-sc-144isrp-1.lputZN > div.Grid__CellBox-sc-144isrp-0.HomeDetailsContentOverview__HiddenExceptLargeCell-sc-1lql7o5-1.eNNXco > div > div > form > div > div:nth-child(2) > button", '.ctaButton', '#main-content > div.BasicPageLayout__BasicPageLayoutContainer-mfegza-0.fVMZGj > div.BasicPageLayout__BasicPageContent-mfegza-1.hDiVAQ > div.HomeDetailsContentOverview__ContentWithLeadFormGrid-sc-1lql7o5-0.bHYvJo.Grid__GridContainer-sc-144isrp-1.lputZN > div.Grid__CellBox-sc-144isrp-0.HomeDetailsContentOverview__HiddenExceptLargeCell-sc-1lql7o5-1.eNNXco > div > div > form > div > div:nth-child(2) > div > button']
 #MESSAGE_CSS = '#topPanelLeadForm > div > div > span > div > div.madlibsForm.form > div:nth-child(6) > a'
 #TEXTB_CSS   = '#textarea'
 
@@ -140,8 +140,12 @@ def send_message(driver,name, email, phone_num, address,url,send):
 	phone_handle.send_keys(str(phone_num))
 
 	print("Email: {}@gmail.com\nPhone: {}".format(str(email), str(phone_num)))
-
-	send_handle = driver.find_element_by_css_selector(SEND_CSS[page_structure])
+        for i in range(len(SEND_CSS)):
+            try:
+	        send_handle = driver.find_element_by_css_selector(SEND_CSS[i])
+                break
+            except:
+                print("Button not found at index {}".format(i))
 
 	if send == 1:
 		print('Clicking...')
