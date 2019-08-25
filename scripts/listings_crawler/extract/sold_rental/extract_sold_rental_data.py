@@ -52,7 +52,10 @@ def extract_sold_rental_detail(driver, d):
 				detail = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div/div/div[1]/div[1]/div/ul').text.split("\n")
 									#'//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/div[1]/div/ul'
 			except:
-				pass
+				try:
+					detail = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div/div/div[1]/div[2]/div[1]/div/ul').text.split("\n")
+				except:
+					pass
 		
 	bedroom = ""
 	bathroom = ""

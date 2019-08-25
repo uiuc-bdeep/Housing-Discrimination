@@ -187,10 +187,10 @@ def get_rent(driver, is_off_market):
 			rent = driver.find_element_by_xpath("//*[@id='rentalPdpContactLeadForm']/div[1]/div").text
 		except:
 			try:
-				rent = driver.find_element_by_xpath("//*[@id='propertySummary']/div/div[3]/div[1]/div/div[2]/span").text
+				rent = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[2]/div/h3/div').text
 			except:
 				try:
-					rent = driver.find_element_by_xpath("//*[@id='propertySummary']/div/div[3]/div[1]/div/div[2]/span[1]").text
+					rent = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div/div/div[2]/div/h3/div').text
 				except:
 					try:
 						rent = driver.find_element_by_xpath("//*[@id='propertySummary']/div/div/div[2]/div/div[2]/span").text
@@ -210,7 +210,7 @@ def get_rent(driver, is_off_market):
 										rent = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[1]/div/div[1]/div[2]/h2/div").text
 									except:
 										try:
-											rent = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[2]/h3/div').text
+											rent = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[2]/h3/div').text		
 										except:
 											print("Unable to find RENT")
 											rent = "NA"
@@ -233,86 +233,64 @@ def get_address(driver, d):
 		d["zip code"] = "\"" + info[2].split(" ")[1] + "\""
 	except:
 		try:
-			info = driver.find_element_by_xpath("//*[@id='propertyDetails']/div/div[2]").text.split("\n")
-			d["address"] = info[0]
-			d["city"] = info[1].split(", ")[0]
-			d["state"] = info[1].split(", ")[1].split(" ")[0]
-			d["zip code"] = info[1].split(", ")[1].split(" ")[1]
+			d["address"] = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/div[1]/h1/span[1]').text
+			city_state = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/div[1]/h1/span[2]').text
+			d["city"] = city_state.split(", ")[0]
+                       	d["state"] = city_state.split(", ")[1].split(" ")[0]
+                        d["zip code"] = city_state.split(" ")[-1]
+
 		except:
 			try:
-				info = driver.find_element_by_xpath("/html/body/footer/div[1]/div[1]/div").text
-				try:
-					d["address"] = info.split(". ")[0].split("located at ")[1].split(", ")[0]
-					d["city"] = info.split(". ")[0].split("located at ")[1].split(", ")[1]
-					d["state"] = info.split(". ")[0].split("located at ")[1].split(", ")[2]
-				except:
-					d["address"] = driver.find_element_by_xpath("//*[@id='address']/h1/div[1]/span").text
-					d["city"] = info.split(". ")[0].split("located at ")[1].rsplit(" ", 2)[0]
-					d["state"] = info.split(". ")[0].split("located at ")[1].rsplit(" ", 2)[1]
-				zip_index = info.split(". ")[1].split(" ").index("ZIP")
-				if info.split(". ")[1].split(" ")[zip_index + 2].isdigit(): 
-					d["zip code"] = info.split(". ")[1].split(" ")[zip_index + 2]
-				elif info.split(". ")[1].split(" ")[zip_index - 1].isdigit():
-					d["zip code"] = info.split(". ")[1].split(" ")[zip_index - 1]
+				d["address"] = driver.find_element_by_xpath('//*[@id="home-details-page-city-state-element"]').text
+				city_state = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/div[1]/h1/span[3]').text
+				d["city"] = city_state.split(", ")[0]
+				d["state"] = city_state.split(", ")[1].split(" ")[0]
+				d["zip code"] = city_state.split(" ")[-1]
 			except:
 				try:
-					d["address"] = driver.find_element_by_xpath("//*[@id='propertySummary']/div[2]/div[1]/div[1]/div/h1/div").text
-					city_state = driver.find_element_by_xpath("//*[@id='propertySummary']/div[2]/div[1]/div[1]/div/h1/span").text
+					d["address"] = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div/div/div[1]/div[1]/h1/span[1]').text
+					city_state = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div/div/div[1]/div[1]/h1/span[2]').text
 					d["city"] = city_state.split(", ")[0]
 					d["state"] = city_state.split(", ")[1].split(" ")[0]
 					d["zip code"] = city_state.split(" ")[-1]
 				except:
 					try:
-						d["address"] = driver.find_element_by_xpath("//*[@id='propertySummary']/div/div/div[1]/div/h1/div").text
-						city_state = driver.find_element_by_xpath("//*[@id='propertySummary']/div/div/div[1]/div/h1/span").text
+						d["address"] = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div/div/div[1]/h1/span[1]').text
+						city_state = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[1]/div/div/div[1]/h1/span[2]").text
 						d["city"] = city_state.split(", ")[0]
 						d["state"] = city_state.split(", ")[1].split(" ")[0]
 						d["zip code"] = city_state.split(" ")[-1]
 					except:
 						try:
-							d["address"] = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[1]/div/div[1]/div[1]/h1/span[1]").text
-							city_state = driver.find_element_by_xpath("//*[@id='__next']/div/section/div[1]/div[2]/div[1]/div/div[1]/div[1]/h1/span[2]").text
+							d["address"] = driver.find_element_by_xpath("//*[@id='address']/h1/div[1]/span").text
+							city_state = driver.find_element_by_xpath("//*[@id='address']/h1/div[2]/span[1]").text
 							d["city"] = city_state.split(", ")[0]
 							d["state"] = city_state.split(", ")[1].split(" ")[0]
 							d["zip code"] = city_state.split(" ")[-1]
 						except:
 							try:
-								d["address"] = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div/div/div[1]/h1/span[1]').text
-								city_state = driver.find_element_by_xpath("//*[@id='main-content']/div[2]/div[2]/div[1]/div/div/div[1]/h1/span[2]").text
+								d["address"] = driver.find_element_by_xpath('//*[@id="address"]/h1/div[1]/span').text
+								city_state = driver.find_element_by_xpath('//*[@id="address"]/h1/div[2]/span[1]').text
 								d["city"] = city_state.split(", ")[0]
-								d["state"] = city_state.split(", ")[1].split(" ")[0]
-								d["zip code"] = city_state.split(" ")[-1]
+                                                                d["state"] = city_state.split(", ")[1].split(" ")[0]
+                                                                d["zip code"] = city_state.split(" ")[-1]
 							except:
 								try:
-									d["address"] = driver.find_element_by_xpath("//*[@id='address']/h1/div[1]/span").text
-									city_state = driver.find_element_by_xpath("//*[@id='address']/h1/div[2]/span[1]").text
+									d["address"] = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/h1/span[1]').text
+                                                                        city_state = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/h1/span[2]').text
 									d["city"] = city_state.split(", ")[0]
-									d["state"] = city_state.split(", ")[1].split(" ")[0]
-									d["zip code"] = city_state.split(" ")[-1]
+                                                                      	d["state"] = city_state.split(", ")[1].split(" ")[0]
+                                                                        d["zip code"] = city_state.split(" ")[-1]
 								except:
 									try:
-										d["address"] = driver.find_element_by_xpath('//*[@id="address"]/h1/div[1]/span').text
-										city_state = driver.find_element_by_xpath('//*[@id="address"]/h1/div[2]/span[1]').text
-										d["city"] = city_state.split(", ")[0]
-                                                                        	d["state"] = city_state.split(", ")[1].split(" ")[0]
-                                                                        	d["zip code"] = city_state.split(" ")[-1]
-									except:
-										try:
-											try:
-												d["address"] = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/h1/span[1]').text
-                                                                                		city_state = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/h1/span[2]').text
-												d["city"] = city_state.split(", ")[0]
-                                                                      				d["state"] = city_state.split(", ")[1].split(" ")[0]
-                                                                                        	d["zip code"] = city_state.split(" ")[-1]
-											except:
-												d["address"] = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/h1/span[2]').text
-												city_state = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/h1/span[3]').text
-                                                                                		d["city"] = city_state.split(", ")[0]
-                                                                                		d["state"] = city_state.split(", ")[1].split(" ")[0]
-                                                                                		d["zip code"] = city_state.split(" ")[-1]
-										except 	Exception as error:
-											print("Unable to find ADDRESS")
-											print("Caught this error: " + repr(error))
+										d["address"] = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/h1/span[2]').text
+										city_state = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/h1/span[3]').text
+                                                                                d["city"] = city_state.split(", ")[0]
+                                                                              	d["state"] = city_state.split(", ")[1].split(" ")[0]
+                                                                                d["zip code"] = city_state.split(" ")[-1]
+									except 	Exception as error:
+										print("Unable to find ADDRESS")
+										print("Caught this error: " + repr(error))
 
 def extract_phone(driver, d):
 	"""Extract phone number from Trulia

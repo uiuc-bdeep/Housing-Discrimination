@@ -46,12 +46,10 @@ def extract_rental_detail(driver, d):
 	"""
 
 	try:
-		property_detail = driver.find_element_by_xpath("//*[@id='propertyDetails']/div/ul[1]").text.split("\n")
+		property_detail = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/div[2]/div[1]/div/ul').text.split("\n")
 	except:
 		try:
-			property_detail = driver.find_element_by_xpath("//*[@id='lowerBlockRight']/div[4]").text.split("\n")
-			if "overview" in property_detail[0].lower():
-				property_detail = driver.find_element_by_xpath("//*[@id='lowerBlockRight']/div[5]").text.split("\n")
+			property_detail = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[1]/div/div/div[1]/div[2]/div[1]/div/ul').text.split("\n")
 		except:
 			try:
 				property_detail = driver.find_element_by_xpath("/html/body/div[7]/div[1]/div/div[2]/div[1]/ul").text.split("\n")
