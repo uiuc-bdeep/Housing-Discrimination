@@ -117,37 +117,53 @@ def send_message(driver,name, email, phone_num, address,url,send):
 		return 'SOLD'
 
 	print('Page Status: Available')
-
-	page_structure = 0
-	for i in range(len(NAME_CSS)):
+        
+        try:
+	    page_structure = 0
+	    for i in range(len(NAME_CSS)):
 		name_cond   = EC.presence_of_element_located((By.CSS_SELECTOR,NAME_CSS[i]))
 		name_handle = wait_and_get(driver, name_cond, 10)
 		if name_handle != 0:
 			page_structure = i
 			break
 
-	if name_handle == 0:
-		print('Name Cond: No Such Element')
-		return 'RESTART DRIVER'
+	    if name_handle == 0:
+                try:
+                    notify_text = driver.find_element_by_css_selector('#main-content > div.BasicPageLayout__BasicPageLayoutContainer-sc-7vcr4x-0.gMTacw > div.BasicPageLayout__BasicPageContent-sc-7vcr4x-1.lhjvlp > div.HomeDetailsContentOverview__ContentWithLeadFormGrid-sc-1lql7o5-0.bHYvJo.Grid__GridContainer-sc-5ig2n4-1.coXJy > div.Grid__CellBox-sc-5ig2n4-0.HomeDetailsContentOverview__HiddenExceptLargeCell-sc-1lql7o5-1.eNNXco > div > div > button')
+                    print("Notify Text")
+                except:
+		    print('Name Cond: No Such Element')
+		    return 'RESTART DRIVER'
 	
-	print("Page structure: " + str(page_structure))
+	    print("Page structure: " + str(page_structure))
 
-	name_handle.send_keys(name) # once it is found, send the name string to it
+	    name_handle.send_keys(name) # once it is found, send the name string to it
 
-	# send the email string
-	email_handle = driver.find_element_by_css_selector(EMAIL_CSS[page_structure])
-	email_handle.send_keys((str(email) + '@gmail.com'))
-	# send the phone string
-	phone_handle = driver.find_element_by_css_selector(PHONE_CSS[page_structure])
-	phone_handle.send_keys(str(phone_num))
+	    # send the email string
+	    email_handle = driver.find_element_by_css_selector(EMAIL_CSS[page_structure])
+	    email_handle.send_keys((str(email) + '@gmail.com'))
+	    # send the phone string
+	    phone_handle = driver.find_element_by_css_selector(PHONE_CSS[page_structure])
+	    phone_handle.send_keys(str(phone_num))
 
-	print("Email: {}@gmail.com\nPhone: {}".format(str(email), str(phone_num)))
-        for i in range(len(SEND_CSS)):
+	    print("Email: {}@gmail.com\nPhone: {}".format(str(email), str(phone_num)))
+            for i in range(len(SEND_CSS)):
+                try:
+	            send_handle = driver.find_element_by_css_selector(SEND_CSS[i])
+                    break
+                except:
+                    print("Button not found at index {}".format(i))
+
+        except:
             try:
-	        send_handle = driver.find_element_by_css_selector(SEND_CSS[i])
-                break
+                notify_text = driver.find_element_by_css_selector('#main-content > div.BasicPageLayout__BasicPageLayoutContainer-sc-7vcr4x-0.gMTacw > div.BasicPageLayout__BasicPageContent-sc-7vcr4x-1.lhjvlp > div.HomeDetailsContentOverview__ContentWithLeadFormGrid-sc-1lql7o5-0.bHYvJo.Grid__GridContainer-sc-5ig2n4-1.coXJy > div.Grid__CellBox-sc-5ig2n4-0.HomeDetailsContentOverview__HiddenExceptLargeCell-sc-1lql7o5-1.eNNXco > div > div > button')
+                #if 'notify me' in notify_text.lower():
+                send = 0
+                print("Notify Me When Available Button")
+
             except:
-                print("Button not found at index {}".format(i))
+                print("Something Went Wrong")
+                return 'RESTART DRIVER'
 
 	if send == 1:
 		print('Clicking...')
