@@ -91,6 +91,9 @@ def send_message(driver,name, email, phone_num, address,url,send):
         element = '#main-content > div.BasicPageLayout__BasicPageLayoutContainer-mfegza-0.fVMZGj > div.HomeDetailsHero__Container-hubkl0-0.dBslmq > div > div > div.HomeDetailsHero__HomeInfoBanner-hubkl0-4.dodyUc > div.HomeDetailsHero__HomeStatusTitle-hubkl0-6.gZQsUf > span.PropertyTag-sc-5t90lx-0.kHqVgt.Tag__TagBase-sc-1rp6fz0-1.clFGBQ.Text__TextBase-sc-1cait9d-0.dJEjin'
         error  += try_page_element(driver,element,['SOLD'])
 
+        element = '#main-content > div.BasicPageLayout__BasicPageLayoutContainer-sc-7vcr4x-0.gMTacw > div.HomeDetailsHero__Container-hubkl0-0.dBslmq > div > div > div.HomeDetailsHero__HomeInfoBanner-hubkl0-4.dodyUc > div.HomeDetailsHero__HomeStatusTitle-hubkl0-6.gZQsUf > span.PropertyTag-sc-1oqnx2r-0.euRTRd.Tag__TagBase-l0an8r-1.iEnRVM.Text__TextBase-sc-1i9uasc-0.dVmMGh > span'
+        error  += try_page_element(driver,element,['SOLD'])
+
 	if error > 0:
 		return 'SOLD'
 
