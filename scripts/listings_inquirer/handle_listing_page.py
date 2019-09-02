@@ -138,8 +138,12 @@ def send_message(driver,name, email, phone_num, address,url,send):
                     notify_text = driver.find_element_by_css_selector('#main-content > div.BasicPageLayout__BasicPageLayoutContainer-sc-7vcr4x-0.gMTacw > div.BasicPageLayout__BasicPageContent-sc-7vcr4x-1.lhjvlp > div.HomeDetailsContentOverview__ContentWithLeadFormGrid-sc-1lql7o5-0.bHYvJo.Grid__GridContainer-sc-5ig2n4-1.coXJy > div.Grid__CellBox-sc-5ig2n4-0.HomeDetailsContentOverview__HiddenExceptLargeCell-sc-1lql7o5-1.eNNXco > div > div > button')
                     print("Notify Text")
                 except:
-		    print('Name Cond: No Such Element')
-		    return 'RESTART DRIVER'
+			try:
+				income_restriction = driver.find_element_by_css_selector('#main-content > div.BasicPageLayout__BasicPageLayoutContainer-sc-7vcr4x-0.gMTacw > div.BasicPageLayout__BasicPageContent-sc-7vcr4x-1.lhjvlp > div.HomeDetailsContentOverview__ContentWithLeadFormGrid-sc-1lql7o5-0.bHYvJo.Grid__GridContainer-sc-5ig2n4-1.coXJy > div.Grid__CellBox-sc-5ig2n4-0.HomeDetailsContentOverview__HiddenExceptLargeCell-sc-1lql7o5-1.eNNXco > div > div > div.Grid__CellBox-sc-5ig2n4-0.fxeKaR > button')
+				print("Income Restriction")
+			except:
+		    		print('Name Cond: No Such Element')
+		    		return 'RESTART DRIVER'
 	
 	    print("Page structure: " + str(page_structure))
 
@@ -168,8 +172,13 @@ def send_message(driver,name, email, phone_num, address,url,send):
                 print("Notify Me When Available Button")
 
             except:
-                print("Something Went Wrong")
-                return 'RESTART DRIVER'
+		try:
+			income_restriction = driver.find_element_by_css_selector('#main-content > div.BasicPageLayout__BasicPageLayoutContainer-sc-7vcr4x-0.gMTacw > div.BasicPageLayout__BasicPageContent-sc-7vcr4x-1.lhjvlp > div.HomeDetailsContentOverview__ContentWithLeadFormGrid-sc-1lql7o5-0.bHYvJo.Grid__GridContainer-sc-5ig2n4-1.coXJy > div.Grid__CellBox-sc-5ig2n4-0.HomeDetailsContentOverview__HiddenExceptLargeCell-sc-1lql7o5-1.eNNXco > div > div > div.Grid__CellBox-sc-5ig2n4-0.fxeKaR > button')
+                       	print("Income Restriction Button")
+			send = 0
+		except:
+                	print("Something Went Wrong")
+                	return 'RESTART DRIVER'
 
 	if send == 1:
 		print('Clicking...')

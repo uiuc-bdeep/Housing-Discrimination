@@ -1,1 +1,430 @@
 
+1560199500622	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.eu0lxyhYvdeN"
+*** You are running in headless mode.
+1560199500977	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1560199500978	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1560199500978	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1560199502627	Marionette	INFO	Listening on port 33048
+1560199502648	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript error: https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyBiBQk23rLklPI3a3kpWZKvQySC0wHf1Pk&libraries=geometry, line 88: Error: Could not load "controls".
+JavaScript error: https://static.trulia-cdn.com/javascript/bbb6c0f/include/js/_built/combo/first_step.js, line 1: Error: Mismatched anonymous define() module: function(){return a}
+http://requirejs.org/docs/errors.html#mismatch
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221560186355257%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+JavaScript error: https://static.trulia-cdn.com/javascript/bbb6c0f/include/js/_built/combo/first_step.js, line 1: Error: Mismatched anonymous define() module: function(){return a}
+http://requirejs.org/docs/errors.html#mismatch
+JavaScript error: https://static.trulia-cdn.com/javascript/bbb6c0f/include/js/_built/combo/first_step.js, line 1: Error: Mismatched anonymous define() module: function(){return a}
+http://requirejs.org/docs/errors.html#mismatch
+JavaScript error: https://static.trulia-cdn.com/javascript/bbb6c0f/include/js/_built/combo/first_step.js, line 1: Error: Mismatched anonymous define() module: function(){return a}
+http://requirejs.org/docs/errors.html#mismatch
+JavaScript error: https://static.trulia-cdn.com/javascript/bbb6c0f/include/js/_built/combo/first_step.js, line 1: Error: Mismatched anonymous define() module: function(){return a}
+http://requirejs.org/docs/errors.html#mismatch
+1560199566554	Marionette	INFO	Stopped listening on port 33048
+[Parent 4422, Gecko_IOThread] WARNING: pipe error (66): Connection reset by peer: file /build/firefox-3BKoEb/firefox-67.0.1+build1/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 357
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x53000D,name=PHttpChannel::Msg_RemoveCorsPreflightCacheEntry) Closed channel: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x530005,name=PHttpChannel::Msg_Cancel) Closed channel: cannot send/recv
+
+1560374743200	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.uSrWky4clULC"
+*** You are running in headless mode.
+1560374743552	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1560374743552	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1560374743552	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1560374745137	Marionette	INFO	Listening on port 34141
+1560374745210	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+1560374749434	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': storage.local data migration cancelled, unable to open IDB connection: The current transaction exceeded its quota limitations.::
+1560374749435	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': JSONFile backend is being kept enabled by an unexpected IDBBackend failure: The current transaction exceeded its quota limitations.::
+console.error: "Could not write session state file " (new Error("", "(unknown module)")) ""
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Unix error 28 during operation makeDir on file /tmp/rust_mozprofile.uSrWky4clULC/datareporting (No space left on device)
+JavaScript error: https://static.trulia-cdn.com/javascript/fffccc8/include/js/_built/combo/srp_rentals_2016.09d0a4c964833beedd1f.js, line 1: NS_ERROR_FILE_NO_DEVICE_SPACE: 
+JavaScript error: https://www.trulia.com/for_rent/49503_zip/2_p/, line 716: TypeError: $(...).truliaToggle is not a function
+JavaScript error: , line 0: uncaught exception: [object Object]
+JavaScript error: , line 0: uncaught exception: [object Object]
+JavaScript error: https://static.trulia-cdn.com/javascript/fffccc8/include/js/_built/combo/first_step.js, line 1: Error: Mismatched anonymous define() module: function(){return a}
+http://requirejs.org/docs/errors.html#mismatch
+JavaScript error: https://static.trulia-cdn.com/javascript/fffccc8/include/js/_built/combo/srp_rentals_2016.09d0a4c964833beedd1f.js, line 1: NS_ERROR_FILE_NO_DEVICE_SPACE: 
+JavaScript error: https://www.trulia.com/for_rent/49503_zip/3_p/, line 716: TypeError: $(...).truliaToggle is not a function
+console.error: "Could not write session state fi1561063379371	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.DdoFtiyyYyFd"
+*** You are running in headless mode.
+1561063379712	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1561063379712	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1561063379712	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1561063381132	Marionette	INFO	Listening on port 37679
+1561063381179	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript error: https://staticxx.facebook.com/connect/xd_arbiter.php?version=44#channel=f2cc1826c90717e&origin=https%3A%2F%2Fwww.trulia.com, line 44: Error: 
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221561052996982%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+1561063424105	Marionette	INFO	Stopped listening on port 37679
+[Parent 10358, Gecko_IOThread] WARNING: pipe error (66): Connection reset by peer: file /build/firefox-N_WZtD/firefox-67.0.2+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 357
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x53000D,name=PHttpChannel::Msg_RemoveCorsPreflightCacheEntry) Closed channel: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x530005,name=PHttpChannel::Msg_Cancel) Closed channel: cannot send/recv
+
+1561828924310	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.a4P2NLKVNpEc"
+*** You are running in headless mode.
+1561828925433	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1561828925433	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1561828925434	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1561828927301	Marionette	INFO	Listening on port 35763
+1561828927331	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221561710153920%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+1561828988454	Marionette	INFO	Stopped listening on port 35763
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x53000D,name=PHttpChannel::Msg_RemoveCorsPreflightCacheEntry) Closed channel: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x530005,name=PHttpChannel::Msg_Cancel) Closed channel: cannot send/recv
+
+1563986211820	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.78w3eTi11kZK"
+*** You are running in headless mode.
+1563986212924	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1563986212925	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1563986212925	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1563986214881	Marionette	INFO	Listening on port 45751
+1563986214930	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221563926412647%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+1563986311019	Marionette	INFO	Stopped listening on port 45751
+[Parent 20950, Gecko_IOThread] WARNING: pipe error (66): Connection reset by peer: file /build/firefox-N_WZtD/firefox-67.0.2+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 357
+1564414814263	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.UrSbvfwj0QgU"
+*** You are running in headless mode.
+1564414815264	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1564414815264	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1564414815265	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+Exiting due to channel error.
+Exiting due to channel error.
+1564414869512	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.D9mcGfOqaBvh"
+*** You are running in headless mode.
+1564414870240	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1564414870241	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1564414870241	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+Exiting due to channel error.
+Exiting due to channel error.
+1564415824789	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.mR8HuGOBQhCN"
+*** You are running in headless mode.
+1564415826025	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1564415826026	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1564415826026	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1564415827859	Marionette	INFO	Listening on port 37625
+1564415827903	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyBiBQk23rLklPI3a3kpWZKvQySC0wHf1Pk&libraries=geometry, line 88: Error: Could not load "util".
+JavaScript error: https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyBiBQk23rLklPI3a3kpWZKvQySC0wHf1Pk&libraries=geometry, line 88: Error: Could not load "map".
+JavaScript error: https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyBiBQk23rLklPI3a3kpWZKvQySC0wHf1Pk&libraries=geometry, line 88: Error: Could not load "overlay".
+JavaScript error: https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyBiBQk23rLklPI3a3kpWZKvQySC0wHf1Pk&libraries=geometry, line 88: Error: Could not load "overlay".
+JavaScript error: https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyBiBQk23rLklPI3a3kpWZKvQySC0wHf1Pk&libraries=geometry, line 88: Error: Could not load "overlay".
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221564358474902%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyBiBQk23rLklPI3a3kpWZKvQySC0wHf1Pk&libraries=geometry, line 88: Error: Could not load "util".
+JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+JavaScript error: https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyBiBQk23rLklPI3a3kpWZKvQySC0wHf1Pk&libraries=geometry, line 88: Error: Could not load "util".
+JavaScript error: https://staticxx.facebook.com/connect/xd_arbiter.php?version=44#channel=f268b2857778b44&origin=https%3A%2F%2Fwww.trulia.com, line 44: Error: 
+JavaScript error: resource://gre/modules/ActorManagerChild.jsm, line 237: NS_ERROR_XPC_BAD_CONVERT_NATIVE: Component returned failure code: 0x8057000a (NS_ERROR_XPC_BAD_CONVERT_NATIVE) [xpcIJSWeakReference.get]
+JavaScript error: resource://gre/modules/ActorManagerChild.jsm, line 237: NS_ERROR_XPC_BAD_CONVERT_NATIVE: Component returned failure code: 0x8057000a (NS_ERROR_XPC_BAD_CONVERT_NATIVE) [xpcIJSWeakReference.get]
+JavaScript error: resource://gre/modules/ActorManagerChild.jsm, line 237: NS_ERROR_XPC_BAD_CONVERT_NATIVE: Component returned failure code: 0x8057000a (NS_ERROR_XPC_BAD_CONVERT_NATIVE) [xpcIJSWeakReference.get]
+JavaScript error: resource://gre/modules/ActorManagerChild.jsm, line 237: NS_ERROR_XPC_BAD_CONVERT_NATIVE: Component returned failure code: 0x8057000a (NS_ERROR_XPC_BAD_CONVERT_NATIVE) [xpcIJSWeakReference.get]
+JavaScript error: resource://gre/modules/ActorManagerChild.jsm, line 237: NS_ERROR_XPC_BAD_CONVERT_NATIVE: Component returned failure code: 0x8057000a (NS_ERROR_XPC_BAD_CONVERT_NATIVE) [xpcIJSWeakReference.get]
+JavaScript error: resource://gre/modules/ActorManagerChild.jsm, line 237: NS_ERROR_XPC_BAD_CONVERT_NATIVE: Component returned failure code: 0x8057000a (NS_ERROR_XPC_BAD_CONVERT_NATIVE) [xpcIJSWeakReference.get]
+JavaScript error: resource://gre/modules/ActorManagerChild.jsm, line 237: NS_ERROR_XPC_BAD_CONVERT_NATIVE: Component returned failure code: 0x8057000a (NS_ERROR_XPC_BAD_CONVERT_NATIVE) [xpcIJSWeakReference.get]
+1564415938155	Marionette	INFO	Stopped listening on port 37625
+[Parent 1671, Gecko_IOThread] WARNING: pipe error (72): Connection reset by peer: file /build/firefox-N_WZtD/firefox-67.0.2+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 357
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x53000D,name=PHttpChannel::Msg_RemoveCorsPreflightCacheEntry) Closed channel: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x530005,name=PHttpChannel::Msg_Cancel) Closed channel: cannot send/recv
+
+1564584960344	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.XYBDrCa22tqa"
+*** You are running in headless mode.
+1564584960689	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1564584960690	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1564584960690	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1564584962252	Marionette	INFO	Listening on port 33863
+1564584962354	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221564532590680%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+1564585003333	Marionette	INFO	Stopped listening on port 33863
+[Parent 7838, Gecko_IOThread] WARNING: pipe error (65): Connection reset by peer: file /build/firefox-N_WZtD/firefox-67.0.2+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 357
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x53000D,name=PHttpChannel::Msg_RemoveCorsPreflightCacheEntry) Closed channel: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x530005,name=PHttpChannel::Msg_Cancel) Closed channel: cannot send/recv
+
+1564764388982	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.VCPYxkQfOyEp"
+*** You are running in headless mode.
+1564764389092	addons.manager	WARN	Failed to copy the application shipped blocklist to the profile: [Exception... "Component returned failure code: 0x8052000a (NS_ERROR_FILE_DISK_FULL) [nsIFile.copyTo]"  nsresult: "0x8052000a (NS_ERROR_FILE_DISK_FULL)"  location: "JS frame :: resource://gre/modules/AddonManager.jsm :: validateBlocklist :: line 576"  data: no] Stack trace: validateBlocklist()@resource://gre/modules/AddonManager.jsm:576
+startup()@resource://gre/modules/AddonManager.jsm:733
+startup()@resource://gre/modules/AddonManager.jsm:2804
+observe()@resource://gre/modules/addonManager.js:65
+1564764389322	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1564764389323	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: r1564766208070	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.zRm22kJ1Nlmn"
+*** You are running in headless mode.
+1564766209186	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1564766209186	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1564766209187	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1564766210997	Marionette	INFO	Listening on port 38054
+1564766211081	Marionette	WARN	TLS certificate errors will be ignored for this session
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+1564766302965	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.OCZqU5NpnqgH"
+*** You are running in headless mode.
+1564766303291	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1564766303291	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1564766303291	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1564766305633	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.DOb04ZaYxzUs"
+*** You are running in headless mode.
+1564766305966	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1564766305966	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1564766305966	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1564766307349	Marionette	INFO	Listening on port 37231
+1564766307440	Marionette	WARN	TLS certificate errors will be ignored for this session
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+[Child 2445, Chrome_ChildThread] WARNING: pipe error (3): Connection reset by peer: file /build/firefox-N_WZtD/firefox-67.0.2+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 357
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+1564766351578	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.LlPobxNTy2AE"
+*** You are running in headless mode.
+1564766351909	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1564766351910	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1564766351910	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1564766353301	Marionette	INFO	Listening on port 36758
+1564766353391	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221564671502746%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+1564766377755	Marionette	INFO	Stopped listening on port 36758
+[Parent 2523, Gecko_IOThread] WARNING: pipe error (66): Connection reset by peer: file /build/firefox-N_WZtD/firefox-67.0.2+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 357
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x53000D,name=PHttpChannel::Msg_RemoveCorsPreflightCacheEntry) Closed channel: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x530005,name=PHttpChannel::Msg_Cancel) Closed channel: cannot send/recv
+
+1564770805236	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.qS95jCQWvR7o"
+*** You are running in headless mode.
+1564770805571	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1564770805571	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1564770805571	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1564770806957	Marionette	INFO	Listening on port 40831
+1564770807047	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221564671502746%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+1564771198546	Marionette	INFO	Stopped listening on port 40831
+1565287996515	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.IWCeJhjenHV1"
+*** You are running in headless mode.
+1565287996851	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1565287996851	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1565287996851	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1565287998239	Marionette	INFO	Listening on port 35995
+1565287998323	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221565222410127%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+1565288332283	Marionette	INFO	Stopped listening on port 35995
+[Parent 30436, Gecko_IOThread] WARNING: pipe error (65): Connection reset by peer: file /build/firefox-N_WZtD/firefox-67.0.2+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 357
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x53000D,name=PHttpChannel::Msg_RemoveCorsPreflightCacheEntry) Closed channel: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x530005,name=PHttpChannel::Msg_Cancel) Closed channel: cannot send/recv
+
+1566353834368	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.f4ZC372WlRpy"
+*** You are running in headless mode.
+1566353834700	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1566353834701	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1566353834701	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1566353835976	Marionette	INFO	Listening on port 33811
+1566353836093	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221566233826256%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+1566354134156	Marionette	INFO	Stopped listening on port 33811
+[Parent 16797, Gecko_IOThread] WARNING: pipe error (65): Connection reset by peer: file /build/firefox-N_WZtD/firefox-67.0.2+build2/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 357
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x53000D,name=PHttpChannel::Msg_RemoveCorsPreflightCacheEntry) Closed channel: cannot send/recv
+
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x530005,name=PHttpChannel::Msg_Cancel) Closed channel: cannot send/recv
+
+1566603194281	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "--headless" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile.wJtwYDptkfaL"
+*** You are running in headless mode.
+1566603194613	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1566603194613	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1566603194613	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+1566603196010	Marionette	INFO	Listening on port 40033
+1566603196089	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: getContext: Disallowing antialiased backbuffers due to blacklisting.
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Can't use WebGL in headless mode (https://bugzil.la/1375585).
+JavaScript warning: https://client.perimeterx.net/PXYO6YjwLb/main.min.js, line 3: Error: WebGL warning: <SetDimensions>: Failed to create WebGL context: WebGL creation failed: 
+* Can't use WebGL in headless mode (https://bugzil.la/1375585).
+console.error: BroadcastService: 
+  receivedBroadcastMessage: handler for
+  remote-settings/monitor_changes
+  threw error:
+  Message: Error: Polling for changes failed: http://%(server)s/dummy/blocklist//buckets/monitor/collections/changes/records?_expected=%221561548844810%22 is not a valid URL..
+  Stack:
+    remoteSettingsFunction/remoteSettings.pollChanges@resource://services-settings/remote-settings.js:203:13
+
+1566603490588	Marionette	INFO	Stopped listening on port 40033

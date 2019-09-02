@@ -55,6 +55,7 @@ new_cols = cols[:9]
 num_addresses = int(cols[-1].split(' ')[-1])
 for i in range(1, num_addresses + 1):
 	for first,last in names:
+		print(first, last)
 		if str(df.loc[df['first name'] == first,'address ' + str(i)].values[0]).lower() == 'nan':
 			df.loc[df['first name'] == first,'address ' + str(i)] = None
 		else: 

@@ -19,9 +19,9 @@ get_layerName <- function(shp_file_path)
   print(relative_path)
   return(ogrListLayers(relative_path)[1])
 }
-state = "MO"
-tabblock = "55" 
-input_points <- read.csv("/home/ubuntu/Housing-Discrimination/rounds/round_4/round_4_rentals.csv")
+state = "IN"
+tabblock = "18" 
+input_points <- read.csv("/home/ubuntu/Housing-Discrimination/rounds/pollution_rounds/round_15/round_15_rentals.csv")
 #input_points <- LA_final
 points <- input_points
 points_not_na <- points[which(!is.na(points$Longitude) & !is.na(points$Latitude)),]
@@ -33,7 +33,8 @@ points <- points[which(!is.na(points$Longitude) & !is.na(points$Latitude)),]
 coordinates(points) <- cbind(points$Longitude, points$Latitude)
 proj4string(points) <- CRS("+proj=longlat")
 
-polygons_path <- paste0(paste("/home/ubuntu/Housing-Discrimination/rounds/census_block/",tabblock,"/tl_2016_",tabblock,"_tabblock10.shp",sep = ""))
+polygons_path <- paste0(paste("/home/ubuntu/Housing-Discrimination/rounds/census_block/",tabblock,"/tl_2016_",tabblock,"_tabblock10.shp",sep = "")) 
+
 # step 4: preprocess for the polygons #
 shpLayerName <- get_layerName(polygons_path)
 shp_poly <- readOGR(path.expand(polygons_path), shpLayerName)
@@ -54,4 +55,4 @@ res <- over(points, shp_poly)
 #points_res <- as.data.frame(points_raw)
 points_res <- cbind(points_not_na, res)
 
-write.csv(points_res,"/home/ubuntu/Housing-Discrimination/rounds/round_4/round_4_census.csv", row.names = F)
+write.csv(points_res,"/home/ubuntu/Housing-Discrimination/rounds/pollution_rounds/round_15/round_15_census.csv", row.names = F)

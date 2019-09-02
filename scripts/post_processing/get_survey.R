@@ -30,6 +30,6 @@ df$`_tags` <- NULL
 df$`_geolocation` <- NULL
 df$`_attachments` <- NULL
 
-setwd("/home/ubuntu/Housing-Discrimination/scripts/post_processing/input")
+setwd("/home/ubuntu/Housing-Discrimination/scripts/merge/input")
 write.csv(df, "responses_concatenated.csv", row.names = F)
 print("responses_concatenated.csv has been written.")

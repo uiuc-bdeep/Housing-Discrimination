@@ -1,1 +1,0 @@
-/Users/Chris/Research/trulia_project/test_folder/toxic_data/toxic_names_market.csv,/Users/Chris/Research/trulia_project/test_folder/toxic_data/reruns_2/round_2/rerun_2_timestamps_5_15_19.csv,/Users/Chris/Research/trulia_project/test_folder/toxic_data/reruns_2/round_2/rerun_2_rentals.csv
