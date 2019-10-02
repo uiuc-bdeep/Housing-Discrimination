@@ -37,6 +37,9 @@ from extract.extract_data import extract_rental, check_off_market, extract_commu
 import extract.rental.extract_rental_data as rental
 import extract.sold_rental.extract_sold_rental_data as sold
 from util.util import start_firefox, restart
+import crime
+import school
+import shop
 
 trulia = "https://www.trulia.com"
 geckodriver_path = '/usr/bin/geckodriver'
@@ -44,10 +47,10 @@ adblock_path = "/home/ubuntu/trulia/stores/adblock_plus-3.3.1-an+fx.xpi"
 uBlock_path = "/home/ubuntu/trulia/stores/uBlock0@raymondhill.net.xpi"
 
 if len(sys.argv) != 5:
-    print("Include rentals file, start point, end point, and debug (0 or 1) as arguments")
+    print("Include start point, end point, round_number, and debug (0 or 1) as arguments")
     exit()
 
-def update_row(idx):
+def update_row(idx, round_num):
     url = rentals["URL"][idx]
     print(idx, url)
     result = open_page(url)
@@ -58,22 +61,23 @@ def update_row(idx):
         else:
             print("On the market")
         num_failed = 0
-        num_failed += update_basic_info(idx, is_off_market)
-        num_failed += update_crime(idx, is_off_market)
-        num_failed += update_school(idx, is_off_market)
-        num_failed += update_commute(idx, is_off_market)
-        #shop & eat
-        rentals.to_csv('../../rounds/round_2/round_2_rentals_1_updated.csv', index=False)
-    finish_listing(idx)
+        #num_failed += update_basic_info(idx, is_off_market)
+        #num_failed += update_crime(idx, is_off_market)
+        #num_failed += update_school(idx, is_off_market)
+        num_failed += update_shop_eat(idx, is_off_market)
+        #rentals.to_csv('../../rounds/round_{}/round_{}_rentals_updated.csv'.format(round_num, round_num), index=False)
+    finish_listing(driver, idx)
 
 def update_basic_info(idx, off_market):
     print("Updating basic info")
     d = {}
     try:
         if not off_market:
+	    print("On market")
             rental.extract_rental_detail(driver, d)
         else:
-            sold.extract_sold_rental_detail(driver, d)
+	    print("Off market")
+            sold.extract_rental_detail(driver, d)
         print("Successfully updated basic info:")
         print(d)
         for key in d.keys():
@@ -89,64 +93,63 @@ def update_basic_info(idx, off_market):
         return 1
 
 def update_crime(idx, off_market):
-    if rentals['Assault'][idx] != 'NA' and not pd.isnull(rentals['Assault'][idx]):
-        print("No need to update crime")
-        return 0
     print("Updating crime data")
     d = {}
     try:
         if not off_market:
-            rental.extract_rental_crime(driver, d)
+            crime.extract_rental_crime(driver, d)
         else:
-            sold.extract_sold_rental_crime(driver, d)
+            crime.extract_rental_crime(driver, d)
         print("Successfully extracted crime data:")
         print(d)
-        #write to rentals
+        rentals.at[idx, 'Assault'] = d['assault']
+	rentals.at[idx, 'Theft'] = d['theft']
+	rentals.at[idx, 'Arrest'] = d['arrest']
+	rentals.at[idx, 'Burglary'] = d['burglary']
+	rentals.at[idx, 'Vandalism'] = d['vandalism']
         return 0
     except:
         print("Unable to extract crime data")
         return 1
             
 def update_school(idx, off_market):
-    if not pd.isnull(rentals['Elementary_School_Avg_Score'][idx]) and int(rentals['Elementary_School_Avg_Score'][idx]) != 0:
-        print("No need to update school")
-        return 0
+    #if not pd.isnull(rentals['Elementary_School_Avg_Score'][idx]) and int(rentals['Elementary_School_Avg_Score'][idx]) != 0:
+     #   print("No need to update school")
+      #  return 0
     print("Updating school data")
     d = {}
     try:
         if not off_market:
-            rental.extract_rental_school(driver, d)
+            school.extract_rental_school(driver, d)
         else:
-            sold.extract_sold_rental_school(driver, d)
+            school.extract_sold_school(driver, d)
         print("Successfully extracted school data:")
         print(d)
-        rentals.at[idx, 'Elementary_School_Count'] = d['elementary_school_count']
-        rentals.at[idx, 'Elementary_School_Avg_Score'] = d['elementary_school_average_score']
-        rentals.at[idx, 'Middle_School_Count'] = d['middle_school_count']
-        rentals.at[idx, 'Middle_School_Avg_Score'] = d['middle_school_average_score']
-        rentals.at[idx, 'High_School_Count'] = d['high_school_count']
-        rentals.at[idx, 'High_School_Avg_Score'] = d['high_school_average_score']
+        #rentals.at[idx, 'Elementary_School_Count'] = d['elementary_school_count']
+        #rentals.at[idx, 'Elementary_School_Avg_Score'] = d['elementary_school_average_score']
+        #rentals.at[idx, 'Middle_School_Count'] = d['middle_school_count']
+        #rentals.at[idx, 'Middle_School_Avg_Score'] = d['middle_school_average_score']
+        #rentals.at[idx, 'High_School_Count'] = d['high_school_count']
+        #rentals.at[idx, 'High_School_Avg_Score'] = d['high_school_average_score']
         return 0
     except:
         print("Unable to extract school data")
         return 1
 
-def update_commute(idx, off_market):
-    if not pd.isnull(rentals['Driving'][idx]) and rentals['Driving'][idx] != 'NA':
-        print("No need to update commute")
-        return 0
-    print("Updating commute data")
-    d = {}
-    try:
-        extract_commute(driver, d)
-        print("Successfully extraced commute data:")
-        print(d)
-        #update rentals df
-        return 0
-    except:
-        print("Unable to update commute data")
-        return 1
-
+def update_shop_eat(idx, off_market):
+	print("Updating Shop & Eat")
+	d = {}	
+	#try:
+	if not off_market:
+		shop.extract_rental_shop_eat(driver, d)
+	else:
+		shop.extract_rental_shop_eat(driver, d)
+	print("Successfully extracted shop & eat")
+	print(d)
+	return 0
+	#except:
+	#	print("Unable to extract shop & eat")
+#		return 1
 
 def open_page(url):
     driver.delete_all_cookies()
@@ -166,12 +169,12 @@ def open_page(url):
         restart("logfile", debug, start)
         return 1
 
-def finish_listing(idx):
+def finish_listing(driver, idx):
     with open("logfile", "ab") as log:
         filewriter = csv.writer(log, delimiter = ',', quoting = csv.QUOTE_MINIMAL)
         filewriter.writerow([idx])
 
-    driver.close()
+    #driver.close()
     driver.switch_to_window(driver.window_handles[0])
     sleep(random.randint(10,40))
 
@@ -190,20 +193,21 @@ def start_driver():
         driver.quit()
         restart("logfile", debug, start)
 
-rentals_path = sys.argv[1]
-start = int(sys.argv[2])
-end = int(sys.argv[3])
+round_number = int(sys.argv[3])
+rentals_path = "/home/ubuntu/Housing-Discrimination/rounds/round_{}/round_{}_rentals_updated.csv".format(round_number, round_number)
+start = int(sys.argv[1])
+end = int(sys.argv[2])
 debug = int(sys.argv[4])
 rentals = pd.read_csv(rentals_path)
 if end > rentals.shape[0]:
     end = rentals.shape[0]
-print("Updating rentals file from {} to {}".format(start, end))
+print("Updating rentals file for round {} from {} to {}".format(round_number, start, end))
 if(debug == 1):
     print("DEBUG = true")
 driver = start_driver()
 if driver != None:
     print("Driver Successfully Started")
 for i in range(start, end):
-    update_row(i)
+    update_row(i, round_number)
 
 
