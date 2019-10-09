@@ -46,26 +46,23 @@ geckodriver_path = '/usr/bin/geckodriver'
 adblock_path = "/home/ubuntu/trulia/stores/adblock_plus-3.3.1-an+fx.xpi"
 uBlock_path = "/home/ubuntu/trulia/stores/uBlock0@raymondhill.net.xpi"
 
-if len(sys.argv) != 5:
-    print("Include start point, end point, round_number, and debug (0 or 1) as arguments")
+if len(sys.argv) != 4:
+    print("Include start point, end point, and debug (0 or 1) as arguments")
     exit()
 
-def update_row(idx, round_num):
+def update_row(idx):
     url = rentals["URL"][idx]
     print(idx, url)
     result = open_page(url)
     if result == 0:
         is_off_market = check_off_market(driver)
-        if is_off_market:
-            print("Off market")
-        else:
+        if not is_off_market:
             print("On the market")
-        num_failed = 0
-        #num_failed += update_basic_info(idx, is_off_market)
-        #num_failed += update_crime(idx, is_off_market)
-        #num_failed += update_school(idx, is_off_market)
-        num_failed += update_shop_eat(idx, is_off_market)
-        #rentals.to_csv('../../rounds/round_{}/round_{}_rentals_updated.csv'.format(round_num, round_num), index=False)
+        #update_basic_info(idx, is_off_market)
+        update_crime(idx, is_off_market)
+        #update_school(idx, is_off_market)
+        #update_shop_eat(idx, is_off_market)
+        rentals.to_csv('/home/ubuntu/Housing-Discrimination/scripts/merge/input/census_concatenated_updated.csv', index=False)
     finish_listing(driver, idx)
 
 def update_basic_info(idx, off_market):
@@ -93,63 +90,32 @@ def update_basic_info(idx, off_market):
         return 1
 
 def update_crime(idx, off_market):
-    print("Updating crime data")
-    d = {}
-    try:
-        if not off_market:
-            crime.extract_rental_crime(driver, d)
-        else:
-            crime.extract_rental_crime(driver, d)
-        print("Successfully extracted crime data:")
-        print(d)
-        rentals.at[idx, 'Assault'] = d['assault']
-	rentals.at[idx, 'Theft'] = d['theft']
-	rentals.at[idx, 'Arrest'] = d['arrest']
-	rentals.at[idx, 'Burglary'] = d['burglary']
-	rentals.at[idx, 'Vandalism'] = d['vandalism']
-        return 0
-    except:
-        print("Unable to extract crime data")
-        return 1
+	print("Updating Crime Data")
+	d = {}
+	crime.extract_crime(driver, d, off_market)
+	update_rental_file(idx, d)
+	return 0
             
 def update_school(idx, off_market):
-    #if not pd.isnull(rentals['Elementary_School_Avg_Score'][idx]) and int(rentals['Elementary_School_Avg_Score'][idx]) != 0:
-     #   print("No need to update school")
-      #  return 0
-    print("Updating school data")
-    d = {}
-    try:
-        if not off_market:
-            school.extract_rental_school(driver, d)
-        else:
-            school.extract_sold_school(driver, d)
-        print("Successfully extracted school data:")
-        print(d)
-        #rentals.at[idx, 'Elementary_School_Count'] = d['elementary_school_count']
-        #rentals.at[idx, 'Elementary_School_Avg_Score'] = d['elementary_school_average_score']
-        #rentals.at[idx, 'Middle_School_Count'] = d['middle_school_count']
-        #rentals.at[idx, 'Middle_School_Avg_Score'] = d['middle_school_average_score']
-        #rentals.at[idx, 'High_School_Count'] = d['high_school_count']
-        #rentals.at[idx, 'High_School_Avg_Score'] = d['high_school_average_score']
-        return 0
-    except:
-        print("Unable to extract school data")
-        return 1
+	print("Updating School Data")
+	d = {}
+	school.extract_school(driver, d, off_market)
+	update_rental_file(idx, d)
+	return 0
 
 def update_shop_eat(idx, off_market):
 	print("Updating Shop & Eat")
 	d = {}	
-	#try:
-	if not off_market:
-		shop.extract_rental_shop_eat(driver, d)
-	else:
-		shop.extract_rental_shop_eat(driver, d)
-	print("Successfully extracted shop & eat")
-	print(d)
+	shop.extract_shop(driver, d, off_market)
+	update_rental_file(idx, d)  
 	return 0
-	#except:
-	#	print("Unable to extract shop & eat")
-#		return 1
+
+def update_rental_file(idx, d):
+	for key in d.keys():
+		if isinstance(d[key], basestring):
+			rentals.at[idx, key] = d[key].astype(str)
+		else:
+			rentals.at[idx, key] = d[key]
 
 def open_page(url):
     driver.delete_all_cookies()
@@ -193,21 +159,20 @@ def start_driver():
         driver.quit()
         restart("logfile", debug, start)
 
-round_number = int(sys.argv[3])
-rentals_path = "/home/ubuntu/Housing-Discrimination/rounds/round_{}/round_{}_rentals_updated.csv".format(round_number, round_number)
+rentals_path = "/home/ubuntu/Housing-Discrimination/scripts/merge/input/census_concatenated_updated.csv"
 start = int(sys.argv[1])
 end = int(sys.argv[2])
-debug = int(sys.argv[4])
+debug = int(sys.argv[3])
 rentals = pd.read_csv(rentals_path)
 if end > rentals.shape[0]:
     end = rentals.shape[0]
-print("Updating rentals file for round {} from {} to {}".format(round_number, start, end))
-if(debug == 1):
-    print("DEBUG = true")
+print("Updating rentals file from {} to {}".format(start, end))
+if debug == 1:
+    print("DEBUG = TRUE")
 driver = start_driver()
 if driver != None:
     print("Driver Successfully Started")
 for i in range(start, end):
-    update_row(i, round_number)
+    update_row(i)
 
 

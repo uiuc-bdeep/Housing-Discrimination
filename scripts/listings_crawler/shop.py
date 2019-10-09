@@ -37,48 +37,96 @@ from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.common.proxy import Proxy
 
 
-def extract_rental_shop_eat(driver, d):
-	"""Extract Shop and Eat scores from Trulia
-	
-	Args:
-	    driver (Firefox Driver): The Firefox driver
-	    d (dict): Dictionary that holds all the data
-	"""
-	#try:
-		#try:
-	driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[6]/div').click()
-	print("Clicked shop") 
-		#except:
-			#driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[2]/button').click() #scroll it into view
-				#ERROR: This button ^ is not clickable because something obscures it
-			#driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[6]/div/div').click()
+def extract_shop(driver, d, off_market):
+	# Must click on another link and then click on Shop & Eat
+	xpath_list = []
+	if not off_market:	# Listing is on the market
+		xpath_list = ['//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[1]/div']
+	else:			# Listing is off the market
+		xpath_list = ['//*[@id="main-content"]/div[2]/div[2]/div[4]/div[2]/div[1]/div/div[1]/div']
+	result = find_button(driver, xpath_list)
+	if result == 0:
+		print("\tShop Page Found")
+	else:
+		print("\tCould NOT find Shop page")
+		set_NA(d)
+		sleep(2)
+		driver.save_screenshot("missing/missing-shop.png")
+		return -1
+	sleep(3)
+	buttons = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div[1]/div').find_elements_by_tag_name("div")
+	for i in range(2, len(buttons) + 1):
+		button = '//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div[1]/div/div[{}]/div/button'
+		count_shop(driver, button, d, i)
+	set_empty_fields(d)		
+	# Currently on the shop page, extract all the info
+	return 0
+		
+def count_shop(driver, button, d, i):
+	sleep(3)
+	driver.find_element_by_xpath(button).click()
+	#text = driver.find_element)by_xpath(button).text
+	text = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div[1]/div/div[{}]/div/button/div'.format(i)).text.split(" ")[-1]
+	count = len(driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/ul').find_elements_by_tag_name("li"))
+	print("\t{}: {}".format(text, count))
 
-		#driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div[1]/div/div[2]/div/button').click() #restaurant button
-		#print("Clicked restaraunt")
-		#restaurant_counter = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/ul')
-		#restaurants = len(restarurant_counter.find_elements_by_tag_name("li"))
-		#d["restaurant"] = restaurant
-		#print(d)
-		#return
-	#except:
-		#print("new shop method unsuccessful")
-	try:
+def find_button(driver, xpath_list):
+	clicked = False
+	for xpath in xpath_list:
 		try:
-			driver.find_element_by_xpath("//*[@id='localInfoTabs']/div[1]/div/div/button[7]").click()
-			print("change to shop and eat")
-			restaurant = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//*[@id='amenitiesSubTitle']/span"))).text.split(" ")[0]
-			#restaurant = driver.find_element_by_xpath("//*[@id='amenitiesSubTitle']/span").text.split(" ")[0]
+			driver.find_element_by_xpath(xpath).click()
+			clicked = True
+			continue	
 		except:
-			try:
-				driver.find_element_by_xpath("//*[@id='localInfoTabs']/div[1]/div/div/button[6]").click()
-				print("shop and eat button")
-				restaurant = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//*[@id='amenitiesSubTitle']/span"))).text.split(" ")[0]
-				#restaurant = driver.find_element_by_xpath("//*[@id='amenitiesSubTitle']/span").text.split(" ")[0]
-			except:
-				driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[1]/div[1]/div[3]/div[2]/div[1]/div/div[6]/div').click()
-				print("shop & eat")
-				restaurant = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//*[@id='amenitiesSubTitle']/span"))).text.split(" ")[0]
+			break
+	if not clicked:
+		print("\tCan't click ANY buttons")
+		return -1
+	print("\tViewing Data Page")
+	sleep(2)
+	buttons = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[1]/div/div[1]/div/div[1]/div').find_elements_by_tag_name("div")
+	print("\tNumber of buttons = {}".format(len(buttons)))
+	for i in range(1, len(buttons) + 1):
+		text = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[1]/div/div[1]/div/div[1]/div/div[{}]/div/button'.format(i)).text
+		if text == "Shop & Eat":
+			driver.find_element_xpath('//*[@id="modal-container"]/div/div[1]/div/div[1]/div/div[1]/div/div[{}]/div/button'.format(i)).click()
+			return 0
+	print("\tCould not find Shop & Eat Button inside Data page")	
+	return -1
 
+def set_empty_fields(d):
+	fields = ["Restaurant", "Groceries", "Nightlife", "Cafes", "Shopping", "Entertainment", "Fitness"]
+	for key in fields:
+		if key not in d.keys():
+			print("\t{}: {}".format(key, 0))
+			d[key] = 0
+		
+
+def extract_shop_eat_old(driver, d):
+	#d["restaurant"] = restaurant_count(driver)
+	count_shop_and_eat(driver, d)
+	return 
+
+def restaurant_count(driver):
+	try:
+		driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div[1]/div/div[2]/div/button').click() #restaurant button
+		print("\tClicked Restaraunt")
+		restaurant_counter = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/ul')
+		restaurants = len(restarurant_counter.find_elements_by_tag_name("li"))
+		return restaurants
+	except:
+		print("\tCould not count restaurants")
+		return "NA"
+
+def count_shop_and_eat(driver, d):
+	try:
+		num_buttons = len(driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div[1]/div').find_elements_by_tag_name('div'))
+		print("\tNum buttons found = ", num_buttons)
+	except:
+		print("\tCould not count buttons")
+
+def extra():
+	try:
 		sleep(5)
 
 		driver.find_element_by_xpath("//*[@id='amenitiesTab']/div[2]/div/div[1]/div[1]/ul/li[2]").click()
