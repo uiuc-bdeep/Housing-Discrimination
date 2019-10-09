@@ -56,8 +56,11 @@ def extract_shop(driver, d, off_market):
 	sleep(3)
 	buttons = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div[1]/div').find_elements_by_tag_name("div")
 	for i in range(2, len(buttons) + 1):
-		button = '//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div[1]/div/div[{}]/div/button'
-		count_shop(driver, button, d, i)
+                try:
+		        button = '//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div[1]/div/div[{}]/div/button'.format(i)
+		        count_shop(driver, button, d, i)
+                except:
+                        continue
 	set_empty_fields(d)		
 	# Currently on the shop page, extract all the info
 	return 0
@@ -69,6 +72,7 @@ def count_shop(driver, button, d, i):
 	text = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div[1]/div/div[{}]/div/button/div'.format(i)).text.split(" ")[-1]
 	count = len(driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/ul').find_elements_by_tag_name("li"))
 	print("\t{}: {}".format(text, count))
+        d[text] = count
 
 def find_button(driver, xpath_list):
 	clicked = False
@@ -82,30 +86,27 @@ def find_button(driver, xpath_list):
 	if not clicked:
 		print("\tCan't click ANY buttons")
 		return -1
-	print("\tViewing Data Page")
 	sleep(2)
 	buttons = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[1]/div/div[1]/div/div[1]/div').find_elements_by_tag_name("div")
 	print("\tNumber of buttons = {}".format(len(buttons)))
 	for i in range(1, len(buttons) + 1):
-		text = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[1]/div/div[1]/div/div[1]/div/div[{}]/div/button'.format(i)).text
-		if text == "Shop & Eat":
-			driver.find_element_xpath('//*[@id="modal-container"]/div/div[1]/div/div[1]/div/div[1]/div/div[{}]/div/button'.format(i)).click()
-			return 0
+                try:
+		        text = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[1]/div/div[1]/div/div[1]/div/div[{}]/div/button'.format(i)).text
+		        if text == "Shop & Eat":
+			        driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[1]/div/div[1]/div/div[1]/div/div[{}]/div/button'.format(i)).click()
+			        return 0
+                except:
+                        continue
 	print("\tCould not find Shop & Eat Button inside Data page")	
 	return -1
 
 def set_empty_fields(d):
-	fields = ["Restaurant", "Groceries", "Nightlife", "Cafes", "Shopping", "Entertainment", "Fitness"]
+	fields = ["Restaurants", "Groceries", "Nightlife", "Cafes", "Shopping", "Entertainment", "Fitness"]
 	for key in fields:
 		if key not in d.keys():
 			print("\t{}: {}".format(key, 0))
 			d[key] = 0
 		
-
-def extract_shop_eat_old(driver, d):
-	#d["restaurant"] = restaurant_count(driver)
-	count_shop_and_eat(driver, d)
-	return 
 
 def restaurant_count(driver):
 	try:
