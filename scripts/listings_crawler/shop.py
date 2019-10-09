@@ -54,8 +54,15 @@ def extract_shop(driver, d, off_market):
 		driver.save_screenshot("missing/missing-shop.png")
 		return -1
 	sleep(3)
-	buttons = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div[1]/div').find_elements_by_tag_name("div")
-	for i in range(2, len(buttons) + 1):
+        try:
+	        buttons = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div[1]/div').find_elements_by_tag_name("div")
+        except:
+                print("\tCan't find list of shop buttons")
+                set_NA(d)
+                sleep(2)
+                driver.save_screenshot("missing/missing-shop-buttons.png")
+                return -1
+	for i in range(2, min(len(buttons) + 1, 8)):
                 try:
 		        button = '//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div[1]/div/div[{}]/div/button'.format(i)
 		        count_shop(driver, button, d, i)
