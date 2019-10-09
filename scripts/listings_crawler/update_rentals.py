@@ -62,7 +62,7 @@ def update_row(idx):
         update_crime(idx, is_off_market)
         #update_school(idx, is_off_market)
         #update_shop_eat(idx, is_off_market)
-        rentals.to_csv('/home/ubuntu/Housing-Discrimination/scripts/merge/input/census_concatenated_updated.csv', index=False)
+        rentals.to_csv('/home/ubuntu/Housing-Discrimination/scripts/merge/input/census_concatenated_updated_1.csv', index=False)
     finish_listing(driver, idx)
 
 def update_basic_info(idx, off_market):
@@ -97,11 +97,21 @@ def update_crime(idx, off_market):
 	return 0
             
 def update_school(idx, off_market):
+	if school_check(idx):
+		print("No need to update school data")
+		return 0
 	print("Updating School Data")
 	d = {}
 	school.extract_school(driver, d, off_market)
 	update_rental_file(idx, d)
 	return 0
+
+def school_check(idx):
+	fields = ["Elementary_School_Count", "Middle_School_Count", "High_School_Count"]
+	for f in fields:
+		if rentals[f][idx] == -1:
+			return False
+	return True
 
 def update_shop_eat(idx, off_market):
 	print("Updating Shop & Eat")
@@ -112,10 +122,10 @@ def update_shop_eat(idx, off_market):
 
 def update_rental_file(idx, d):
 	for key in d.keys():
-		if isinstance(d[key], basestring):
-			rentals.at[idx, key] = d[key].astype(str)
-		else:
-			rentals.at[idx, key] = d[key]
+		#if isinstance(d[key], basestring):
+		rentals.at[idx, key] = d[key]
+		#else:
+		#	rentals.at[idx, key] = d[key]
 
 def open_page(url):
     driver.delete_all_cookies()
@@ -159,7 +169,7 @@ def start_driver():
         driver.quit()
         restart("logfile", debug, start)
 
-rentals_path = "/home/ubuntu/Housing-Discrimination/scripts/merge/input/census_concatenated_updated.csv"
+rentals_path = "/home/ubuntu/Housing-Discrimination/scripts/merge/input/census_concatenated_updated_1.csv"
 start = int(sys.argv[1])
 end = int(sys.argv[2])
 debug = int(sys.argv[3])
