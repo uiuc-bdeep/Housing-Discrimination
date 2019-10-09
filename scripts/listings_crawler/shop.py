@@ -107,7 +107,7 @@ def set_empty_fields(d):
 			print("\t{}: {}".format(key, 0))
 			d[key] = 0
 		
-def set_NA(d)
+def set_NA(d):
 	d["Restaurants"] = -1	
 	d["Groceries"] = -1
 	d["Nightlife"] = -1
