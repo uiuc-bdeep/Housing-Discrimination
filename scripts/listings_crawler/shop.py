@@ -107,67 +107,12 @@ def set_empty_fields(d):
 			print("\t{}: {}".format(key, 0))
 			d[key] = 0
 		
-
-def restaurant_count(driver):
-	try:
-		driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div[1]/div/div[2]/div/button').click() #restaurant button
-		print("\tClicked Restaraunt")
-		restaurant_counter = driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/ul')
-		restaurants = len(restarurant_counter.find_elements_by_tag_name("li"))
-		return restaurants
-	except:
-		print("\tCould not count restaurants")
-		return "NA"
-
-def count_shop_and_eat(driver, d):
-	try:
-		num_buttons = len(driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[2]/div[2]/div/div[3]/div/div[1]/div').find_elements_by_tag_name('div'))
-		print("\tNum buttons found = ", num_buttons)
-	except:
-		print("\tCould not count buttons")
-
-def extra():
-	try:
-		sleep(5)
-
-		driver.find_element_by_xpath("//*[@id='amenitiesTab']/div[2]/div/div[1]/div[1]/ul/li[2]").click()
-		groceries = driver.find_element_by_xpath("//*[@id='amenitiesSubTitle']/span").text.split(" ")[0]
-
-		driver.find_element_by_xpath("//*[@id='amenitiesTab']/div[2]/div/div[1]/div[1]/ul/li[3]").click()
-		nightlife = driver.find_element_by_xpath("//*[@id='amenitiesSubTitle']/span").text.split(" ")[0]
-
-		driver.find_element_by_xpath("//*[@id='amenitiesTab']/div[2]/div/div[1]/div[1]/ul/li[4]").click()
-		cafe = driver.find_element_by_xpath("//*[@id='amenitiesSubTitle']/span").text.split(" ")[0]
-
-		driver.find_element_by_xpath("//*[@id='amenitiesTab']/div[2]/div/div[1]/div[1]/ul/li[5]").click()
-		shopping = driver.find_element_by_xpath("//*[@id='amenitiesSubTitle']/span").text.split(" ")[0]
-
-		driver.find_element_by_xpath("//*[@id='amenitiesTab']/div[2]/div/div[1]/div[1]/ul/li[6]").click()
-		entertainment = driver.find_element_by_xpath("//*[@id='amenitiesSubTitle']/span").text.split(" ")[0]
-
-		driver.find_element_by_xpath("//*[@id='amenitiesTab']/div[2]/div/div[1]/div[1]/ul/li[7]").click()
-		beauty = driver.find_element_by_xpath("//*[@id='amenitiesSubTitle']/span").text.split(" ")[0]
-
-		driver.find_element_by_xpath("//*[@id='amenitiesTab']/div[2]/div/div[1]/div[1]/ul/li[8]").click()
-		active_life = driver.find_element_by_xpath("//*[@id='amenitiesSubTitle']/span").text.split(" ")[0]
-
-		d["restaurant"] = restaurant
-		d["groceries"] = groceries
-		d["nightlife"] = nightlife
-		d["cafe"] = cafe
-		d["shopping"] = shopping
-		d["entertainment"] = entertainment
-		d["beauty"] = beauty
-		d["active_life"] = active_life
-
-		print (restaurant, groceries, nightlife, cafe, shopping, entertainment, beauty, active_life)
-	except:
-		d["restaurant"] = "NA"
-		d["groceries"] = "NA"
-		d["nightlife"] = "NA"
-		d["cafe"] = "NA"
-		d["shopping"] = "NA"
-		d["entertainment"] = "NA"
-		d["beauty"] = "NA"
-		d["active_life"] = "NA"
-		print("shop and eat not available")
+def set_NA(d)
+	d["Restaurants"] = -1	
+	d["Groceries"] = -1
+	d["Nightlife"] = -1
+	d["Cafes"] = -1
+	d["Shopping"] = -1
+	d["Entertainment"] = -1
+	d["Fitness"] = -1
+	print("\tSetting Shop data to -1")

@@ -58,7 +58,12 @@ def extract_school(driver, d, off_market):
 	print("\t{} Elementary Schools | Score = {}".format(d["Elementary_School_Count"], d["Elementary_School_Avg_Score"]))
 	print("\t{} Middle Schools     | Score = {}".format(d["Middle_School_Count"], d["Middle_School_Avg_Score"]))
 	print("\t{} High Schools       | Score = {}".format(d["High_School_Count"], d["High_School_Avg_Score"]))
+	close_page(driver)
 	return 0
+
+def close_page(driver):
+	driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[1]/div/div[2]/div[2]').click()
+	sleep(1)
 	
 def count_schools(driver, xpath):
 	try:

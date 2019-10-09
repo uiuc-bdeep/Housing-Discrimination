@@ -64,8 +64,12 @@ def extract_crime(driver, d, off_market):
 	d["Vandalism"] = count_crime(driver, "Vandalism", '//*[@id="modal-container"]/div/div[2]/div[2]/div/div[4]/div/div[1]/div/div[4]/div/button')
 	sleep(1)
 	d["Burglary"] =  count_crime(driver, "Burglary",  '//*[@id="modal-container"]/div/div[2]/div[2]/div/div[4]/div/div[1]/div/div[5]/div/button')
+	close_page(driver)
 	return 0
-	
+
+def close_page(driver):
+	driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[1]/div/div[2]/div[2]').click()
+	sleep(1)	
 		
 def find_button(driver, xpath_list, d):
 	for pair in xpath_list:
