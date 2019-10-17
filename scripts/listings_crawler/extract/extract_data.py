@@ -432,41 +432,20 @@ def extract_rental(driver, d, mode, add = None, df = None, index = None):
 
 	if mode == "R":
 		return True
+        is_off_market = check_off_market(driver)
+        if not is_off_market:
+            print("On the market")
 
-	if is_off_market == 2:
-		sleep(5)
-		extract_sold_rental_crime(driver, d)
-	else:
-		extract_rental_crime(driver, d)
-	
+        update_crime(idx, is_off_market)
+        click_escape(driver)
+        update_school(idx, is_off_market)
+        click_escape(driver)
+        update_shop_eat(idx, is_off_market)
+        return True
+
+def click_escape(driver):
 	try:
 		webdriver.ActionChains(driver).send_keys(Keys.ESCAPE).perform()
 	except:
 		driver.find_element_by_xpath("//*[@id='propertyTitleBar']/ul/li[3]/button/i").click()
-
-	print("change to school")
-	sleep(5)
-
-	if is_off_market == 2:
-		extract_sold_rental_school(driver, d)
-	else:
-		extract_rental_school(driver, d)
-
-	#has_commute = extract_commute(driver, d)
-
-	if is_off_market == 2:
-		extract_sold_rental_shop_eat(driver, d)
-	else:
-		extract_rental_shop_eat(driver, d)
-
-	#if not is_off_market:
-	#	if d["restaurant"] != "NA" and d["driving"] == "NA":
-	#		# print("commute missing")
-	#		driver.quit()
-	#		raise Exception('commute missing!')
-
-	#	if d["driving"] != "NA" and d["restaurant"] == "NA":
-	#		# print("shop and eat missing")
-	#		driver.quit()
-	#		raise Exception('shop and eat missing!')
-	return True
+        sleep(1)
