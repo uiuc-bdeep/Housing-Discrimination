@@ -46,11 +46,11 @@ geckodriver_path = '/usr/bin/geckodriver'
 adblock_path = "/home/ubuntu/trulia/stores/adblock_plus-3.3.1-an+fx.xpi"
 uBlock_path = "/home/ubuntu/trulia/stores/uBlock0@raymondhill.net.xpi"
 
-if len(sys.argv) != 4:
-    print("Include start point, end point, and debug (0 or 1) as arguments")
+if len(sys.argv) != 5:
+    print("Include start point, end point, destination, and debug (0 or 1) as arguments")
     exit()
 
-def update_row(idx):
+def update_row(idx, destination):
     url = rentals["URL"][idx]
     print(idx, url)
     result = open_page(url)
@@ -60,9 +60,9 @@ def update_row(idx):
             print("On the market")
         #update_basic_info(idx, is_off_market)
         update_crime(idx, is_off_market)
-        #update_school(idx, is_off_market)
-        #update_shop_eat(idx, is_off_market)
-        rentals.to_csv('/home/ubuntu/Housing-Discrimination/scripts/merge/input/census_concatenated_updated_1.csv', index=False)
+        update_school(idx, is_off_market)
+        update_shop_eat(idx, is_off_market)
+        rentals.to_csv(destination, index=False)
     finish_listing(driver, idx)
 
 def update_basic_info(idx, off_market):
@@ -97,9 +97,6 @@ def update_crime(idx, off_market):
 	return 0
             
 def update_school(idx, off_market):
-	if school_check(idx):
-		print("No need to update school data")
-		return 0
 	print("Updating School Data")
 	d = {}
 	school.extract_school(driver, d, off_market)
@@ -172,7 +169,8 @@ def start_driver():
 rentals_path = "/home/ubuntu/Housing-Discrimination/scripts/merge/input/census_concatenated_updated_1.csv"
 start = int(sys.argv[1])
 end = int(sys.argv[2])
-debug = int(sys.argv[3])
+destination = sys.argv[3]
+debug = int(sys.argv[4])
 rentals = pd.read_csv(rentals_path)
 if end > rentals.shape[0]:
     end = rentals.shape[0]
