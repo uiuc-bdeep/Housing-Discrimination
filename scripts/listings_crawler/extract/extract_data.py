@@ -36,6 +36,9 @@ from selenium.webdriver.common.proxy import Proxy
 
 from sold_rental.extract_sold_rental_data import *
 from rental.extract_rental_data import *
+import crime
+import school
+import shop
 
 def extract_commute(driver, d):
 	"""Extract commute score from Trulia
@@ -435,12 +438,9 @@ def extract_rental(driver, d, mode, add = None, df = None, index = None):
         is_off_market = check_off_market(driver)
         if not is_off_market:
             print("On the market")
-
-        update_crime(idx, is_off_market)
-        click_escape(driver)
-        update_school(idx, is_off_market)
-        click_escape(driver)
-        update_shop_eat(idx, is_off_market)
+        extract_crime(driver, d, is_off_market)
+        extract_school(driver, d, is_off_market)
+        extract_shop_and_eat(driver, d, is_off_market)
         return True
 
 def click_escape(driver):
@@ -449,3 +449,20 @@ def click_escape(driver):
 	except:
 		driver.find_element_by_xpath("//*[@id='propertyTitleBar']/ul/li[3]/button/i").click()
         sleep(1)
+
+def extract_crime(driver, d, off_market):
+        print("Extracting Crime Data")
+        crime.extract_crime(driver, d, off_market)
+	click_escape(driver)
+        return 0
+
+def extract_school(driver, d, off_market):
+        print("Extracting School Data")
+        school.extract_school(driver, d, off_market)
+	click_escape(driver)
+        return 0
+
+def extract_shop_and_eat(driver, d, off_market):
+        print("Extracting Shop & Eat")
+        shop.extract_shop(driver, d, off_market)
+        return 0

@@ -36,7 +36,6 @@ from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.common.proxy import Proxy
 
-crime_other = {"Lowest": 0, "Low": 25, "Average": 50, "High": 75, "Highest": 100}
 
 def extract_crime(driver, d, off_market):
 	#d = {"theft": "NA", "burglary": "NA", "assault": "NA", "arrest": "NA", "vandalism": "NA", "crime_other": "NA"}
@@ -78,11 +77,7 @@ def find_button(driver, xpath_list, d):
 			crime_text = driver.find_element_by_xpath(text).text
 			if crime_text == "Crime":
 				crime_measure = driver.find_element_by_xpath(text[:-2] + "3]").text
-				amount = crime_measure.split(" ")[0]
-				if amount in crime_other:
-					d["Crime_Other"] = crime_other[amount]
-				else:
-					d["Crime_Other"] = -1
+				d["Crime_Relative"] = crime_measure.split(" ")[0]
 				print("\t{}".format(crime_measure)) 
 				driver.find_element_by_xpath(button).click()
 				return 0
@@ -111,7 +106,7 @@ def set_NA(d):
 	d["Arrest"] = -1
 	d["Vandalism"] = -1
 	d["Burglary"] = -1
-	d["Crime_Other"] = -1
+	d["Crime_Relative"] = -1
 	print("\tSetting all crime values to -1")
 
 def extract_crime_old(driver, d):
