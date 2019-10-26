@@ -53,9 +53,9 @@ df = pd.read_csv(os.getcwd() + '/input/' + TIMESTAMP_FILE)
 cols = df.columns.tolist()
 new_cols = cols[:9]
 num_addresses = int(cols[-1].split(' ')[-1])
-for i in range(1, num_addresses + 1):
+for i in tqdm(range(1, num_addresses + 1), desc="Reading Timestamps File", bar_format="{l_bar}{bar}|  {n_fmt}/{total_fmt}   "):
 	for first,last in names:
-		print(first, last)
+		#print(first, last)
 		if str(df.loc[df['first name'] == first,'address ' + str(i)].values[0]).lower() == 'nan':
 			df.loc[df['first name'] == first,'address ' + str(i)] = None
 		else: 
@@ -70,6 +70,7 @@ for i in range(1, num_addresses + 1):
 df = df[new_cols]
 
 file = xlrd.open_workbook(os.getcwd() + '/input/' + TEMPLATE_FILE)
+print()
 
 for name in tqdm(names, desc="Writing New Survey Files", bar_format="{l_bar}{bar}|  {n_fmt}/{total_fmt}   "):
 	myFile = copy(file)
@@ -112,7 +113,7 @@ for name in tqdm(names, desc="Writing New Survey Files", bar_format="{l_bar}{bar
 	# overwrite values in 3rd sheet
 	s = myFile.get_sheet(2)
 	s.write(1, 0, name[0] + '_' + name[1] + '_survey')		# title
-	s.write(1, 1, name[0] + '_' + name[1] + '_survey_1_1_3')	# id string
+	s.write(1, 1, name[0] + '_' + name[1] + '_survey_1_1_4')	# id string
 
 	fileName = name[0]+'-'+name[1]+'_'+month+'_'+day+'_'+year+'.xls'
 
