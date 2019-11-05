@@ -128,6 +128,9 @@ def send_message(driver,name, email, phone_num, address,url,send):
 	element = '#propertySummary > div > div.row.man.positionRelative.summaryDetails > div.xsCol24.smlCol24.mdCol8.lrgCol8 > div > div.typeLowlight.typeEmphasize.mvn.h6.miniHidden.xxsHidden > span:nth-child(2)'
 	error  += try_page_element(driver,element, ['SENIOR HOUSING'])
 
+        element = '#main-content > div.BasicPageLayout__BasicPageLayoutContainer-sc-7vcr4x-0.gMTacw > div.BasicPageLayout__BasicPageContent-sc-7vcr4x-1.lhjvlp > div.HomeDetailsContentOverview__ContentWithLeadFormGrid-sc-1lql7o5-0.bHYvJo.Grid__GridContainer-sc-5ig2n4-1.coXJy > div.Grid__CellBox-sc-5ig2n4-0.HomeDetailsContentOverview__HiddenExceptLargeCell-sc-1lql7o5-1.ipOYVS > div > div > div.Grid__CellBox-sc-5ig2n4-0.fHUtjJ > button'
+        error  += try_page_element(driver,element, ['Request Viewing'])
+
 	if error > 0:
 		return 'SOLD'
 
