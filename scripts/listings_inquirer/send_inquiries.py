@@ -34,6 +34,10 @@ def main():
 	row_index     = handled_state.index(min(handled_state))
 	row           = df_status.iloc[row_index]
 
+	if int(row['handled']) >= (LPI * 3):
+		print("Finished sending all addresses\nExiting...\n---------------------------------")
+		exit()		 
+
 	handled_state, name, email, phone_num,race, person_id, address, url = get_row_info(row)
 
 	if handled_state < (LPI * parameter_day_trial):
