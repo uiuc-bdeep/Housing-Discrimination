@@ -56,47 +56,28 @@ def update_row(idx, destination):
         is_off_market = check_off_market(driver)
         if not is_off_market:
             print("On the market")
-        update_basic_info(idx, is_off_market)
-        #update_crime(idx, is_off_market)
-        #update_school(idx, is_off_market)
-        #update_shop_eat(idx, is_off_market)
+        get_new_info(idx, is_off_market)
         rentals.to_csv(destination, index=False)
     finish_listing(driver, idx)
 
-def update_basic_info(idx, off_market):
-	print("Updating basic info")
+def get_new_info(idx, off_market):
+	print("Collecting Basic Info")
 	d = {}
 	info.extract_basic_info(driver, d, off_market)
-	update_rental_file(idx, d)
+	is_new(d)
+	rentals.at[idx, 'Days_On_Trulia'] = d.get('Days_On_Trulia', "NA")
+	rentals.at[idx, 'Is_New'] = d['Is_New']
         return 1
 
-def update_crime(idx, off_market):
-	print("Updating Crime Data")
-	d = {}
-	crime.extract_crime(driver, d, off_market)
-	update_rental_file(idx, d)
-	return 0
-            
-def update_school(idx, off_market):
-	print("Updating School Data")
-	d = {}
-	school.extract_school(driver, d, off_market)
-	update_rental_file(idx, d)
-	return 0
-
-def school_check(idx):
-	fields = ["Elementary_School_Count", "Middle_School_Count", "High_School_Count"]
-	for f in fields:
-		if rentals[f][idx] == -1:
-			return False
-	return True
-
-def update_shop_eat(idx, off_market):
-	print("Updating Shop & Eat")
-	d = {}	
-	shop.extract_shop(driver, d, off_market)
-	update_rental_file(idx, d)  
-	return 0
+def is_new(d):
+	try:
+		new = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[1]/div/div/div[3]/div[1]/span[2]/span').text
+		if new.lower() == 'new':
+			d['Is_New'] = 1
+		else:
+			d['Is_New'] = 0
+	except:
+		d['Is_New'] = 0
 
 def update_rental_file(idx, d):
 	for key in d.keys():
@@ -147,7 +128,7 @@ def start_driver():
         driver.quit()
         restart("logfile", debug, start)
 
-rentals_path = "/home/ubuntu/Housing-Discrimination/rounds/round_1/round_1_rentals.csv"
+rentals_path = "days_on_trulia_11_7.csv"
 start = int(sys.argv[1])
 end = int(sys.argv[2])
 destination = sys.argv[3]
@@ -155,14 +136,8 @@ debug = int(sys.argv[4])
 rentals = pd.read_csv(rentals_path)
 if end > rentals.shape[0]:
     end = rentals.shape[0]
-
-rentals['Sqft'] = rentals['Sqft'].astype(str)
-rentals['Type'] = rentals['Type'].astype(str)
-rentals['Phone_Number'] = rentals['Phone_Number'].astype(str)
-#rentals['Crime_Relative'] = rentals['Crime_Relative'].astype(str)
-rentals['Year'] = rentals['Year'].astype(str)
-
-print("Updating rentals file from {} to {}".format(start, end))
+rentals['Days_On_Trulia'] = rentals['Days_On_Trulia'].astype(str)
+print("Collecting info from {} to {}".format(start, end))
 if debug == 1:
     print("DEBUG = TRUE")
 driver = start_driver()
