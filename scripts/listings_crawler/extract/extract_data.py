@@ -36,80 +36,7 @@ from selenium.webdriver.common.proxy import Proxy
 
 from sold_rental.extract_sold_rental_data import *
 from rental.extract_rental_data import *
-import crime
-import school
-import shop
-
-def extract_commute(driver, d):
-	"""Extract commute score from Trulia
-	
-	Args:
-	    driver (Firefox Driver): The Firefox driver
-	    d (dict): Dictionary that holds all the data
-	
-	Returns:
-	    Bool: True if have commute, False otherwise
-	"""
-
-	has_commute = False
-
-	try:
-		try:
-			driver.find_element_by_xpath("//*[@id='localInfoTabs']/div[1]/div/div/button[6]").click()
-			print("change to commute")
-			driving = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//*[@id='commuteTab']/div[2]/div/div[1]/p"))).text.split("%")[0]
-			#driving = driver.find_element_by_xpath("//*[@id='commuteTab']/div[2]/div/div[1]/p").text.split("%")[0]
-		except:
-			try:
-				driver.find_element_by_xpath("//*[@id='localInfoTabs']/div[1]/div/div/button[5]").click()
-				print("commute button")
-				driving = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//*[@id='commuteTab']/div[2]/div/div[1]/p"))).text.split("%")[0]
-				#driving = driver.find_element_by_xpath("//*[@id='commuteTab']/div[2]/div/div[1]/p").text.split("%")[0]
-			except:
-				try:
-					driver.find_element_by_xpath("//*[@id='commuteCard']").click()
-					print("commute card")
-					driving = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//*[@id='commuteTab']/div[2]/div/div[1]/p"))).text.split("%")[0]
-				except:
-					try:
-						print("Trying to click commute image")
-						driver.find_element_by_xpath('//*[@id="modal-container"]/div/div[1]/div/div[1]/div/div[1]/div/div[6]/div/button').click()
-                                                print("Clicked one")
-						driving = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//*[@id='commuteTab']/div[2]/div/div[1]/p"))).text.split("%")[0]
-					except:
-						print("EXCEPT commute")
-						driver.find_element_by_xpath("//*[@id='tabButtonContainer']/button[5]").click()
-						driving = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, "//*[@id='commuteTab']/div[2]/div/div[1]/p"))).text.split("%")[0]
-                                                print("Successfully ended commute except")
-
-		sleep(5)
-		
-		driver.find_element_by_xpath("//*[@id='commuteTypeButtonsContainer']/button[2]").click()
-
-		transit = driver.find_element_by_xpath("//*[@id='commuteTab']/div[2]/div/div[1]/p").text.split("%")[0]
-
-		driver.find_element_by_xpath("//*[@id='commuteTypeButtonsContainer']/button[3]").click()
-
-		walking = driver.find_element_by_xpath("//*[@id='commuteTab']/div[2]/div/div[1]/p").text.split("%")[0]
-
-		driver.find_element_by_xpath("//*[@id='commuteTypeButtonsContainer']/button[4]").click()
-
-		cycling = driver.find_element_by_xpath("//*[@id='commuteTab']/div[2]/div/div[1]/p").text.split("%")[0]
-
-		d["driving"] = driving
-		d["transit"] = transit
-		d["walking"] = walking
-		d["cycling"] = cycling
-		has_commute = True
-		print (driving, transit, walking, cycling)
-	except:
-		d["driving"] = "NA"
-		d["transit"] = "NA"
-		d["walking"] = "NA"
-		d["cycling"] = "NA"
-		print("commute not available")
-
-	return has_commute
+import crime, school, shop, basic_info as basic
 
 def check_off_market(driver):
 	"""Check wheather if the listing is off market (or new/old type of layout, if you prefer)
@@ -295,36 +222,6 @@ def get_address(driver, d):
 										print("Unable to find ADDRESS")
 										print("Caught this error: " + repr(error))
 
-def extract_phone(driver, d):
-	"""Extract phone number from Trulia
-	
-	Args:
-	    driver (Firefox Driver): The Firefox driver
-	    d (dict): Dictionary that holds all the data
-	"""
-
-	try:
-		phone = driver.find_element_by_xpath("//*[@id='contactAside']/div/h3").text
-		if "Contact" in phone:
-			d["phone_number"] = driver.find_element_by_xpath("//*[@id='contactAside']/div/div/span").text
-		elif "Ask" in phone:
-			d["phone_number"] = driver.find_element_by_xpath("//*[@id='contactAside']/div/div/div/div/div/div[2]").text
-		else:
-			d["phone_number"] = "NA"
-	except:
-		try:
-			phone = driver.find_element_by_xpath("//*[@id='topPanelLeadForm']/div/div/div/div[2]/div[2]/span").text
-			d["phone_number"] = phone
-		except:
-			try:
-				phone = driver.find_element_by_xpath("//*[@id='topPanelLeadFormContainer']/div/div/form/div[1]/div[1]/div[2]/div/div[3]").text
-			except:
-				try:
-					phone = driver.find_element_by_xpath("//*[@id='topPanelLeadForm']/div/form/div/div/div/div[2]/div[2]/span").text
-				except:
-					print ("no phone available")
-					d["phone_number"] = "NA"
-
 def extract_rental(driver, d, mode, add = None, df = None, index = None):
 	"""Extract all information from Trulia
 	
@@ -438,6 +335,7 @@ def extract_rental(driver, d, mode, add = None, df = None, index = None):
         is_off_market = check_off_market(driver)
         if not is_off_market:
             print("On the market")
+	extract_basic_info(driver, d, is_off_market)
         extract_crime(driver, d, is_off_market)
         extract_school(driver, d, is_off_market)
         extract_shop_and_eat(driver, d, is_off_market)
@@ -449,6 +347,11 @@ def click_escape(driver):
 	except:
 		driver.find_element_by_xpath("//*[@id='propertyTitleBar']/ul/li[3]/button/i").click()
         sleep(1)
+
+def extract_basic_info(driver, d, off_market):
+	print("Extracting Basic Info")
+	basic.extract_basic_info(driver, d, off_market)
+	return 0
 
 def extract_crime(driver, d, off_market):
         print("Extracting Crime Data")
