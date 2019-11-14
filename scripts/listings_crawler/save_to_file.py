@@ -42,7 +42,7 @@ def save_rental(d, url, name):
 
 	header = ["Address", "City", "State", "Zip_Code", "Rent_Per_Month", "Year", "Days_on_Trulia", "Type", "Sqft", "Phone_Number"]
 	header = header + ["Bedroom_min", "Bedroom_max","Bathroom_min", "Bathroom_max"]
-	header = header + ["Assault", "Arrest", "Theft", "Vandalism", "Burglary", "Crime_Other"]
+	header = header + ["Assault", "Arrest", "Theft", "Vandalism", "Burglary", "Crime_Relative"]
 	header = header + ["Elementary_School_Count", "Elementary_School_Avg_Score", 
 	"Middle_School_Count", "Middle_School_Avg_Score", 
 	"High_School_Count", "High_School_Avg_Score", "Driving", "Transit", "Walking", "Cycling", 
@@ -59,18 +59,18 @@ def save_rental(d, url, name):
 	"URL", "Short_form_ID"]
 
 	value = [d.get("address", "NA"), d.get("city", "NA"), d.get("state", "NA"), 
-	d.get("zip code", "NA"), d.get("rent_per_month", "NA"), d.get("year", "NA"), 
-	d.get("days", "NA"), d.get("type", "NA"), d.get("sqft", "NA"), d.get("phone_number", "NA")]
+	d.get("zip code", "NA"), d.get("rent_per_month", "NA"), d.get("Year", "NA"), 
+	d.get("Days_On_Trulia", "NA"), d.get("Type", "NA"), d.get("Sqft", "NA"), d.get("Phone_Number", "NA")]
 
-	value = value + [d.get("bedroom_min", "NA"), d.get("bedroom_max", "NA"), d.get("bathroom_min", "NA"), d.get("bathroom_max", "NA")]
-	value = value + [d.get("assault", "NA"), d.get("arrest", "NA"), d.get("theft", "NA"), 
-	d.get("vandalism", "NA"), d.get("burglary", "NA"), d.get("crime_other", "NA")]
-	value = value + [d.get("elementary_school_count", "NA"), d.get("elementary_school_average_score", "NA"), 
-	d.get("middle_school_count", "NA"), d.get("middle_school_average_score", "NA"),
-	d.get("high_school_count", "NA"), d.get("high_school_average_score", "NA"), 
-	d.get("driving", "NA"), d.get("transit", "NA"), d.get("walking", "NA"), d.get("cycling", "NA"), d.get("restaurant", "NA"),
-	d.get("groceries", "NA"), d.get("nightlife", "NA"), d.get("cafe", "NA"), d.get("shopping", "NA"), d.get("entertainment", "NA"),
-	d.get("beauty", "NA"), d.get("active_life", "NA")]
+	value = value + [d.get("Bedroom_min", "NA"), d.get("Bedroom_max", "NA"), d.get("Bathroom_min", "NA"), d.get("Bathroom_max", "NA")]
+	value = value + [d.get("Assault", "NA"), d.get("Arrest", "NA"), d.get("Theft", "NA"), 
+	d.get("Vandalism", "NA"), d.get("Burglary", "NA"), d.get("Crime_Relative", "NA")]
+	value = value + [d.get("Elementary_School_Count", "NA"), d.get("Elementary_School_Avg_Score", "NA"), 
+	d.get("Middle_School_Count", "NA"), d.get("Middle_School_Avg_Score", "NA"),
+	d.get("High_School_Count", "NA"), d.get("High_School_Avg_Score", "NA"), 
+	d.get("Driving", "NA"), d.get("Transit", "NA"), d.get("Walking", "NA"), d.get("Cycling", "NA"), d.get("Restaurant", "NA"),
+	d.get("Groceries", "NA"), d.get("Nightlife", "NA"), d.get("Cafe", "NA"), d.get("Shopping", "NA"), d.get("Entertainment", "NA"),
+	d.get("Beauty", "NA"), d.get("Active_life", "NA")]
 
 	value = value + [d.get("lat", "NA"), d.get("lon", "NA"),
 	d.get("epa_region", "NA"), d.get("population", "NA"), d.get("input area(sq. miles)", "NA"),
