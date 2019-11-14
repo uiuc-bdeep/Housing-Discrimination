@@ -190,9 +190,9 @@ def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriv
 			# 	continue
 
 			try:
-				handle_ejscreen_input(driver, address)
+				#handle_ejscreen_input(driver, address)
 				sleep(5)
-				extract_pollution(driver, d)
+				#extract_pollution(driver, d)
 			except:
 				if debug_mode:
 					driver.quit()

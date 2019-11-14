@@ -277,53 +277,6 @@ def extract_rental(driver, d, mode, add = None, df = None, index = None):
 
 		print(d["address"] + " " + d["city"] + " " + d["state"] + " " + d["zip code"])
 
-	if is_off_market == 2:
-		sleep(5)
-
-		extract_sold_rental_detail(driver, d)
-
-		if mode == "R":
-			df.at[index, "Days_on_Trulia"] = d.get("days", "NA")
-			df.at[index, "Sqft"] = d.get("sqft", "NA")
-			df.at[index, "Year"] = d.get("year", "NA")
-			df.at[index, "Type"] = d.get("type", "NA")
-			df.at[index, "Bedroom_min"] = d.get("bedroom_min", "NA")
-			df.at[index, "Bedroom_max"] = d.get("bedroom_max", "NA")
-			df.at[index, "Bathroom_min"] = d.get("bathroom_min", "NA")
-			df.at[index, "Bathroom_max"] = d.get("bathroom_max", "NA")
-
-		print("bedroom_min: " + d.get("bedroom_min", "NA"), 
-			"bedroom_max: " + d.get("bedroom_max", "NA"), 
-			"bathroom_min: " + d.get("bathroom_min", "NA"), 
-			"bathroom_max: " + d.get("bathroom_max", "NA"), 
-			"sqft: " + d.get("sqft", "NA"))
-	else:
-		extract_rental_detail(driver, d)
-
-		print("bedroom_min: " + d.get("bedroom_min", "NA"), 
-			"bedroom_max: " + d.get("bedroom_max", "NA"), 
-			"bathroom_min: " + d.get("bathroom_min", "NA"), 
-			"bathroom_max: " + d.get("bathroom_max", "NA"), 
-			"days on Trulia: " + d.get("days", "NA"))
-
-		print("sqft: " + d.get("sqft", "NA"), 
-			"Year Built: " + d.get("year", "NA"), 
-			"Type of housing: " + d.get("type", "NA"))
-
-		if mode == "R":
-			df.at[index, "Bedroom_min"] = d.get("bedroom_min", "NA")
-			df.at[index, "Bedroom_max"] = d.get("bedroom_max", "NA")
-			df.at[index, "Bathroom_min"] = d.get("bathroom_min", "NA")
-			df.at[index, "Bathroom_max"] = d.get("bathroom_max", "NA")
-			df.at[index, "Days_on_Trulia"] = d.get("days", "NA")
-			df.at[index, "Sqft"] = d.get("sqft", "NA")
-			df.at[index, "Year"] = d.get("year", "NA")
-			df.at[index, "Type"] = d.get("type", "NA")
-
-		extract_phone(driver, d)
-
-		print("phone number: " + d.get("phone_number", "NA"))
-
 	if mode == "R":
 		if index < 5:
 			print(df[["Address", "Bedroom_min", "Bedroom_max", "Bathroom_min", "Bathroom_max"]].iloc[:5])
