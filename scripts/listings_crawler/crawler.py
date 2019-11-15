@@ -189,21 +189,21 @@ def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriv
 			# 		filewriter.writerow([i])
 			# 	continue
 
-			try:
+			#try:
 				#handle_ejscreen_input(driver, address)
-				sleep(5)
+				#sleep(5)
 				#extract_pollution(driver, d)
-			except:
-				if debug_mode:
-					driver.quit()
-					for proc in psutil.process_iter():
-						if proc.name() == "firefox" or proc.name() == "geckodriver":
-							proc.kill()
-					raise
-				else:
-					print("cannot extract pollution. Restarting")
-					driver.quit()
-					restart(crawler_log, debug_mode, start)
+			#except:
+				#if debug_mode:
+					#driver.quit()
+					#for proc in psutil.process_iter():
+						#if proc.name() == "firefox" or proc.name() == "geckodriver":
+							#proc.kill()
+					#raise
+				#else:
+					#print("cannot extract pollution. Restarting")
+					#driver.quit()
+					#restart(crawler_log, debug_mode, start)
 
 			save_rental(d, urls[i], output_file)
 
