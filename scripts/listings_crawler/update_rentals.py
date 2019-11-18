@@ -33,9 +33,7 @@ from selenium.webdriver.common.proxy import Proxy
 
 from save_to_file import save_rental
 from ejscreen.ejscreen import handle_ejscreen_input, extract_pollution
-from extract.extract_data import extract_rental, check_off_market, extract_commute
-import extract.rental.extract_rental_data as rental
-import extract.sold_rental.extract_sold_rental_data as sold
+from extract.extract_data import check_off_market
 from util.util import start_firefox, restart
 from extract import shop, school, crime, basic_info as info
 
@@ -57,9 +55,9 @@ def update_row(idx, destination):
         if not is_off_market:
             print("On the market")
         update_basic_info(idx, is_off_market)
-        #update_crime(idx, is_off_market)
-        #update_school(idx, is_off_market)
-        #update_shop_eat(idx, is_off_market)
+        update_crime(idx, is_off_market)
+        update_school(idx, is_off_market)
+        update_shop_eat(idx, is_off_market)
         rentals.to_csv(destination, index=False)
     finish_listing(driver, idx)
 
@@ -159,7 +157,7 @@ if end > rentals.shape[0]:
 rentals['Sqft'] = rentals['Sqft'].astype(str)
 rentals['Type'] = rentals['Type'].astype(str)
 rentals['Phone_Number'] = rentals['Phone_Number'].astype(str)
-#rentals['Crime_Relative'] = rentals['Crime_Relative'].astype(str)
+rentals['Crime_Relative'] = rentals['Crime_Relative'].astype(str)
 rentals['Year'] = rentals['Year'].astype(str)
 
 print("Updating rentals file from {} to {}".format(start, end))
