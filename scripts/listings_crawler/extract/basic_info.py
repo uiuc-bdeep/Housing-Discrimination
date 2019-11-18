@@ -79,7 +79,8 @@ def extract_basic_info(driver, d, off_market):
 
 	for s in property_detail:
 		if "sqft" in s and "/sqft" not in s:
-			d["Sqft"] = s.split(" ")[0]
+			words = s.split(" ")
+                        d["Sqft"] = words[words.index("sqft") - 1]
 			print("\t" + s)
 		elif "Built" in s:
 			d["Year"] = s.split(" ")[2]
