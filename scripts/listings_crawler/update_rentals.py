@@ -159,6 +159,10 @@ rentals['Type'] = rentals['Type'].astype(str)
 rentals['Phone_Number'] = rentals['Phone_Number'].astype(str)
 rentals['Crime_Relative'] = rentals['Crime_Relative'].astype(str)
 rentals['Year'] = rentals['Year'].astype(str)
+rentals['Bedroom_min'] = rentals['Bedroom_min'].astype(str)
+rentals['Bedroom_max'] = rentals['Bedroom_max'].astype(str)
+rentals['Bathroom_min'] = rentals['Bathroom_min'].astype(str)
+rentals['Bathroom_max'] = rentals['Bathroom_max'].astype(str)
 
 print("Updating rentals file from {} to {}".format(start, end))
 if debug == 1:
