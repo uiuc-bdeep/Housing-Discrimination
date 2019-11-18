@@ -68,7 +68,7 @@ def extract_basic_info(driver, d, off_market):
 		elif "day" in detail.lower():
 			d["Days_On_Trulia"] = detail.split(" ")[0]
 		elif "sqft" in detail.lower():
-		        words = detail.lower().split(" ")[0]
+		        words = detail.lower().split(" ")
                         d["Sqft"] = words[words.index("sqft") - 1]
 	
 	split_min_max(bedroom, "Bedroom", d)
