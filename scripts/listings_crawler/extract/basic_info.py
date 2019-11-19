@@ -99,7 +99,10 @@ def get_property_detail(driver, off_market):
 		except:
 			li_options = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[4]/ul').find_elements_by_tag_name("li")
 	else:
+                try:
 			li_options = driver.find_element_by_xpath('//*[@id="main-content"]/div[2]/div[2]/div[8]/ul').find_elements_by_tag_name("li")
+                except:
+                        return []
 	property_detail = []
 	for option in li_options:
 		if str(option.text) != '':
