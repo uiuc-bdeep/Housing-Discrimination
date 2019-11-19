@@ -145,12 +145,12 @@ def start_driver():
         driver.quit()
         restart("logfile", debug, start)
 
-rentals_path = "/home/ubuntu/Housing-Discrimination/rounds/round_1/round_1_rentals.csv"
+#rentals_path = "/home/ubuntu/Housing-Discrimination/rounds/round_1/round_1_rentals_updated.csv"
 start = int(sys.argv[1])
 end = int(sys.argv[2])
 destination = sys.argv[3]
 debug = int(sys.argv[4])
-rentals = pd.read_csv(rentals_path)
+rentals = pd.read_csv(destination)
 if end > rentals.shape[0]:
     end = rentals.shape[0]
 
