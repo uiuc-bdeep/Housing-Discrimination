@@ -39,7 +39,7 @@ from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.common.proxy import Proxy
 
 from save_to_file import save_rental
-from ejscreen.ejscreen import handle_ejscreen_input, extract_pollution
+from ejscreen.ejscreen import handle_ejscreen_input, extract_pollution_from_report
 from extract.extract_data import extract_rental
 from util.util import start_firefox, restart
 
@@ -178,7 +178,7 @@ def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriv
 				if crawled_trulia == False and "Real Estate, " in driver.title:
 					address = "NA"
 
-			driver.execute_script("window.open('https://ejscreen.epa.gov/mapper/', 'new_tab')")
+			driver.execute_script("window.open('https://ejscreen.epa.gov/mapper/mobile/', 'new_tab')")
 			sleep(5)
 			driver.switch_to_window(driver.window_handles[1])
 
@@ -189,21 +189,22 @@ def main(crawl_type, input_file, output_file, start, end, crawler_log, geckodriv
 			# 		filewriter.writerow([i])
 			# 	continue
 
-			#try:
-				#handle_ejscreen_input(driver, address)
-				#sleep(5)
-				#extract_pollution(driver, d)
-			#except:
-				#if debug_mode:
-					#driver.quit()
-					#for proc in psutil.process_iter():
-						#if proc.name() == "firefox" or proc.name() == "geckodriver":
-							#proc.kill()
-					#raise
-				#else:
-					#print("cannot extract pollution. Restarting")
-					#driver.quit()
-					#restart(crawler_log, debug_mode, start)
+			try:
+				handle_ejscreen_input(driver, address)
+				sleep(5)
+				extract_pollution_from_report(driver, d)
+				#print("Skipping ejscreen")
+			except:
+				if debug_mode:
+					driver.quit()
+					for proc in psutil.process_iter():
+						if proc.name() == "firefox" or proc.name() == "geckodriver":
+							proc.kill()
+					raise
+				else:
+					print("cannot extract pollution. Restarting")
+					driver.quit()
+					restart(crawler_log, debug_mode, start)
 
 			save_rental(d, urls[i], output_file)
 
