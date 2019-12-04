@@ -20,7 +20,8 @@ from selenium.common.exceptions import ElementNotVisibleException
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from selenium.common.exceptions import ElementNotInteractableException
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from datetime import date
+from datetime import date, timedelta, datetime
+import pytz
 
 def wait_and_get(browser, cond, maxtime): 
 	flag = True
@@ -71,17 +72,18 @@ if len(sys.argv) != 1:
 	print('-------------------------------------------------')
 	exit()
 
-today = date.today()
-today = today.strftime("%m_%d")
-new_dir = "../../rounds/new_listings/day_{}".format(today)
+tz = pytz.timezone('America/Chicago') 
+now = datetime.now(tz)
+print("Current time = {}".format(now.strftime("%m/%d %H:%M:%S")))
+today = now.strftime("%m_%d")
+new_dir = root + "rounds/new_listings/day_{}".format(today)
 if not os.path.exists(new_dir):
     os.mkdir(new_dir)
     print("Creating directory " + new_dir)
 dest = new_dir + "/urls_{}.csv".format(today, today)
-zip_csv = "../../rounds/new_listings/zipcodes.csv"
+zip_csv = root + "rounds/new_listings/zipcodes.csv"
 print("Writing to " + dest)
 zip_start = 0
-print("Starting from index {}".format(zip_start)) 
 df_zip    = pd.read_csv(zip_csv) 
 zip_list =  list(df_zip['zip_codes'].values.flatten())
 
@@ -113,15 +115,14 @@ with open(dest, "w") as f:
 		driver.get(zip_url)
 		driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 		num_listings = list(set(re.findall(r'\w*[0-9]* rentals? available on Trulia',driver.page_source)))
-		print('Page Number: ' + str(counter))
+		#print('Page Number: ' + str(counter))
 		num_pages    = 0
 		if num_listings:
 			num_pages    = math.ceil(float((num_listings[0].split(' ')[0]))/30)
 
 		print('=======================================================================================')
-		print(str(i) + '. Scraping ' + str(zip_list[i]) + ' with ' + str(num_pages) + ' pages')
+		print('Index ' + str(i) + ' - Scraping ' + str(zip_list[i]) + ' with ' + str(num_pages) + ' pages')
 		while counter < num_pages: 
-			print('Page Number: ' + str(counter))
 			driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 			listings_on_page = []
 
@@ -137,9 +138,11 @@ with open(dest, "w") as f:
 			listings_on_page = [[page] for page in listings_on_page]
 			writer.writerows(listings_on_page)
 			#print(listings_on_page)
-			print('------------------------------------------------------------')
-			print('Length of listings on page: ' + str(len(listings_on_page)))
-			print('Length of listings        : ' + str(len(listings_all)))
+                        if len(listings_on_page) != 0:
+                            print('Page {}: Number of listings: {}'.format(counter + 1, len(listings_on_page)))
+			    print('\tTotal length of listings: {}'.format(len(listings_all)))
+                        else:
+                            print("No listings on page {}".format(str(counter)))
 			counter += 1
 			if counter < num_pages:
 				driver.get(zip_url+str(counter) + '_p')
