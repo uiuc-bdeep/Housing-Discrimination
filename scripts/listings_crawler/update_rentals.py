@@ -32,7 +32,7 @@ from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.common.proxy import Proxy
 
 from save_to_file import save_rental
-from ejscreen.ejscreen import handle_ejscreen_input, extract_pollution
+from ejscreen.ejscreen import handle_ejscreen_input, extract_pollution_from_report
 from extract.extract_data import check_off_market
 from util.util import start_firefox, restart
 from extract import shop, school, crime, basic_info as info
@@ -55,9 +55,10 @@ def update_row(idx, destination):
         if not is_off_market:
             print("On the market")
         update_basic_info(idx, is_off_market)
-        update_crime(idx, is_off_market)
-        update_school(idx, is_off_market)
-        update_shop_eat(idx, is_off_market)
+        #update_crime(idx, is_off_market)
+        #update_school(idx, is_off_market)
+        #update_shop_eat(idx, is_off_market)
+	update_ejscreen(idx)
         rentals.to_csv(destination, index=False)
     finish_listing(driver, idx)
 
@@ -81,6 +82,55 @@ def update_school(idx, off_market):
 	school.extract_school(driver, d, off_market)
 	update_rental_file(idx, d)
 	return 0
+
+def update_ejscreen(idx):
+	print("Crawling ejscreen")
+	d = {}
+	driver.execute_script("window.open('https://ejscreen.epa.gov/mapper/mobile/', 'new_tab')")
+	sleep(5)
+	driver.switch_to_window(driver.window_handles[1])
+	address = get_address(idx)
+        handle_ejscreen_input(driver, address)
+        sleep(5)
+        extract_pollution_from_report(driver, d)
+	write_ejscreen_to_file(idx, d)
+
+def get_address(idx):
+	if rentals.at[idx, "Address"] == "NA":
+		return "NA"
+	return rentals.at[idx, "Address"] + ", " + rentals.at[idx, "City"] + ", " + rentals.at[idx, "State"] + ", " + str(rentals.at[idx, "Zip_Code"])
+
+def write_ejscreen_to_file(idx, d):
+	rentals.at[idx, "Latitude"] = 0 #"lat"
+	rentals.at[idx, "Longitude"] = 0 #"lon"
+	rentals.at[idx, "EPA_Region"] = d.get("epa_region", "NA")
+	rentals.at[idx, "Population"] = d.get("population", "NA")
+	rentals.at[idx, "Input_area(sq. miles)"] = d.get("input area(sq. miles)", "NA")
+	rentals.at[idx, "Short_form_ID"] = d.get("short_form_id", "NA")
+
+	columns = ["Particulate_Matter", "Ozone", "NATA*_Diesel_PM", "NATA*_Air_Toxics_Cancer_Risk", "NATA*_Respiratory_Hazard_Index", "Traffic_Proximity_and_Volume",
+        "Lead_Paint_Indicator", "Superfund_Proximity", "RMP_Proximity", "Hazardous_Waste_Proximity", "Wastewater_Discharge_Indicator", "Demographic_Index%",
+        "Minority_Population%", "Low_Income_Population%", "Linguistically_Isolated_Population%", "Population_with_Less_Than_High_School_Education%", 
+	"Population_under_Age_5%", "Population_over_Age_64%"]
+
+	for col in columns:
+		key = replace_spaces(col)
+		rentals.at[idx, col] = d.get(key, "NA")
+
+
+	#value = value + [d.get("Particulate Matter", "NA"), d.get("NATA* Diesel PM", "NA"),
+	#d.get("NATA* Air Toxics Cancer Risk", "NA"), d.get("NATA* Respiratory Hazard Index", "NA"), d.get("Traffic Proximity and Volume", "NA"),
+	#d.get("Lead Paint Indicator", "NA"), d.get("Superfund Proximity", "NA"), d.get("RMP Proximity", "NA"),
+	#d.get("Hazardous Waste Proximity", "NA"), d.get("Wastewater Discharge Indicator", "NA"), d.get("Demographic Index", "NA"),
+	#d.get("Minority Population", "NA"), d.get("Low Income Population", "NA"), d.get("Linguistically Isolated Population", "NA"),
+	#d.get("Population with Less Than High School Education", "NA"), d.get("Population under Age 5", "NA"), d.get("Population over Age 64", "NA")]
+
+def replace_spaces(rentals_column):
+	if rentals_column[-1] == "%":
+		rentals_column = rentals_column[0:-1]
+	return rentals_column.replace("_", " ")
+	
+	
 
 def school_check(idx):
 	fields = ["Elementary_School_Count", "Middle_School_Count", "High_School_Count"]

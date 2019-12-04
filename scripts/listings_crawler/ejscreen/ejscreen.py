@@ -66,7 +66,11 @@ def handle_ejscreen_input(driver, address):
 	text = WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//*[@id="searchNavDiv"]/div/div[2]/form/input')))
         text.send_keys(address)
 	WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//*[@id="searchNavDiv"]/div/div[3]'))).click()
-	WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//*[@id="infowg"]/form/input[7]'))).click()
+	try:
+		WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//*[@id="infowg"]/form/input[7]'))).click()
+	except:
+		driver.send_keys(Keys.ENTER)
+
 	driver.switch_to_window(driver.window_handles[-1])
 	#flag = True
 	#while flag:
