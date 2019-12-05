@@ -67,6 +67,7 @@ def handle_ejscreen_input(driver, address):
         text.send_keys(address)
 	WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//*[@id="searchNavDiv"]/div/div[3]'))).click()
 	try:
+		driver.save_screenshot('screenie-search-bar.png')
 		WebDriverWait(driver, 30).until(EC.presence_of_element_located((By.XPATH, '//*[@id="infowg"]/form/input[7]'))).click()
 	except:
 		driver.send_keys(Keys.ENTER)

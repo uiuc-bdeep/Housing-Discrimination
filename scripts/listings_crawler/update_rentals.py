@@ -106,7 +106,7 @@ def write_ejscreen_to_file(idx, d):
 	rentals.at[idx, "EPA_Region"] = d.get("epa_region", "NA")
 	rentals.at[idx, "Population"] = d.get("population", "NA")
 	rentals.at[idx, "Input_area(sq. miles)"] = d.get("input area(sq. miles)", "NA")
-	rentals.at[idx, "Short_form_ID"] = d.get("short_form_id", "NA")
+	rentals.at[idx, "Short_form_ID"] = d.get("short_form_id", 0)
 
 	columns = ["Particulate_Matter", "Ozone", "NATA*_Diesel_PM", "NATA*_Air_Toxics_Cancer_Risk", "NATA*_Respiratory_Hazard_Index", "Traffic_Proximity_and_Volume",
         "Lead_Paint_Indicator", "Superfund_Proximity", "RMP_Proximity", "Hazardous_Waste_Proximity", "Wastewater_Discharge_Indicator", "Demographic_Index%",
