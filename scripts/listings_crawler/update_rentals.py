@@ -46,7 +46,7 @@ if len(sys.argv) != 5:
     print("Include start point, end point, destination, and debug (0 or 1) as arguments")
     exit()
 
-def update_row(idx, destination):
+def update_row(idx, destination, debug_mode):
     url = rentals["URL"][idx]
     print(idx, url)
     result = open_page(url)
@@ -58,7 +58,7 @@ def update_row(idx, destination):
         #update_crime(idx, is_off_market)
         #update_school(idx, is_off_market)
         #update_shop_eat(idx, is_off_market)
-	update_ejscreen(idx)
+	update_ejscreen(idx, debug_mode)
         rentals.to_csv(destination, index=False)
     finish_listing(driver, idx)
 
@@ -83,16 +83,29 @@ def update_school(idx, off_market):
 	update_rental_file(idx, d)
 	return 0
 
-def update_ejscreen(idx):
+def update_ejscreen(idx, debug_mode):
 	print("Crawling ejscreen")
 	d = {}
 	driver.execute_script("window.open('https://ejscreen.epa.gov/mapper/mobile/', 'new_tab')")
 	sleep(5)
 	driver.switch_to_window(driver.window_handles[1])
 	address = get_address(idx)
-        handle_ejscreen_input(driver, address)
-        sleep(5)
-        extract_pollution_from_report(driver, d)
+	try:
+        	handle_ejscreen_input(driver, address)
+        	sleep(3)
+        	extract_pollution_from_report(driver, d)
+	except:
+		if debug_mode:
+			driver.quit()
+			for proc in psutil.process_iter():
+				if proc.name() == "firefox" or proc.name() == "geckodriver":
+					proc.kill()
+			raise
+		else:
+			print("Cannot extract pollution. Restarting")
+			driver.quit()
+			restart("logfile", debug_mode, idx)
+
 	write_ejscreen_to_file(idx, d)
 
 def get_address(idx):
@@ -118,18 +131,10 @@ def write_ejscreen_to_file(idx, d):
 		rentals.at[idx, col] = d.get(key, "NA")
 
 
-	#value = value + [d.get("Particulate Matter", "NA"), d.get("NATA* Diesel PM", "NA"),
-	#d.get("NATA* Air Toxics Cancer Risk", "NA"), d.get("NATA* Respiratory Hazard Index", "NA"), d.get("Traffic Proximity and Volume", "NA"),
-	#d.get("Lead Paint Indicator", "NA"), d.get("Superfund Proximity", "NA"), d.get("RMP Proximity", "NA"),
-	#d.get("Hazardous Waste Proximity", "NA"), d.get("Wastewater Discharge Indicator", "NA"), d.get("Demographic Index", "NA"),
-	#d.get("Minority Population", "NA"), d.get("Low Income Population", "NA"), d.get("Linguistically Isolated Population", "NA"),
-	#d.get("Population with Less Than High School Education", "NA"), d.get("Population under Age 5", "NA"), d.get("Population over Age 64", "NA")]
-
 def replace_spaces(rentals_column):
 	if rentals_column[-1] == "%":
 		rentals_column = rentals_column[0:-1]
 	return rentals_column.replace("_", " ")
-	
 	
 
 def school_check(idx):
@@ -148,10 +153,7 @@ def update_shop_eat(idx, off_market):
 
 def update_rental_file(idx, d):
 	for key in d.keys():
-		#if isinstance(d[key], basestring):
 		rentals.at[idx, key] = d[key]
-		#else:
-		#	rentals.at[idx, key] = d[key]
 
 def open_page(url):
     driver.delete_all_cookies()
@@ -221,6 +223,6 @@ driver = start_driver()
 if driver != None:
     print("Driver Successfully Started")
 for i in range(start, end):
-    update_row(i, destination)
+    update_row(i, destination, debug)
 
 
